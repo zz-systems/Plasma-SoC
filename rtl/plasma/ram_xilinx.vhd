@@ -22,7 +22,10 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_misc.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
-use work.mlite_pack.all;
+
+library plasma_lib;
+    use plasma_lib.mlite_pack.all;
+    
 library UNISIM;
 use UNISIM.vcomponents.all;
 

@@ -68,9 +68,11 @@
 --   4100  0  0  00000054   00000000   00000000  0  0               2
 ---------------------------------------------------------------------
 library ieee;
-use work.mlite_pack.all;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
+
+library plasma_lib;
+    use plasma_lib.mlite_pack.all;
 
 entity mlite_cpu is
    generic(memory_type     : string  := "XILINX_16X"; --ALTERA_LPM, or DUAL_PORT_

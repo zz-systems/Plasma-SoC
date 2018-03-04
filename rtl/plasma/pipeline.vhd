@@ -12,7 +12,9 @@
 ---------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
-use work.mlite_pack.all;
+
+library plasma_lib;
+    use plasma_lib.mlite_pack.all;
 
 --Note: sigD <= sig after rising_edge(clk)
 entity pipeline is

@@ -22,7 +22,9 @@
 ---------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
-use work.mlite_pack.all;
+
+library plasma_lib;
+    use plasma_lib.mlite_pack.all;
 
 entity control is
    port(opcode       : in  std_logic_vector(31 downto 0);

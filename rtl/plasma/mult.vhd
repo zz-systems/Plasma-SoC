@@ -36,7 +36,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 use IEEE.std_logic_arith.all;
-use work.mlite_pack.all;
+
+library plasma_lib;
+    use plasma_lib.mlite_pack.all;
 
 entity mult is
    generic(mult_type  : string := "DEFAULT");

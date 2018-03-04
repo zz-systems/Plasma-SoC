@@ -14,11 +14,14 @@ use ieee.std_logic_1164.all;
 
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
+    
+library plasmax_lib;
+--    use plasmax_lib.all;
 
-entity tb_plasma is
+entity tb_plasmax is
 end; --entity tbench
 
-architecture logic of tb_plasma is
+architecture logic of tb_plasmax is
    constant memory_type : string := 
 --   "TRI_PORT_X";   
 --   "DUAL_PORT_";
@@ -50,7 +53,7 @@ begin  --architecture
    --uart_read <= '0';
    data_read <= interrupt & ZERO(30 downto 0);
 
-   u1_plasma: entity plasma_lib.plasma
+   u1_plasma: entity plasmax_lib.plasmax
       generic map (memory_type => memory_type,
                    log_file    => log_file)
       PORT MAP (

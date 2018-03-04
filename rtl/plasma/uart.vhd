@@ -16,7 +16,10 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 use ieee.std_logic_unsigned.all;
 use std.textio.all;
-use work.mlite_pack.all;
+
+library plasma_lib;
+    use plasma_lib.mlite_pack.all;
+    
 
 entity uart is
    generic(log_file : string := "UNUSED");

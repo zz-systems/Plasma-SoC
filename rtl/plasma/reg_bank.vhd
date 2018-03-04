@@ -13,7 +13,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
-use work.mlite_pack.all;
+
+library plasma_lib;
+    use plasma_lib.mlite_pack.all;
+    
 --Uncomment following two lines for Xilinx RAM16X1D
 library UNISIM;              --Xilinx
 use UNISIM.vcomponents.all;  --Xilinx

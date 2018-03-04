@@ -31,8 +31,10 @@
 --      0   UartDataAvailable
 ---------------------------------------------------------------------
 library ieee;
-use ieee.std_logic_1164.all;
-use work.mlite_pack.all;
+    use ieee.std_logic_1164.all;
+
+library plasma_lib;
+    use plasma_lib.mlite_pack.all;
 
 entity plasma is
    generic(memory_type : string := "XILINX_X16"; --"DUAL_PORT_" "ALTERA_LPM";

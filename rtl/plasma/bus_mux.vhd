@@ -17,7 +17,9 @@
 ---------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
-use work.mlite_pack.all;
+
+library plasma_lib;
+    use plasma_lib.mlite_pack.all;
 
 entity bus_mux is
    port(imm_in       : in  std_logic_vector(15 downto 0);
