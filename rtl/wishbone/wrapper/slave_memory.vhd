@@ -9,7 +9,7 @@ library plasma_lib;
 entity slave_memory is 
 generic
 (
-    constant memory_type : string := "XILINX_X16"
+    constant memory_type : string := "XILINX_16X"
 );
 port
 (

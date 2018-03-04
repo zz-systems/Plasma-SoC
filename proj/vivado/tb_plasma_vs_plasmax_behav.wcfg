@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_plasma_vs_plasmax_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="mlite_pack" />
+            <top_module name="tb_plasma_vs_plasmax" />
+            <top_module name="util_pkg" />
+            <top_module name="wb_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="67655053352fs"></ZoomStartTime>
+      <ZoomEndTime time="68933275351fs"></ZoomEndTime>
+      <Cursor1Time time="68046924000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="113"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="29" />
+   <wvobject fp_name="/tb_plasma_vs_plasmax/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/interrupt" type="logic">
+      <obj_property name="ElementShortName">interrupt</obj_property>
+      <obj_property name="ObjectShortName">interrupt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/cpu_port" type="array">
+      <obj_property name="ElementShortName">cpu_port</obj_property>
+      <obj_property name="ObjectShortName">cpu_port</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/mem_port" type="array">
+      <obj_property name="ElementShortName">mem_port</obj_property>
+      <obj_property name="ObjectShortName">mem_port</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/misc_port" type="array">
+      <obj_property name="ElementShortName">misc_port</obj_property>
+      <obj_property name="ObjectShortName">misc_port</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/enable_misc" type="logic">
+      <obj_property name="ElementShortName">enable_misc</obj_property>
+      <obj_property name="ObjectShortName">enable_misc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/mem_pause" type="logic">
+      <obj_property name="ElementShortName">mem_pause</obj_property>
+      <obj_property name="ObjectShortName">mem_pause</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/enable_internal_ram" type="logic">
+      <obj_property name="ElementShortName">enable_internal_ram</obj_property>
+      <obj_property name="ObjectShortName">enable_internal_ram</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/opcode" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">opcode[31:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[31:0]</obj_property>
+      <obj_property name="label">wb.opcode[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/opcode" type="array">
+      <obj_property name="ElementShortName">opcode[31:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group193" type="group">
+      <obj_property name="label">bus_mux</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="group210" type="group">
+      <obj_property name="label">alu</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u6_alu/a_in" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">a_in[31:0]</obj_property>
+         <obj_property name="ObjectShortName">a_in[31:0]</obj_property>
+         <obj_property name="label">wb.a_in[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u6_alu/b_in" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">b_in[31:0]</obj_property>
+         <obj_property name="ObjectShortName">b_in[31:0]</obj_property>
+         <obj_property name="label">wb.b_in[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u6_alu/a_in" type="array">
+         <obj_property name="ElementShortName">a_in[31:0]</obj_property>
+         <obj_property name="ObjectShortName">a_in[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u6_alu/b_in" type="array">
+         <obj_property name="ElementShortName">b_in[31:0]</obj_property>
+         <obj_property name="ObjectShortName">b_in[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/cpu_port.adr" type="array">
+      <obj_property name="ElementShortName">.adr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">.adr[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/mem_address" type="array">
+      <obj_property name="ElementShortName">mem_address[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_address[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/data_read_ram" type="array">
+      <obj_property name="ElementShortName">data_read_ram[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_read_ram[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/cpu_port.dat_i" type="array">
+      <obj_property name="ElementShortName">.dat_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">.dat_i[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/mem_data_write" type="array">
+      <obj_property name="ElementShortName">mem_data_write[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_data_write[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/mem_write_byte_enable" type="array">
+      <obj_property name="ElementShortName">mem_write_byte_enable[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_write_byte_enable[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/write_byte_enable_reg" type="array">
+      <obj_property name="ElementShortName">write_byte_enable_reg[3:0]</obj_property>
+      <obj_property name="ObjectShortName">write_byte_enable_reg[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group68" type="group">
+      <obj_property name="label">root</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/px_mem_write" type="logic">
+         <obj_property name="ElementShortName">px_mem_write</obj_property>
+         <obj_property name="ObjectShortName">px_mem_write</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/px_mem_address" type="array">
+         <obj_property name="ElementShortName">px_mem_address[31:2]</obj_property>
+         <obj_property name="ObjectShortName">px_mem_address[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/px_mem_data" type="array">
+         <obj_property name="ElementShortName">px_mem_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">px_mem_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/px_mem_pause" type="logic">
+         <obj_property name="ElementShortName">px_mem_pause</obj_property>
+         <obj_property name="ObjectShortName">px_mem_pause</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/px_mem_byte_sel" type="array">
+         <obj_property name="ElementShortName">px_mem_byte_sel[3:0]</obj_property>
+         <obj_property name="ObjectShortName">px_mem_byte_sel[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/px_uart_write" type="logic">
+         <obj_property name="ElementShortName">px_uart_write</obj_property>
+         <obj_property name="ObjectShortName">px_uart_write</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/px_data_read" type="array">
+         <obj_property name="ElementShortName">px_data_read[31:0]</obj_property>
+         <obj_property name="ObjectShortName">px_data_read[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/p_mem_write" type="logic">
+         <obj_property name="ElementShortName">p_mem_write</obj_property>
+         <obj_property name="ObjectShortName">p_mem_write</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/p_mem_address" type="array">
+         <obj_property name="ElementShortName">p_mem_address[31:2]</obj_property>
+         <obj_property name="ObjectShortName">p_mem_address[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/p_mem_data" type="array">
+         <obj_property name="ElementShortName">p_mem_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">p_mem_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/p_mem_pause" type="logic">
+         <obj_property name="ElementShortName">p_mem_pause</obj_property>
+         <obj_property name="ObjectShortName">p_mem_pause</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/p_mem_byte_sel" type="array">
+         <obj_property name="ElementShortName">p_mem_byte_sel[3:0]</obj_property>
+         <obj_property name="ObjectShortName">p_mem_byte_sel[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/p_uart_write" type="logic">
+         <obj_property name="ElementShortName">p_uart_write</obj_property>
+         <obj_property name="ObjectShortName">p_uart_write</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/p_data_read" type="array">
+         <obj_property name="ElementShortName">p_data_read[31:0]</obj_property>
+         <obj_property name="ObjectShortName">p_data_read[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/memory_type" type="array">
+         <obj_property name="ElementShortName">memory_type[1:10]</obj_property>
+         <obj_property name="ObjectShortName">memory_type[1:10]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/log_file" type="array">
+         <obj_property name="ElementShortName">log_file[1:10]</obj_property>
+         <obj_property name="ObjectShortName">log_file[1:10]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group228" type="group">
+      <obj_property name="label">wb.control</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/opcode" type="array">
+         <obj_property name="ElementShortName">opcode[31:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/intr_signal" type="logic">
+         <obj_property name="ElementShortName">intr_signal</obj_property>
+         <obj_property name="ObjectShortName">intr_signal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/rs_index" type="array">
+         <obj_property name="ElementShortName">rs_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/rt_index" type="array">
+         <obj_property name="ElementShortName">rt_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rt_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/rd_index" type="array">
+         <obj_property name="ElementShortName">rd_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rd_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/imm_out" type="array">
+         <obj_property name="ElementShortName">imm_out[15:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_out[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/alu_func" type="array">
+         <obj_property name="ElementShortName">alu_func[3:0]</obj_property>
+         <obj_property name="ObjectShortName">alu_func[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/shift_func" type="array">
+         <obj_property name="ElementShortName">shift_func[1:0]</obj_property>
+         <obj_property name="ObjectShortName">shift_func[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/mult_func" type="array">
+         <obj_property name="ElementShortName">mult_func[3:0]</obj_property>
+         <obj_property name="ObjectShortName">mult_func[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/branch_func" type="array">
+         <obj_property name="ElementShortName">branch_func[2:0]</obj_property>
+         <obj_property name="ObjectShortName">branch_func[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/a_source_out" type="array">
+         <obj_property name="ElementShortName">a_source_out[1:0]</obj_property>
+         <obj_property name="ObjectShortName">a_source_out[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/b_source_out" type="array">
+         <obj_property name="ElementShortName">b_source_out[1:0]</obj_property>
+         <obj_property name="ObjectShortName">b_source_out[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/c_source_out" type="array">
+         <obj_property name="ElementShortName">c_source_out[2:0]</obj_property>
+         <obj_property name="ObjectShortName">c_source_out[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/pc_source_out" type="array">
+         <obj_property name="ElementShortName">pc_source_out[1:0]</obj_property>
+         <obj_property name="ObjectShortName">pc_source_out[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/mem_source_out" type="array">
+         <obj_property name="ElementShortName">mem_source_out[3:0]</obj_property>
+         <obj_property name="ObjectShortName">mem_source_out[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group244" type="group">
+      <obj_property name="label">control</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/opcode" type="array">
+         <obj_property name="ElementShortName">opcode[31:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/intr_signal" type="logic">
+         <obj_property name="ElementShortName">intr_signal</obj_property>
+         <obj_property name="ObjectShortName">intr_signal</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/rs_index" type="array">
+         <obj_property name="ElementShortName">rs_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/rt_index" type="array">
+         <obj_property name="ElementShortName">rt_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rt_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/rd_index" type="array">
+         <obj_property name="ElementShortName">rd_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rd_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/imm_out" type="array">
+         <obj_property name="ElementShortName">imm_out[15:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_out[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/alu_func" type="array">
+         <obj_property name="ElementShortName">alu_func[3:0]</obj_property>
+         <obj_property name="ObjectShortName">alu_func[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/shift_func" type="array">
+         <obj_property name="ElementShortName">shift_func[1:0]</obj_property>
+         <obj_property name="ObjectShortName">shift_func[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/mult_func" type="array">
+         <obj_property name="ElementShortName">mult_func[3:0]</obj_property>
+         <obj_property name="ObjectShortName">mult_func[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/branch_func" type="array">
+         <obj_property name="ElementShortName">branch_func[2:0]</obj_property>
+         <obj_property name="ObjectShortName">branch_func[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/a_source_out" type="array">
+         <obj_property name="ElementShortName">a_source_out[1:0]</obj_property>
+         <obj_property name="ObjectShortName">a_source_out[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/b_source_out" type="array">
+         <obj_property name="ElementShortName">b_source_out[1:0]</obj_property>
+         <obj_property name="ObjectShortName">b_source_out[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/c_source_out" type="array">
+         <obj_property name="ElementShortName">c_source_out[2:0]</obj_property>
+         <obj_property name="ObjectShortName">c_source_out[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/pc_source_out" type="array">
+         <obj_property name="ElementShortName">pc_source_out[1:0]</obj_property>
+         <obj_property name="ObjectShortName">pc_source_out[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/mem_source_out" type="array">
+         <obj_property name="ElementShortName">mem_source_out[3:0]</obj_property>
+         <obj_property name="ObjectShortName">mem_source_out[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group300" type="group">
+      <obj_property name="label">wb.bus_mux</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/imm_in" type="array">
+         <obj_property name="ElementShortName">imm_in[15:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_in[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/reg_source" type="array">
+         <obj_property name="ElementShortName">reg_source[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_source[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/a_mux" type="array">
+         <obj_property name="ElementShortName">a_mux[1:0]</obj_property>
+         <obj_property name="ObjectShortName">a_mux[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/a_out" type="array">
+         <obj_property name="ElementShortName">a_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">a_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/reg_target" type="array">
+         <obj_property name="ElementShortName">reg_target[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_target[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/b_mux" type="array">
+         <obj_property name="ElementShortName">b_mux[1:0]</obj_property>
+         <obj_property name="ObjectShortName">b_mux[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/b_out" type="array">
+         <obj_property name="ElementShortName">b_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">b_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/c_bus" type="array">
+         <obj_property name="ElementShortName">c_bus[31:0]</obj_property>
+         <obj_property name="ObjectShortName">c_bus[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/c_memory" type="array">
+         <obj_property name="ElementShortName">c_memory[31:0]</obj_property>
+         <obj_property name="ObjectShortName">c_memory[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/c_pc" type="array">
+         <obj_property name="ElementShortName">c_pc[31:2]</obj_property>
+         <obj_property name="ObjectShortName">c_pc[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/c_pc_plus4" type="array">
+         <obj_property name="ElementShortName">c_pc_plus4[31:2]</obj_property>
+         <obj_property name="ObjectShortName">c_pc_plus4[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/c_mux" type="array">
+         <obj_property name="ElementShortName">c_mux[2:0]</obj_property>
+         <obj_property name="ObjectShortName">c_mux[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/reg_dest_out" type="array">
+         <obj_property name="ElementShortName">reg_dest_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_dest_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/branch_func" type="array">
+         <obj_property name="ElementShortName">branch_func[2:0]</obj_property>
+         <obj_property name="ObjectShortName">branch_func[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/take_branch" type="logic">
+         <obj_property name="ElementShortName">take_branch</obj_property>
+         <obj_property name="ObjectShortName">take_branch</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group284" type="group">
+      <obj_property name="label">bus_mux</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/imm_in" type="array">
+         <obj_property name="ElementShortName">imm_in[15:0]</obj_property>
+         <obj_property name="ObjectShortName">imm_in[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/reg_source" type="array">
+         <obj_property name="ElementShortName">reg_source[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_source[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/a_mux" type="array">
+         <obj_property name="ElementShortName">a_mux[1:0]</obj_property>
+         <obj_property name="ObjectShortName">a_mux[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/a_out" type="array">
+         <obj_property name="ElementShortName">a_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">a_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/reg_target" type="array">
+         <obj_property name="ElementShortName">reg_target[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_target[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/b_mux" type="array">
+         <obj_property name="ElementShortName">b_mux[1:0]</obj_property>
+         <obj_property name="ObjectShortName">b_mux[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/b_out" type="array">
+         <obj_property name="ElementShortName">b_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">b_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/c_bus" type="array">
+         <obj_property name="ElementShortName">c_bus[31:0]</obj_property>
+         <obj_property name="ObjectShortName">c_bus[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/c_memory" type="array">
+         <obj_property name="ElementShortName">c_memory[31:0]</obj_property>
+         <obj_property name="ObjectShortName">c_memory[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/c_pc" type="array">
+         <obj_property name="ElementShortName">c_pc[31:2]</obj_property>
+         <obj_property name="ObjectShortName">c_pc[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/c_pc_plus4" type="array">
+         <obj_property name="ElementShortName">c_pc_plus4[31:2]</obj_property>
+         <obj_property name="ObjectShortName">c_pc_plus4[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/c_mux" type="array">
+         <obj_property name="ElementShortName">c_mux[2:0]</obj_property>
+         <obj_property name="ObjectShortName">c_mux[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/reg_dest_out" type="array">
+         <obj_property name="ElementShortName">reg_dest_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_dest_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/branch_func" type="array">
+         <obj_property name="ElementShortName">branch_func[2:0]</obj_property>
+         <obj_property name="ObjectShortName">branch_func[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/take_branch" type="logic">
+         <obj_property name="ElementShortName">take_branch</obj_property>
+         <obj_property name="ObjectShortName">take_branch</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group256" type="group">
+      <obj_property name="label">wb.pc_next</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/reset_in" type="logic">
+         <obj_property name="ElementShortName">reset_in</obj_property>
+         <obj_property name="ObjectShortName">reset_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/pc_new" type="array">
+         <obj_property name="ElementShortName">pc_new[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_new[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/take_branch" type="logic">
+         <obj_property name="ElementShortName">take_branch</obj_property>
+         <obj_property name="ObjectShortName">take_branch</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/pause_in" type="logic">
+         <obj_property name="ElementShortName">pause_in</obj_property>
+         <obj_property name="ObjectShortName">pause_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/opcode25_0" type="array">
+         <obj_property name="ElementShortName">opcode25_0[25:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode25_0[25:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/pc_source" type="array">
+         <obj_property name="ElementShortName">pc_source[1:0]</obj_property>
+         <obj_property name="ObjectShortName">pc_source[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/pc_future" type="array">
+         <obj_property name="ElementShortName">pc_future[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_future[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/pc_current" type="array">
+         <obj_property name="ElementShortName">pc_current[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_current[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/pc_plus4" type="array">
+         <obj_property name="ElementShortName">pc_plus4[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_plus4[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/pc_reg" type="array">
+         <obj_property name="ElementShortName">pc_reg[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_reg[31:2]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group268" type="group">
+      <obj_property name="label">pc_next</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/reset_in" type="logic">
+         <obj_property name="ElementShortName">reset_in</obj_property>
+         <obj_property name="ObjectShortName">reset_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/pc_new" type="array">
+         <obj_property name="ElementShortName">pc_new[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_new[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/take_branch" type="logic">
+         <obj_property name="ElementShortName">take_branch</obj_property>
+         <obj_property name="ObjectShortName">take_branch</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/pause_in" type="logic">
+         <obj_property name="ElementShortName">pause_in</obj_property>
+         <obj_property name="ObjectShortName">pause_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/opcode25_0" type="array">
+         <obj_property name="ElementShortName">opcode25_0[25:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode25_0[25:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/pc_source" type="array">
+         <obj_property name="ElementShortName">pc_source[1:0]</obj_property>
+         <obj_property name="ObjectShortName">pc_source[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/pc_future" type="array">
+         <obj_property name="ElementShortName">pc_future[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_future[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/pc_current" type="array">
+         <obj_property name="ElementShortName">pc_current[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_current[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/pc_plus4" type="array">
+         <obj_property name="ElementShortName">pc_plus4[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_plus4[31:2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/pc_reg" type="array">
+         <obj_property name="ElementShortName">pc_reg[31:2]</obj_property>
+         <obj_property name="ObjectShortName">pc_reg[31:2]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group319" type="group">
+      <obj_property name="label">wb.reg_bank</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/reset_in" type="logic">
+         <obj_property name="ElementShortName">reset_in</obj_property>
+         <obj_property name="ObjectShortName">reset_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/pause" type="logic">
+         <obj_property name="ElementShortName">pause</obj_property>
+         <obj_property name="ObjectShortName">pause</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/rs_index" type="array">
+         <obj_property name="ElementShortName">rs_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/rt_index" type="array">
+         <obj_property name="ElementShortName">rt_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rt_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/rd_index" type="array">
+         <obj_property name="ElementShortName">rd_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rd_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/reg_source_out" type="array">
+         <obj_property name="ElementShortName">reg_source_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_source_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/reg_target_out" type="array">
+         <obj_property name="ElementShortName">reg_target_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_target_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/reg_dest_new" type="array">
+         <obj_property name="ElementShortName">reg_dest_new[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_dest_new[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/intr_enable" type="logic">
+         <obj_property name="ElementShortName">intr_enable</obj_property>
+         <obj_property name="ObjectShortName">intr_enable</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/intr_enable_reg" type="logic">
+         <obj_property name="ElementShortName">intr_enable_reg</obj_property>
+         <obj_property name="ObjectShortName">intr_enable_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/addr_read1" type="array">
+         <obj_property name="ElementShortName">addr_read1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_read1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/addr_read2" type="array">
+         <obj_property name="ElementShortName">addr_read2[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_read2[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/addr_write" type="array">
+         <obj_property name="ElementShortName">addr_write[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_write[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/data_out1" type="array">
+         <obj_property name="ElementShortName">data_out1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">data_out1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/data_out2" type="array">
+         <obj_property name="ElementShortName">data_out2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">data_out2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/write_enable" type="logic">
+         <obj_property name="ElementShortName">write_enable</obj_property>
+         <obj_property name="ObjectShortName">write_enable</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/memory_type" type="array">
+         <obj_property name="ElementShortName">memory_type[1:10]</obj_property>
+         <obj_property name="ObjectShortName">memory_type[1:10]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group338" type="group">
+      <obj_property name="label">reg_bank</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/clk" type="logic">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/reset_in" type="logic">
+         <obj_property name="ElementShortName">reset_in</obj_property>
+         <obj_property name="ObjectShortName">reset_in</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/pause" type="logic">
+         <obj_property name="ElementShortName">pause</obj_property>
+         <obj_property name="ObjectShortName">pause</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/rs_index" type="array">
+         <obj_property name="ElementShortName">rs_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rs_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/rt_index" type="array">
+         <obj_property name="ElementShortName">rt_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rt_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/rd_index" type="array">
+         <obj_property name="ElementShortName">rd_index[5:0]</obj_property>
+         <obj_property name="ObjectShortName">rd_index[5:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/reg_source_out" type="array">
+         <obj_property name="ElementShortName">reg_source_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_source_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/reg_target_out" type="array">
+         <obj_property name="ElementShortName">reg_target_out[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_target_out[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/reg_dest_new" type="array">
+         <obj_property name="ElementShortName">reg_dest_new[31:0]</obj_property>
+         <obj_property name="ObjectShortName">reg_dest_new[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/intr_enable" type="logic">
+         <obj_property name="ElementShortName">intr_enable</obj_property>
+         <obj_property name="ObjectShortName">intr_enable</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/intr_enable_reg" type="logic">
+         <obj_property name="ElementShortName">intr_enable_reg</obj_property>
+         <obj_property name="ObjectShortName">intr_enable_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/addr_read1" type="array">
+         <obj_property name="ElementShortName">addr_read1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_read1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/addr_read2" type="array">
+         <obj_property name="ElementShortName">addr_read2[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_read2[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/addr_write" type="array">
+         <obj_property name="ElementShortName">addr_write[4:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_write[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/data_out1" type="array">
+         <obj_property name="ElementShortName">data_out1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">data_out1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/data_out2" type="array">
+         <obj_property name="ElementShortName">data_out2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">data_out2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/write_enable" type="logic">
+         <obj_property name="ElementShortName">write_enable</obj_property>
+         <obj_property name="ObjectShortName">write_enable</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/memory_type" type="array">
+         <obj_property name="ElementShortName">memory_type[1:10]</obj_property>
+         <obj_property name="ObjectShortName">memory_type[1:10]</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

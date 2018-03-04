@@ -394,7 +394,7 @@ package mlite_pack is
    end component; --uart
 
    component plasma
-      generic(memory_type : string := "XILINX_X16"; --"DUAL_PORT_" "ALTERA_LPM";
+      generic(memory_type : string := "XILINX_16X"; --"DUAL_PORT_" "ALTERA_LPM";
               log_file    : string := "UNUSED");
       port(clk               : in std_logic;
            reset             : in std_logic;
