@@ -95,7 +95,7 @@ begin
 
     cs_o <= cs_s;
 
-    process(clk_i, rst_i)
+    process(clk_i, rst_i, master_cyc_i)
         variable csn_v : integer := 0;
         variable cs_v : std_logic_vector(slaves - 1 downto 0) := (others => '0');
         variable offset_v : std_logic_vector(addr_w - 1 downto 0) := (others => '0');
@@ -145,6 +145,16 @@ begin
                 -- cs_s <= cs_v;
                 -- cs <= csn_v;
 
+                -- if master_cyc_i(master_id_s) = '1' then
+                --     for i in 0 to slaves - 1 loop
+                --         if memmap(i).base_addr = (addr_s and not memmap(i).size) then
+                --             cs_s(i) <= '1';
+                --         else
+                --             cs_s(i) <= '0';
+                --         end if;
+                --     end loop;
+                -- end if;
+
                 master_adr_is <= master_adr_i((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w);
                 slave_dat_os <= master_dat_i((master_id_s + 1) * data_w - 1  downto master_id_s * data_w);
                 slave_we_os <= master_we_i(master_id_s);
@@ -161,7 +171,8 @@ begin
     -- master arbitration
     -- address translation
 
-    
+    --addr_s <= master_adr_i((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w);
+
 
     addr_dec : for i in 0 to slaves - 1 generate
         --base_addr_s((i + 1) * addr_w - 1 downto i * addr_w) <= addr_s and not memmap(i).size;
@@ -189,7 +200,7 @@ begin
         end loop;
 
         -- delay only if not accessing memory
-        delay_s <= not cs_s(0);
+        delay_s <= '0';-- (not cs_s(0)) and master_we_i(master_id_s);
 
         addr_offset_s <= total_offset;
         --cs <= cs_v;        
@@ -250,6 +261,7 @@ begin
         variable dat : std_logic_vector(data_w - 1 downto 0);
     begin 
 
+        if cs_s /= (cs_s'range => '0') then
         --if slave_we_os = '0' then 
             dat := (others => '0');
             
@@ -260,6 +272,7 @@ begin
             --master_dat_os <= dat;
             master_dat_o <= dat;
         --end if;
+        end if;
     end process;
 
     --master_dat_o <= slave_dat_i((cs + 1) * data_w - 1  downto cs * data_w) and (master_dat_o'range => cs_s(cs));

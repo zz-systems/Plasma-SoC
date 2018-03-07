@@ -39,7 +39,7 @@ begin
     stall_o <= '0';
     err_o   <= '0';
     rty_o   <= '0';
-    ack_o   <= '1';
+    ack_o   <= stb_i; --'1';
 
     process(clk_i, rst_i)
     begin         

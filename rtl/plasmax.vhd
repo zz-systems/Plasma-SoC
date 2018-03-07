@@ -115,9 +115,13 @@ architecture logic of plasmax is
     attribute mark_debug of slave_select : signal is debug;
 begin  --architecture
 
-    irq_status_raw <= gpioA_in(31 downto 30) & (gpioA_in(31 downto 30) xor "11") &
-    counter_reg(18) & not counter_reg(18) &
-    not uart_write_busy & uart_data_avail;
+    irq_status_raw <= gpioA_in(31 downto 30)
+                   & (gpioA_in(31 downto 30) xor "11") 
+                   & counter_reg(18) 
+                   & not counter_reg(18) 
+                   & not uart_write_busy 
+                   & uart_data_avail;
+
     irq <= '1' when (irq_status_raw and irq_mask_reg) /= ZERO(7 downto 0) else '0';
     gpio0_out <= gpio0_reg;   
 
@@ -167,10 +171,26 @@ begin  --architecture
 
     slave_ports.dat_o      <= mem_port.dat_o & ext_mem_port.dat_o & misc_port.dat_o;
 
-    slave_ports.ack        <= mem_port.ack & ext_mem_port.ack & misc_port.ack;
-    slave_ports.stall      <= mem_port.stall & ext_mem_port.stall & misc_port.stall;
-    slave_ports.err        <= mem_port.err & ext_mem_port.err & misc_port.err;   
-    slave_ports.rty        <= mem_port.rty & ext_mem_port.rty & misc_port.rty;
+    slave_ports.ack(0)     <= mem_port.ack;
+    slave_ports.ack(1)     <= ext_mem_port.ack;
+    slave_ports.ack(2)     <= misc_port.ack;
+
+    slave_ports.stall(0)     <= mem_port.stall;
+    slave_ports.stall(1)     <= ext_mem_port.stall;
+    slave_ports.stall(2)     <= misc_port.stall;
+
+    slave_ports.err(0)     <= mem_port.err;
+    slave_ports.err(1)     <= ext_mem_port.err;
+    slave_ports.err(2)     <= misc_port.err;
+
+    slave_ports.rty(0)     <= mem_port.rty;
+    slave_ports.rty(1)     <= ext_mem_port.rty;
+    slave_ports.rty(2)     <= misc_port.rty;
+
+    -- slave_ports.ack        <= mem_port.ack & ext_mem_port.ack & misc_port.ack;
+    -- slave_ports.stall      <= mem_port.stall & ext_mem_port.stall & misc_port.stall;
+    -- slave_ports.err        <= mem_port.err & ext_mem_port.err & misc_port.err;   
+    -- slave_ports.rty        <= mem_port.rty & ext_mem_port.rty & misc_port.rty;
 
     -- wb_map_master_to_channel(0, master_ports, cpu_port);
     -- wb_map_channel_to_master(0, master_ports, cpu_port);
@@ -308,7 +328,7 @@ begin  --architecture
     ext_mem_port.dat_o <= data_read;
     write_byte_enable <= ext_mem_port.sel;
 
-    ext_mem_port.ack <= '1';
+    ext_mem_port.ack <= '0';
     ext_mem_port.rty <= '0';
     ext_mem_port.stall <= mem_pause_in;
     ext_mem_port.err <= '0';
@@ -321,7 +341,7 @@ begin  --architecture
     enable_uart_write <= '1' when misc_port.stb = '1' and enable_uart = '1' and uart_we = '1' else '0';
 
     u3_uart: entity plasma_lib.uart
-    generic map (log_file => "UNUSED")
+    generic map (log_file => "output_plasmax.txt")
     port map
     (
         clk          => clk,
@@ -340,7 +360,7 @@ begin  --architecture
     misc_port.err <= '0';
     misc_port.rty <= '0';
     
-    misc : process(clk, reset)
+    misc : process(clk, reset, misc_port.stb)
     begin 
         if reset = '1' then
             irq_mask_reg           <= ZERO(7 downto 0);
@@ -366,7 +386,7 @@ begin  --architecture
                         misc_port.stall <= '0';                       
                         misc_port.ack <= '1';
                     when "0010" =>      --irq_status
-                        misc_port.dat_o <= ZERO(31 downto 8) & irq_status_raw;
+                        misc_port.dat_o <= ZERO(31 downto 8) & irq_status_raw; --x"02";--
                         misc_port.stall <= '0';                       
                         misc_port.ack <= '1';
                     when "0011" =>      --gpio0
@@ -386,40 +406,43 @@ begin  --architecture
                         misc_port.stall <= '0';                       
                         misc_port.ack <= '1';
                     end case;
+                    misc_port.err <= '0';
                 else 
                     --misc_port.dat_o <= mem_port.dat_o;
 
                     case misc_port.adr(7 downto 4) is
                     when "0000" =>      --uart
-                        misc_port.stall <= '0';--uart_write_busy;
-                        misc_port.ack <= '1';--not uart_write_busy;
+                        misc_port.stall <= uart_write_busy;
+                        misc_port.ack <= not uart_write_busy;
+                        misc_port.err <= '0';
                     when "0001" =>      --irq_mask
                         irq_mask_reg <= misc_port.dat_i(7 downto 0);
                         misc_port.stall <= '0';                       
                         misc_port.ack <= '1';
+                        misc_port.err <= '0';
                     when "0010" =>      --irq_status
-                        misc_port.stall <= '0';                       
-                        misc_port.ack <= '1';
+                        misc_port.err <= '1';
                     when "0011" =>      --gpio0
                         gpio0_reg    <= misc_port.dat_i;  
                         misc_port.stall <= '0';                                            
                         misc_port.ack <= '1';
+                        misc_port.err <= '0';
                     when "0101" =>      --gpioA 
                         misc_port.stall <= '0';                                              
                         misc_port.ack <= '1';
+                        misc_port.err <= '0';
                     when "0110" =>      --counter
-                        misc_port.stall <= '0';
-                        misc_port.ack <= '1';
+                        misc_port.err <= '1';
                     when others =>
-                        misc_port.stall <= '0';                       
-                        misc_port.ack <= '1';
+                        misc_port.err <= '1';
                     end case;    
                 end if;
             else
-                misc_port.dat_o <= (others => '0');
+                --misc_port.dat_o <= (others => '0');
                 --misc_port.dat_o <= mem_port.dat_o;
                 misc_port.stall <= '0';                       
                 misc_port.ack <= '0';
+                misc_port.err <= '0';
             end if;
         end if;
     end process;

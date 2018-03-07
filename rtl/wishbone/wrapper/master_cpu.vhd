@@ -45,6 +45,8 @@ architecture behavior of master_cpu is
     signal adr_os : std_logic_vector(adr_o'range) := (others => '0');
     signal sel_os : std_logic_vector(sel_o'range) := (others => '0');
 
+    signal dat_is : std_logic_vector(dat_i'range) := (others => '0');
+
     signal clk : std_logic := '0';
     signal stall_s : std_logic := '0';
 begin
@@ -60,7 +62,7 @@ begin
         if rst_i = '1' then 
             cyc_os <= '0';
             stb_os <= '0';
-            --stall_s <= '0';
+            dat_is <= (others => '0');
         elsif rising_edge(clk_i) then
             if (err_i  = '1' and cyc_os  = '1') then
                 cyc_os <= '0';
@@ -73,6 +75,8 @@ begin
 
                 if stall_i = '0' and ack_i = '1' then
                     cyc_os <= '0';
+
+                    dat_is <= dat_i;
                 end if; 
 
                 if stall_i = '1' then 
@@ -81,11 +85,23 @@ begin
             elsif cyc_os  = '1' then
                 if ack_i  = '1' then
                     cyc_os <= '0';
+
+                    dat_is <= dat_i;
                 end if;
             else 
                 cyc_os <= '1';
                 stb_os <= '1';
             end if;
+
+            --if cyc_os = '1' then
+
+                sel_o <= sel_os;
+                if sel_os /= (sel_os'range => '0') then
+                    we_o <= '1';
+                else 
+                    we_o <= '0';
+                end if;
+           -- end if;
         end if;
     end process;
 
@@ -101,8 +117,6 @@ begin
 
     cyc_o <= cyc_os;
     stb_o <= stb_os;
-    sel_o <= sel_os;
-    we_o  <= '1' when sel_os /= (sel_os'range => '0') else '0';
 
     u1_cpu: mlite_cpu
     generic map (memory_type => memory_type)

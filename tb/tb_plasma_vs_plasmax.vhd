@@ -60,7 +60,8 @@ begin  --architecture
    clk   <= not clk after 50 ns;
    clkx   <= not clkx after 25 ns;
 
-   reset <= '0' after 500 ns;
+   reset <= '0' after 250 ns;
+  -- resetx <= '0' after 500 ns;
    --mem_pause <= not mem_pause after 100 ns;
    --uart_read <= '0';
    px_data_read <= interrupt & ZERO(30 downto 0);
