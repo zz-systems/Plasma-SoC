@@ -31,7 +31,7 @@ architecture logic of tb_plasma_vs_plasmax is
 --   "UNUSED";
    "output.txt";
 
-   signal clk         : std_logic := '1';
+   signal clk, clkx   : std_logic := '1';
    signal reset       : std_logic := '1';
    signal interrupt   : std_logic := '0';
 
@@ -58,6 +58,8 @@ begin  --architecture
    interrupt <= '1' after 20 us when interrupt = '0' else '0' after 445 ns;
 
    clk   <= not clk after 50 ns;
+   clkx   <= not clkx after 25 ns;
+
    reset <= '0' after 500 ns;
    --mem_pause <= not mem_pause after 100 ns;
    --uart_read <= '0';
@@ -68,7 +70,7 @@ begin  --architecture
       generic map (memory_type => memory_type,
                    log_file    => log_file)
       PORT MAP (
-         clk               => clk,
+         clk               => clkx,
          reset             => reset,
          uart_read         => px_uart_write,
          uart_write        => px_uart_write,

@@ -13,18 +13,22 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="67655053352fs"></ZoomStartTime>
-      <ZoomEndTime time="68933275351fs"></ZoomEndTime>
-      <Cursor1Time time="68046924000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="1508000001fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="113"></ValueColumnWidth>
+      <ValueColumnWidth column_width="97"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="29" />
+   <WVObjectSize size="40" />
    <wvobject fp_name="/tb_plasma_vs_plasmax/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/clkx" type="logic">
+      <obj_property name="ElementShortName">clkx</obj_property>
+      <obj_property name="ObjectShortName">clkx</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/reset" type="logic">
       <obj_property name="ElementShortName">reset</obj_property>
@@ -37,6 +41,19 @@
    <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/cpu_port" type="array">
       <obj_property name="ElementShortName">cpu_port</obj_property>
       <obj_property name="ObjectShortName">cpu_port</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u2_ram/u2_ram/enable" type="logic">
+      <obj_property name="ElementShortName">enable</obj_property>
+      <obj_property name="ObjectShortName">enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u2_ram/u2_ram/data_write" type="array">
+      <obj_property name="ElementShortName">data_write[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_write[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u2_ram/u2_ram/data_read" type="array">
+      <obj_property name="ElementShortName">data_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_read[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/mem_port" type="array">
       <obj_property name="ElementShortName">mem_port</obj_property>
@@ -48,6 +65,15 @@
       <obj_property name="ObjectShortName">misc_port</obj_property>
       <obj_property name="isExpanded"></obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/cs_s" type="array">
+      <obj_property name="ElementShortName">cs_s[2:0]</obj_property>
+      <obj_property name="ObjectShortName">cs_s[2:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_stall_i" type="array">
+      <obj_property name="ElementShortName">slave_stall_i[2:0]</obj_property>
+      <obj_property name="ObjectShortName">slave_stall_i[2:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/enable_misc" type="logic">
       <obj_property name="ElementShortName">enable_misc</obj_property>
       <obj_property name="ObjectShortName">enable_misc</obj_property>
@@ -56,9 +82,25 @@
       <obj_property name="ElementShortName">mem_pause</obj_property>
       <obj_property name="ObjectShortName">mem_pause</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u2_ram/u2_ram/enable" type="logic">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">enable</obj_property>
+      <obj_property name="ObjectShortName">enable</obj_property>
+      <obj_property name="label">wb.ram.enable</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/enable_internal_ram" type="logic">
       <obj_property name="ElementShortName">enable_internal_ram</obj_property>
       <obj_property name="ObjectShortName">enable_internal_ram</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u2_ram/enable" type="logic">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">enable</obj_property>
+      <obj_property name="ObjectShortName">enable</obj_property>
+      <obj_property name="label">ram.enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/mem_write_byte_enable" type="array">
+      <obj_property name="ElementShortName">mem_write_byte_enable[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_write_byte_enable[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/opcode" type="array">
       <obj_property name="DisplayName">label</obj_property>
@@ -111,13 +153,21 @@
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/cpu_port.dat_i" type="array">
+      <obj_property name="ElementShortName">.dat_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">.dat_i[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/mem_data_read" type="array">
+      <obj_property name="ElementShortName">mem_data_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_data_read[31:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/data_read_ram" type="array">
       <obj_property name="ElementShortName">data_read_ram[31:0]</obj_property>
       <obj_property name="ObjectShortName">data_read_ram[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/cpu_port.dat_i" type="array">
-      <obj_property name="ElementShortName">.dat_i[31:0]</obj_property>
-      <obj_property name="ObjectShortName">.dat_i[31:0]</obj_property>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u2_ram/u2_ram/data_read" type="array">
+      <obj_property name="ElementShortName">data_read[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_read[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/mem_data_write" type="array">
       <obj_property name="ElementShortName">mem_data_write[31:0]</obj_property>
@@ -134,7 +184,6 @@
    <wvobject fp_name="group68" type="group">
       <obj_property name="label">root</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/px_mem_write" type="logic">
          <obj_property name="ElementShortName">px_mem_write</obj_property>
          <obj_property name="ObjectShortName">px_mem_write</obj_property>
@@ -203,6 +252,7 @@
    <wvobject fp_name="group228" type="group">
       <obj_property name="label">wb.control</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u3_control/opcode" type="array">
          <obj_property name="ElementShortName">opcode[31:0]</obj_property>
          <obj_property name="ObjectShortName">opcode[31:0]</obj_property>
@@ -267,6 +317,7 @@
    <wvobject fp_name="group244" type="group">
       <obj_property name="label">control</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u3_control/opcode" type="array">
          <obj_property name="ElementShortName">opcode[31:0]</obj_property>
          <obj_property name="ObjectShortName">opcode[31:0]</obj_property>
@@ -331,6 +382,7 @@
    <wvobject fp_name="group300" type="group">
       <obj_property name="label">wb.bus_mux</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u5_bus_mux/imm_in" type="array">
          <obj_property name="ElementShortName">imm_in[15:0]</obj_property>
          <obj_property name="ObjectShortName">imm_in[15:0]</obj_property>
@@ -395,6 +447,7 @@
    <wvobject fp_name="group284" type="group">
       <obj_property name="label">bus_mux</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u5_bus_mux/imm_in" type="array">
          <obj_property name="ElementShortName">imm_in[15:0]</obj_property>
          <obj_property name="ObjectShortName">imm_in[15:0]</obj_property>
@@ -459,6 +512,7 @@
    <wvobject fp_name="group256" type="group">
       <obj_property name="label">wb.pc_next</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u1_pc_next/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -507,6 +561,7 @@
    <wvobject fp_name="group268" type="group">
       <obj_property name="label">pc_next</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u1_pc_next/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -555,6 +610,7 @@
    <wvobject fp_name="group319" type="group">
       <obj_property name="label">wb.reg_bank</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u1_cpu/u1_cpu/u4_reg_bank/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -631,6 +687,7 @@
    <wvobject fp_name="group338" type="group">
       <obj_property name="label">reg_bank</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/u1_cpu/u4_reg_bank/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>

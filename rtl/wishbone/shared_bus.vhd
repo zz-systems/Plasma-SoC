@@ -83,6 +83,14 @@ architecture behavior of shared_bus is
     signal cs : natural range 0 to bit_width(slaves);
 
    signal slave_cyc_os : std_logic_vector(slave_cyc_o'range) := (others => '0');
+
+   signal slave_we_os : std_logic;
+   signal slave_sel_os : std_logic_vector(slave_sel_o'range) := (others => '0');
+
+   signal master_adr_is : std_logic_vector(master_adr_i'range) := (others => '0');
+   signal slave_dat_os : std_logic_vector(slave_dat_o'range) := (others => '0');
+
+   signal delay_s : std_logic := '0';
 begin
 
     cs_o <= cs_s;
@@ -106,37 +114,41 @@ begin
             master_rty_s    <= (others => '0');
             --master_dat_o <= (others => '0');
 
-            addr_offset_s <= (others => '0');
+            --addr_offset_s <= (others => '0');
             addr_s <= (others => '0');
-            cs_s <= (others => '0');
-            cs <= 0;
+            --cs_s <= (others => '0');
+            --cs <= 0;
             --master_dat_o <= (others => '0');
         else
             if rising_edge(clk_i) then
                 master_id_s <= to_integer(unsigned(master_gnt_i));
                 addr_s <= master_adr_i((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w);
 
-                offset_v := (others => '0');
-                --dat_o := (others => '0');
+                -- offset_v := (others => '0');
+                -- --dat_o := (others => '0');
 
-                for i in 0 to slaves - 1 loop
-                    if memmap(i).base_addr = (addr_s and not memmap(i).size) then
-                        cs_v(i) := '1';
-                        csn_v := i;
-                    else
-                        cs_v(i) := '0';
-                        --csn_v := 0;
-                    end if;
+                -- for i in 0 to slaves - 1 loop
+                --     if memmap(i).base_addr = (addr_s and not memmap(i).size) then
+                --         cs_v(i) := '1';
+                --         csn_v := i;
+                --     else
+                --         cs_v(i) := '0';
+                --         --csn_v := 0;
+                --     end if;
 
-                    offset_v := offset_v or (memmap(i).size and (offset_v'range => cs_v(i)));
-                    --dat_o := dat_o or (slave_dat_i((slaves - i) * data_w - 1  downto (slaves - i - 1) * data_w) and (dat_o'range => cs_v(i)));
-                end loop;
+                --     offset_v := offset_v or (memmap(i).size and (offset_v'range => cs_v(i)));
+                --     --dat_o := dat_o or (slave_dat_i((slaves - i) * data_w - 1  downto (slaves - i - 1) * data_w) and (dat_o'range => cs_v(i)));
+                -- end loop;
 
-                --master_dat_o <= dat_o;
-                addr_offset_s <= offset_v;
-                cs_s <= cs_v;
-                cs <= csn_v;
+                -- --master_dat_o <= dat_o;
+                -- addr_offset_s <= offset_v;
+                -- cs_s <= cs_v;
+                -- cs <= csn_v;
 
+                master_adr_is <= master_adr_i((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w);
+                slave_dat_os <= master_dat_i((master_id_s + 1) * data_w - 1  downto master_id_s * data_w);
+                slave_we_os <= master_we_i(master_id_s);
+                slave_sel_os <= master_sel_i((master_id_s + 1) * sel_w - 1   downto master_id_s * sel_w);
                 if slave_cyc_os /= (slave_cyc_os'range => '0') then
                     busy_o <= '1';
                 else 
@@ -151,47 +163,46 @@ begin
 
     
 
-    -- addr_dec : for i in 0 to slaves - 1 generate
-    --     --base_addr_s((i + 1) * addr_w - 1 downto i * addr_w) <= addr_s and not memmap(i).size;
-    --     --cs_s(i)         <= '1' when memmap(i).base_addr = base_addr_s((i + 1) * addr_w - 1 downto i * addr_w) else
-    --     --                   '0';        
-    --     cs_s(i) <= '1' when memmap(i).base_addr = (addr_s and not memmap(i).size) else 
-    --                '0';
-    -- end generate;
+    addr_dec : for i in 0 to slaves - 1 generate
+        --base_addr_s((i + 1) * addr_w - 1 downto i * addr_w) <= addr_s and not memmap(i).size;
+        --cs_s(i)         <= '1' when memmap(i).base_addr = base_addr_s((i + 1) * addr_w - 1 downto i * addr_w) else
+        --                   '0';        
+        cs_s(i) <= '1' when memmap(i).base_addr = (addr_s and not memmap(i).size) else 
+                   '0';
+    end generate;
 
     --cs <= natural(ceil(log2(real(to_integer(unsigned(cs_s))))));-- natural(bit_width(unsigned(cs_s)));
 
-    -- process(cs_s)
-    --     variable offset, total_offset : std_logic_vector(addr_w - 1 downto 0);
-    --     variable cs_v : integer := 0;
-    -- begin
+    process(cs_s)
+        variable offset, total_offset : std_logic_vector(addr_w - 1 downto 0);
+        variable cs_v : integer := 0;
+    begin
+        --cs_v := 0;
+        total_offset    := (others => '0');
 
-    --     offset          := (others => '0');
-    --     total_offset    := (others => '0');
+        for i in 0 to slaves - 1 loop
+            total_offset := total_offset or (memmap(i).size and (offset'range => cs_s(i)));
 
-    --     for i in 0 to slaves - 1 loop
-    --         offset     := memmap(i).size; --std_ulogic_vector(to_integer(memmap(i).size, addr_dec_w) - 1);
-    --         total_offset := total_offset or (offset and (offset'range => cs_s(i)));
+            --if cs_s(i) = '1' then
+            --    cs_v := i;
+            --end if;
+        end loop;
 
-    --         if cs_s(i) = '1' then
-    --             cs_v := i;
-    --         else 
-    --             cs_v := 0;
-    --         end if;
-    --     end loop;
+        -- delay only if not accessing memory
+        delay_s <= not cs_s(0);
 
-    --     addr_offset_s <= total_offset;
-    --     cs <= cs_v;        
-    -- end process;
+        addr_offset_s <= total_offset;
+        --cs <= cs_v;        
+    end process;
 
     -- master to slave
 
     slave_stb_cyc : for i in 0 to slaves - 1 generate
-        -- slave_stb_o(i) <= '1' when cs_s(i) = '1' and master_stb_i /= (master_stb_i'range => '0') else '0';
-        -- slave_cyc_o(i) <= '1' when cs_s(i) = '1' and master_cyc_i /= (master_cyc_i'range => '0') else '0';
+        slave_stb_o(i) <= '1' when cs_s(i) = '1' and master_stb_i /= (master_stb_i'range => '0') else '0';
+        slave_cyc_o(i) <= '1' when cs_s(i) = '1' and master_cyc_i /= (master_cyc_i'range => '0') else '0';
 
-        slave_stb_o(i) <= cs_s(i);
-        slave_cyc_o(i) <= cs_s(i);
+        --slave_stb_o(i) <= cs_s(i);
+        --slave_cyc_o(i) <= cs_s(i);
     end generate;
     
     -- slave_adr_os <= master_adr_is((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w) and addr_offset_s;
@@ -199,10 +210,16 @@ begin
     -- slave_sel_os <= master_sel_is((master_id_s + 1) * sel_w - 1   downto master_id_s * sel_w);
     -- slave_we_os  <= master_we_is(master_id_s);
 
-    slave_adr_o <= master_adr_i((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w) and addr_offset_s;-- memmap(cs).size;
-    slave_dat_o <= master_dat_i((master_id_s + 1) * data_w - 1  downto master_id_s * data_w);
-    slave_sel_o <= master_sel_i((master_id_s + 1) * sel_w - 1   downto master_id_s * sel_w);
-    slave_we_o  <= master_we_i(master_id_s);
+    
+    -- slave_adr_o <= master_adr_is and addr_offset_s; --master_adr_i((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w) and addr_offset_s;-- memmap(cs).size;
+    -- slave_dat_o <= slave_dat_os;--master_dat_i((master_id_s + 1) * data_w - 1  downto master_id_s * data_w);
+    -- slave_sel_o <= slave_sel_os;--master_sel_i((master_id_s + 1) * sel_w - 1   downto master_id_s * sel_w);
+    -- slave_we_o  <= slave_we_os;--master_we_i(master_id_s);
+
+    slave_adr_o <= master_adr_is and addr_offset_s when delay_s = '1' else master_adr_i((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w) and addr_offset_s;
+    slave_dat_o <= slave_dat_os when delay_s = '1' else master_dat_i((master_id_s + 1) * data_w - 1  downto master_id_s * data_w);
+    slave_sel_o <= slave_sel_os when delay_s = '1' else master_sel_i((master_id_s + 1) * sel_w - 1   downto master_id_s * sel_w);
+    slave_we_o  <= slave_we_os when delay_s = '1' else master_we_i(master_id_s);
 
     -- slave to master
     slave_to_master : for i in 0 to slaves - 1 generate
@@ -232,14 +249,17 @@ begin
     process(slave_dat_i, cs_s)
         variable dat : std_logic_vector(data_w - 1 downto 0);
     begin 
-        dat := (others => '0');
 
-        for i in 0 to slaves - 1 loop
-            dat := dat or (slave_dat_i((i + 1) * data_w - 1  downto i * data_w) and (dat'range => cs_s(slaves - i - 1)));
-        end loop;
+        --if slave_we_os = '0' then 
+            dat := (others => '0');
+            
+            for i in 0 to slaves - 1 loop
+                dat := dat or (slave_dat_i((i + 1) * data_w - 1  downto i * data_w) and (dat'range => cs_s(slaves - i - 1)));
+            end loop;
 
-        --master_dat_os <= dat;
-        master_dat_o <= dat;
+            --master_dat_os <= dat;
+            master_dat_o <= dat;
+        --end if;
     end process;
 
     --master_dat_o <= slave_dat_i((cs + 1) * data_w - 1  downto cs * data_w) and (master_dat_o'range => cs_s(cs));

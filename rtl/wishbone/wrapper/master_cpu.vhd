@@ -39,8 +39,8 @@ port
 end master_cpu;
 
 architecture behavior of master_cpu is 
-    signal cyc_s : std_logic := '0';
-    signal stb_s : std_logic := '0';
+    signal cyc_os : std_logic := '0';
+    signal stb_os : std_logic := '0';
 
     signal adr_os : std_logic_vector(adr_o'range) := (others => '0');
     signal sel_os : std_logic_vector(sel_o'range) := (others => '0');
@@ -55,39 +55,39 @@ begin
     --     end if;
     -- end process;
 
-    -- process(clk_i)
-    -- begin         
-    --     if rst_i = '1' then 
-    --         cyc_o <= '0';
-    --         stb_o <= '0';
-    --         --stall_s <= '0';
-    --     elsif rising_edge(clk_i) then
-    --         if (err_i  = '1' and cyc_o  = '1') then
-    --             cyc_o <= '0';
-    --             stb_o <= '0';
-    --             --stall_s <= '0';
-    --         elsif stb_o  = '1' then
-    --             if stall_i = '0' then
-    --                 stb_o <= '0';
-    --             end if;
+    process(clk_i, rst_i)
+    begin         
+        if rst_i = '1' then 
+            cyc_os <= '0';
+            stb_os <= '0';
+            --stall_s <= '0';
+        elsif rising_edge(clk_i) then
+            if (err_i  = '1' and cyc_os  = '1') then
+                cyc_os <= '0';
+                stb_os <= '0';
+                --stall_s <= '0';
+            elsif stb_os  = '1' then
+                if stall_i = '0' then
+                    stb_os <= '0';
+                end if;
 
-    --             if stall_i = '0' and ack_i = '1' then
-    --                 cyc_o <= '0';
-    --             end if; 
+                if stall_i = '0' and ack_i = '1' then
+                    cyc_os <= '0';
+                end if; 
 
-    --             if stall_i = '1' then 
-    --                 --stall_s <= '1';
-    --             end if;
-    --         elsif cyc_o  = '1' then
-    --             if ack_i  = '1' then
-    --                 cyc_o <= '0';
-    --             end if;
-    --         else 
-    --             cyc_o <= '1';
-    --             stb_o <= '1';
-    --         end if;
-    --     end if;
-    -- end process;
+                if stall_i = '1' then 
+                    --stall_s <= '1';
+                end if;
+            elsif cyc_os  = '1' then
+                if ack_i  = '1' then
+                    cyc_os <= '0';
+                end if;
+            else 
+                cyc_os <= '1';
+                stb_os <= '1';
+            end if;
+        end if;
+    end process;
 
     -- stall_s <= cyc_o;
     -- process(clk)
@@ -99,8 +99,8 @@ begin
     -- end process;
 
 
-    --cyc_o <= cyc_s;
-    --stb_o <= stb_s;
+    cyc_o <= cyc_os;
+    stb_o <= stb_os;
     sel_o <= sel_os;
     we_o  <= '1' when sel_os /= (sel_os'range => '0') else '0';
 
@@ -116,7 +116,7 @@ begin
         mem_data_w   => dat_o,
         mem_data_r   => dat_i,
         mem_byte_we  => sel_os,
-        mem_pause    => '0' --cyc_o--stall_s
+        mem_pause    => cyc_os or stall_i
     );
 
     mem_pause_o <= stall_s;

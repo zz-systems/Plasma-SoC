@@ -41,7 +41,7 @@ begin
     rty_o   <= '0';
     ack_o   <= '1';
 
-    process(clk_i)
+    process(clk_i, rst_i)
     begin         
         if rst_i = '1' then 
             --ack_o <= '0';            

@@ -301,6 +301,20 @@ begin  --architecture
         err_o => mem_port.err
     );
 
+    -- ext. mem:
+
+    address <= ext_mem_port.adr(31 downto 2);
+    data_write <= ext_mem_port.dat_i;
+    ext_mem_port.dat_o <= data_read;
+    write_byte_enable <= ext_mem_port.sel;
+
+    ext_mem_port.ack <= '1';
+    ext_mem_port.rty <= '0';
+    ext_mem_port.stall <= mem_pause_in;
+    ext_mem_port.err <= '0';
+
+    -- uart
+
     enable_uart <= '1' when misc_port.stb = '1' and misc_port.adr(7 downto 4) = "0000" else '0';
     uart_we <= '1' when misc_port.stb = '1' and misc_port.sel /= "0000" else '0';
     enable_uart_read <= misc_port.stb and enable_uart;
@@ -323,7 +337,10 @@ begin  --architecture
         data_avail   => uart_data_avail
     );
 
-    misc : process(clk)
+    misc_port.err <= '0';
+    misc_port.rty <= '0';
+    
+    misc : process(clk, reset)
     begin 
         if reset = '1' then
             irq_mask_reg           <= ZERO(7 downto 0);
@@ -335,7 +352,8 @@ begin  --architecture
             misc_port.ack <= '0';
         elsif rising_edge(clk) then
             counter_reg <= bv_inc(counter_reg);
-            
+            --misc_port.dat_o <= mem_port.dat_o;
+
             if misc_port.stb = '1' then
                 if misc_port.we = '0' then 
                     case misc_port.adr(7 downto 4) is
@@ -369,6 +387,8 @@ begin  --architecture
                         misc_port.ack <= '1';
                     end case;
                 else 
+                    --misc_port.dat_o <= mem_port.dat_o;
+
                     case misc_port.adr(7 downto 4) is
                     when "0000" =>      --uart
                         misc_port.stall <= '0';--uart_write_busy;
@@ -397,6 +417,7 @@ begin  --architecture
                 end if;
             else
                 misc_port.dat_o <= (others => '0');
+                --misc_port.dat_o <= mem_port.dat_o;
                 misc_port.stall <= '0';                       
                 misc_port.ack <= '0';
             end if;
