@@ -341,7 +341,7 @@ begin  --architecture
     enable_uart_write <= '1' when misc_port.stb = '1' and enable_uart = '1' and uart_we = '1' else '0';
 
     u3_uart: entity plasma_lib.uart
-    generic map (log_file => "output_plasmax.txt")
+    generic map (log_file => log_file)
     port map
     (
         clk          => clk,

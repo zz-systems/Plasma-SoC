@@ -16,10 +16,7 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 use ieee.std_logic_unsigned.all;
 use std.textio.all;
-
-library plasma_lib;
-    use plasma_lib.mlite_pack.all;
-    
+use work.mlite_pack.all;
 
 entity uart is
    generic(log_file : string := "UNUSED");
@@ -50,13 +47,13 @@ architecture logic of uart is
 begin
 
 uart_proc: process(clk, reset, enable_read, enable_write, data_in,
-                   data_write_reg, bits_write_reg, delay_write_reg, 
+                   data_write_reg, bits_write_reg, delay_write_reg,
                    data_read_reg, bits_read_reg, delay_read_reg,
                    data_save_reg, read_value_reg, uart_read2)
    constant COUNT_VALUE : std_logic_vector(9 downto 0) :=
 --      "0100011110";  --33MHz/2/57600Hz = 0x11e
---      "1101100100";  --50MHz/57600Hz = 0x364
-      "0110110010";  --25MHz/57600Hz = 0x1b2
+      "1101100100";  --50MHz/57600Hz = 0x364
+--      "0110110010";  --25MHz/57600Hz = 0x1b2
 --      "0000000100";  --for debug (shorten read_value_reg)
 begin
    uart_read2 <= read_value_reg(read_value_reg'length - 1);
@@ -132,34 +129,34 @@ begin
    busy_write <= busy_write_sig;
    data_avail <= data_save_reg(8);
    data_out <= data_save_reg(7 downto 0);
-   
+
 end process; --uart_proc
 
-   uart_logger:
-   if log_file /= "UNUSED" generate
-      uart_proc: process(clk, enable_write, data_in)
-         file store_file : text open write_mode is log_file;
-         variable hex_file_line : line;
-         variable c : character;
-         variable index : natural;
-         variable line_length : natural := 0;
-      begin
-         if rising_edge(clk) and busy_write_sig = '0' then
-            if enable_write = '1' then
-               index := conv_integer(data_in(6 downto 0));
-               if index /= 10 then
-                  c := character'val(index);
-                  write(hex_file_line, c);
-                  line_length := line_length + 1;
-               end if;
-               if index = 10 or line_length >= 72 then
---The following line had to be commented out for synthesis
-                  writeline(store_file, hex_file_line);
-                  line_length := 0;
-               end if;
-            end if; --uart_sel
-         end if; --rising_edge(clk)
-      end process; --uart_proc
-   end generate; --uart_logger
+--   uart_logger:
+--   if log_file /= "UNUSED" generate
+--      uart_proc: process(clk, enable_write, data_in)
+--         file store_file : text open write_mode is log_file;
+--         variable hex_file_line : line;
+--         variable c : character;
+--         variable index : natural;
+--         variable line_length : natural := 0;
+--      begin
+--         if rising_edge(clk) and busy_write_sig = '0' then
+--            if enable_write = '1' then
+--               index := conv_integer(data_in(6 downto 0));
+--               if index /= 10 then
+--                  c := character'val(index);
+--                  write(hex_file_line, c);
+--                  line_length := line_length + 1;
+--               end if;
+--               if index = 10 or line_length >= 72 then
+----The following line had to be commented out for synthesis
+--                  writeline(store_file, hex_file_line);
+--                  line_length := 0;
+--               end if;
+--            end if; --uart_sel
+--         end if; --rising_edge(clk)
+--      end process; --uart_proc
+--   end generate; --uart_logger
 
 end; --architecture logic

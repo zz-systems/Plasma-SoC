@@ -31,6 +31,10 @@ architecture logic of tb_plasma_vs_plasmax is
 --   "UNUSED";
    "output.txt";
 
+   constant log_file_px : string := 
+      "UNUSED";
+   --   "output_plasmax.txt";
+
    signal clk, clkx   : std_logic := '1';
    signal reset       : std_logic := '1';
    signal interrupt   : std_logic := '0';
@@ -69,7 +73,7 @@ begin  --architecture
 
    u1_plasmax: entity plasmax_lib.plasmax
       generic map (memory_type => memory_type,
-                   log_file    => log_file)
+                   log_file    => log_file_px)
       PORT MAP (
          clk               => clkx,
          reset             => reset,
