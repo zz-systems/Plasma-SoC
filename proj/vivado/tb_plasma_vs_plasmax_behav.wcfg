@@ -13,15 +13,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="140109166160fs"></ZoomStartTime>
-      <ZoomEndTime time="141178166768fs"></ZoomEndTime>
-      <Cursor1Time time="140645897000fs"></Cursor1Time>
+      <ZoomStartTime time="70274132020fs"></ZoomStartTime>
+      <ZoomEndTime time="71445173596fs"></ZoomEndTime>
+      <Cursor1Time time="71250000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="81"></ValueColumnWidth>
+      <ValueColumnWidth column_width="77"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="45" />
+   <WVObjectSize size="46" />
    <wvobject fp_name="/tb_plasma_vs_plasmax/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -196,6 +196,11 @@
    <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/write_byte_enable_reg" type="array">
       <obj_property name="ElementShortName">write_byte_enable_reg[3:0]</obj_property>
       <obj_property name="ObjectShortName">write_byte_enable_reg[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/irq_status_raw" type="array">
+      <obj_property name="ElementShortName">irq_status_raw[7:0]</obj_property>
+      <obj_property name="ObjectShortName">irq_status_raw[7:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="group68" type="group">
       <obj_property name="label">root</obj_property>
@@ -824,7 +829,6 @@
    <wvobject fp_name="group532" type="group">
       <obj_property name="label">system bus</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/clk_i" type="logic">
          <obj_property name="ElementShortName">clk_i</obj_property>
          <obj_property name="ObjectShortName">clk_i</obj_property>
@@ -1032,10 +1036,8 @@
       <obj_property name="ObjectShortName">m_ports[0:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/m_ports[0]" type="array">
-         <obj_property name="DisplayName">label</obj_property>
          <obj_property name="ElementShortName">[0]</obj_property>
          <obj_property name="ObjectShortName">[0]</obj_property>
-         <obj_property name="label">[0] - cpu</obj_property>
          <obj_property name="isExpanded"></obj_property>
       </wvobject>
    </wvobject>
@@ -1044,31 +1046,22 @@
       <obj_property name="ObjectShortName">s_ports[3:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports[3]" type="array">
-         <obj_property name="DisplayName">label</obj_property>
          <obj_property name="ElementShortName">[3]</obj_property>
          <obj_property name="ObjectShortName">[3]</obj_property>
-         <obj_property name="label">[3] - misc</obj_property>
          <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports[2]" type="array">
-         <obj_property name="DisplayName">label</obj_property>
          <obj_property name="ElementShortName">[2]</obj_property>
          <obj_property name="ObjectShortName">[2]</obj_property>
-         <obj_property name="label">[2] - uart</obj_property>
          <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports[1]" type="array">
-         <obj_property name="DisplayName">label</obj_property>
          <obj_property name="ElementShortName">[1]</obj_property>
          <obj_property name="ObjectShortName">[1]</obj_property>
-         <obj_property name="label">[1] - ext mem</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports[0]" type="array">
-         <obj_property name="DisplayName">label</obj_property>
          <obj_property name="ElementShortName">[0]</obj_property>
          <obj_property name="ObjectShortName">[0]</obj_property>
-         <obj_property name="label">[0] - mem</obj_property>
-         <obj_property name="isExpanded"></obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

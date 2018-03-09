@@ -287,7 +287,34 @@ begin  --architecture
         err_o   => mem_port.err
     );
 
-    u3_uart: entity plasmax_lib.slave_uart
+    u3_ext_mem: entity plasmax_lib.slave_ext_memory
+    port map
+    (
+        clk_i   => clk,
+        rst_i   => reset,
+
+        address             => address,
+        data_write          => data_write,
+        data_read           => data_read,
+        write_byte_enable   => write_byte_enable,
+
+        cyc_i   => ext_mem_port.cyc,
+        stb_i   => ext_mem_port.stb,
+        we_i    => ext_mem_port.we,
+
+        adr_i   => ext_mem_port.adr,
+        dat_i   => ext_mem_port.dat_i,
+
+        sel_i   => ext_mem_port.sel,
+
+        dat_o   => ext_mem_port.dat_o,
+        ack_o   => ext_mem_port.ack,
+        rty_o   => ext_mem_port.rty,
+        stall_o => ext_mem_port.stall,
+        err_o   => ext_mem_port.err
+    );
+
+    u4_uart: entity plasmax_lib.slave_uart
     port map
     (
         clk_i   => clk,
@@ -312,18 +339,6 @@ begin  --architecture
         stall_o => uart_port.stall,
         err_o   => uart_port.err
     );
-
-    -- ext. mem:
-
-    address <= ext_mem_port.adr(31 downto 2);
-    data_write <= ext_mem_port.dat_i;
-    ext_mem_port.dat_o <= data_read;
-    write_byte_enable <= ext_mem_port.sel;
-
-    ext_mem_port.ack <= '0';
-    ext_mem_port.rty <= '0';
-    ext_mem_port.stall <= mem_pause_in;
-    ext_mem_port.err <= '0';
 
     -- misc: 
 
