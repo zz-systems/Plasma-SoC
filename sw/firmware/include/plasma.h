@@ -24,14 +24,22 @@
 #define UART_WRITE        0x20000000
 #define UART_READ         0x20000000
 #define MISC_BASE         0x20000100
-#define IRQ_MASK          0x20000110
-#define IRQ_STATUS        0x20000120
+//#define IRQ_MASK          0x20000110
+//#define IRQ_STATUS        0x20000120
 #define GPIO0_SET         0x20000130
 #define GPIO0_CLEAR       0x20000140
 #define GPIOA_IN          0x20000150
 #define COUNTER_REG       0x20000160
 #define ETHERNET_REG      0x20000170
 #define FLASH_BASE        0x30000000
+
+#define IRC_STATUS_RAW    0x20000100
+#define IRC_STATUS        0x20000110
+#define IRC_CLEAR         0x20000120
+#define IRC_INVERT        0x20000140
+#define IRC_ENABLE        0x20000140
+#define IRC_EDGE          0x20000150
+
 
 #define DISPLAY		  0x40000000
 
@@ -53,5 +61,7 @@
 
 #define MemoryRead(A) (*(volatile unsigned int*)(A))
 #define MemoryWrite(A,V) (*(volatile unsigned int*)(A)=(V))
+
+extern void OS_AsmInterruptEnable(unsigned enable);
 
 #endif //__PLASMA_H__

@@ -22,7 +22,7 @@ target_include_directories(linker_cfg INTERFACE include)
 add_library(firmware STATIC src/boot.asm src/no_os.c)
 target_link_libraries(firmware PUBLIC linker_cfg)
 
-add_library(firmware_new STATIC src/vectortable.asm src/no_os.c src/boot.asm src/crt.asm)
+add_library(firmware_new STATIC src/vectortable.asm src/no_os.c src/crt.asm)
 target_include_directories(firmware_new INTERFACE include)
 target_link_libraries(firmware_new PUBLIC linker_cfg2)
 

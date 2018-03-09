@@ -8,6 +8,10 @@ add_executable(blink src/blink.c)
 target_link_libraries(blink firmware)
 postprocess_binary(blink)
 
+add_executable(blink_new src/blink.c)
+target_link_libraries(blink_new firmware_new)
+postprocess_binary(blink_new)
+
 add_executable(oled_hello_world src/oled_hello_world.c)
 target_link_libraries(oled_hello_world firmware)
 postprocess_binary(oled_hello_world)

@@ -16,4 +16,3 @@ _interrupt_vector:
 	nop
 
 	.set reorder
-

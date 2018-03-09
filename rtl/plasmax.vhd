@@ -34,6 +34,7 @@ library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
     use ieee.math_real.all;
+    use ieee.std_logic_misc.all;
 
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
@@ -65,7 +66,7 @@ end; --entity plasma
 architecture logic of plasmax is
     
    constant masters : positive := 1;
-   constant slaves : positive := 4;
+   constant slaves : positive := 5;
 
    signal data_read_uart      : std_logic_vector(7 downto 0);
    signal data_write_uart     : std_logic_vector(7 downto 0);
@@ -106,22 +107,33 @@ architecture logic of plasmax is
     alias cpu_port : wb_port is m_ports(0);
     alias mem_port : wb_port is s_ports(0);
     alias ext_mem_port : wb_port is s_ports(1);
-    alias uart_port : wb_port is s_ports(2);
-    alias misc_port : wb_port is s_ports(3);
+    alias irc_port : wb_port is s_ports(2);
+    alias uart_port : wb_port is s_ports(3);
+    alias misc_port : wb_port is s_ports(4);
 
-    signal bus_busy : std_logic;
+    
     signal gpio_enable : std_logic;  
     signal uart_irq : std_logic; 
+
+    signal irq_inputs : std_logic_vector(31 downto 0);
 begin  --architecture
 
-    irq_status_raw <= gpioA_in(31 downto 30)
-                   & (gpioA_in(31 downto 30) xor "11") 
-                   & counter_reg(18) 
-                   & not counter_reg(18) 
-                   & not uart_port.stall--not uart_write_busy 
-                   & uart_irq;
+    -- irq_status_raw <= gpioA_in(31 downto 30)
+    --                & (gpioA_in(31 downto 30) xor "11") 
+    --                & counter_reg(18) 
+    --                & not counter_reg(18) 
+    --                & not uart_port.stall--not uart_write_busy 
+    --                & uart_irq;
 
-    irq <= '1' when (irq_status_raw and irq_mask_reg) /= ZERO(7 downto 0) else '0';
+    irq_inputs <= ZERO(31 downto 8)
+                & gpioA_in(31 downto 30)
+                & (gpioA_in(31 downto 30) xor "11") 
+                & counter_reg(18) 
+                & not counter_reg(18) 
+                & not uart_port.stall
+                & uart_irq;
+
+    --irq <= '1' when (irq_status_raw and irq_mask_reg) /= ZERO(7 downto 0) else '0';
     gpio0_out <= gpio0_reg;   
 
 
@@ -181,7 +193,7 @@ begin  --architecture
         
         interruptible_i => (others => '1'),
 
-        busy_i => bus_busy,
+        busy_i => or_reduce(master_ports.cyc),
 
         cs_o => master_select
     );
@@ -191,19 +203,19 @@ begin  --architecture
         masters => masters,
         slaves => slaves,
 
-        memmap => (
+        memmap => 
+        (
             ( x"00000000", x"0FFFFFFF" ),  -- internal memory
-            ( x"10000000", x"001FFFFF" ),  -- external memory
-            ( x"20000000", x"0FFFFF0F" ),  -- uart
-            ( x"20000100", x"0FFFF0FF" )   -- misc
+            ( x"10000000", x"001FFFFF" ),  -- external memory                 
+            ( x"20000000", x"0FFFFF0F" ),  -- irc       
+            ( x"20000100", x"0FFFF0FF" ),  -- uart
+            ( x"20000200", x"0FFFF0FF" )   -- misc
         )
     )
     port map
     (
         clk_i => clk,
         rst_i => reset,
-
-        busy_o => bus_busy,
 
         -- arbiter interface 
         master_gnt_i => "0",--master_select,
@@ -241,7 +253,7 @@ begin  --architecture
         slave_rty_i     => slave_ports.rty
     );  
 
-    u1_cpu : entity plasmax_lib.master_cpu
+    u_cpu : entity plasmax_lib.master_cpu
     port map
     (
         clk_i   => clk,
@@ -265,7 +277,32 @@ begin  --architecture
         err_i   => cpu_port.err
     );
 
-    u2_ram: entity plasmax_lib.slave_memory
+    u_irc : entity plasmax_lib.slave_irc
+    port map
+    (
+        clk_i   => clk,
+        rst_i   => reset,
+
+        ir_i    => irq_inputs,
+        irq_o   => irq,
+
+        cyc_i   => irc_port.cyc,
+        stb_i   => irc_port.stb,
+        we_i    => irc_port.we,
+
+        adr_i   => irc_port.adr,
+        dat_i   => irc_port.dat_i,
+
+        sel_i   => irc_port.sel,
+
+        dat_o   => irc_port.dat_o,
+        ack_o   => irc_port.ack,
+        rty_o   => irc_port.rty,
+        stall_o => irc_port.stall,
+        err_o   => irc_port.err
+    );
+
+    u_ram: entity plasmax_lib.slave_memory
     port map
     (
         clk_i   => clk,
@@ -287,7 +324,7 @@ begin  --architecture
         err_o   => mem_port.err
     );
 
-    u3_ext_mem: entity plasmax_lib.slave_ext_memory
+    u_ext_mem: entity plasmax_lib.slave_ext_memory
     port map
     (
         clk_i   => clk,
@@ -314,7 +351,7 @@ begin  --architecture
         err_o   => ext_mem_port.err
     );
 
-    u4_uart: entity plasmax_lib.slave_uart
+    u_uart: entity plasmax_lib.slave_uart
     port map
     (
         clk_i   => clk,
@@ -366,14 +403,14 @@ begin  --architecture
                     --    misc_port.dat_o <= ZERO(31 downto 8) & data_read_uart;
                     --    misc_port.stall <= '0';                       
                     --    misc_port.ack <= '1';
-                    when "0001" =>      --irq_mask
-                        misc_port.dat_o <= ZERO(31 downto 8) & irq_mask_reg;
-                        misc_port.stall <= '0';                       
-                        misc_port.ack <= '1';
-                    when "0010" =>      --irq_status
-                        misc_port.dat_o <= ZERO(31 downto 8) & irq_status_raw; --x"02";--
-                        misc_port.stall <= '0';                       
-                        misc_port.ack <= '1';
+                    --when "0001" =>      --irq_mask
+                    --    misc_port.dat_o <= ZERO(31 downto 8) & irq_mask_reg;
+                    --    misc_port.stall <= '0';                       
+                    --    misc_port.ack <= '1';
+                    --when "0010" =>      --irq_status
+                    --    misc_port.dat_o <= ZERO(31 downto 8) & irq_status_raw; --x"02";--
+                    --    misc_port.stall <= '0';                       
+                    --    misc_port.ack <= '1';
                     when "0011" =>      --gpio0
                         misc_port.dat_o <= gpio0_reg;
                         misc_port.stall <= '0';                       
@@ -400,11 +437,11 @@ begin  --architecture
                     --    misc_port.stall <= uart_write_busy;
                     --    misc_port.ack <= not uart_write_busy;
                     --    misc_port.err <= '0';
-                    when "0001" =>      --irq_mask
-                        irq_mask_reg <= misc_port.dat_i(7 downto 0);
-                        misc_port.stall <= '0';                       
-                        misc_port.ack <= '1';
-                        misc_port.err <= '0';
+                    --when "0001" =>      --irq_mask
+                    --    irq_mask_reg <= misc_port.dat_i(7 downto 0);
+                    --    misc_port.stall <= '0';                       
+                    --    misc_port.ack <= '1';
+                    --    misc_port.err <= '0';
                     when "0010" =>      --irq_status
                         misc_port.err <= '1';
                     when "0011" =>      --gpio0

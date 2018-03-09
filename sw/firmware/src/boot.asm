@@ -26,6 +26,7 @@ entry:
    la    $4, _end             #$2 = .bss_end
    la    $sp, InitStack+488   #initialize stack pointer
 
+
 $BSS_CLEAR:
    sw    $0, 0($5)
    slt   $3, $5, $4

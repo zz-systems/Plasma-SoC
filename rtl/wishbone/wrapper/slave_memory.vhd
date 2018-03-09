@@ -48,7 +48,7 @@ begin
         end if;
     end process;
 
-    u2_ram: ram
+    ram: entity plasma_lib.ram
     generic map (memory_type => memory_type)
     port map 
     (

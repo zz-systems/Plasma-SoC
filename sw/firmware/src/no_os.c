@@ -3,7 +3,7 @@
 
 void putchar(int value)
 {
-   while((MemoryRead(IRQ_STATUS) & IRQ_UART_WRITE_AVAILABLE) == 0)
+   while((MemoryRead(IRC_STATUS) & IRQ_UART_WRITE_AVAILABLE) == 0)
       ;
    MemoryWrite(UART_WRITE, value);
 }
@@ -27,7 +27,7 @@ void OS_InterruptServiceRoutine(unsigned int status)
 
 int kbhit(void)
 {
-   return MemoryRead(IRQ_STATUS) & IRQ_UART_READ_AVAILABLE;
+   return MemoryRead(IRC_STATUS) & IRQ_UART_READ_AVAILABLE;
 }
 
 int getch(void)
