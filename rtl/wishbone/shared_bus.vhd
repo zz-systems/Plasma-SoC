@@ -167,7 +167,7 @@ begin
     end generate;
     
     master_ack_o <= '1' when slave_ack_i /= (slave_ack_i'range => '0') else '0';
-    master_err_o <= '1' when slave_err_i /= (slave_err_i'range => '0') else '0';
+    master_err_o <= '1' when slave_err_i /= (slave_err_i'range => '0') or cs_s = (cs_s'range => '0') else '0';
     master_rty_o <= '1' when slave_rty_i /= (slave_rty_i'range => '0') else '0';
     master_stall_o <= '1' when slave_stall_i /= (slave_stall_i'range => '0') else '0';
 
