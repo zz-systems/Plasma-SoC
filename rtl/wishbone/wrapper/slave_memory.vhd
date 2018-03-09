@@ -39,22 +39,12 @@ begin
     stall_o <= '0';
     err_o   <= '0';
     rty_o   <= '0';
-    ack_o   <= stb_i; --'1';
+    ack_o   <= stb_i;
 
     process(clk_i, rst_i)
     begin         
-        if rst_i = '1' then 
-            --ack_o <= '0';            
+        if rst_i = '1' then         
         elsif rising_edge(clk_i) then
-            --ack_o   <= stb_i;
-
-            -- if stb_i = '1' then
-            --     if we_i = '0' then
-            --         dat_o <= dat_s;
-            --     end if;
-            -- else 
-            --     dat_o <= (others => '0');
-            -- end if;
         end if;
     end process;
 

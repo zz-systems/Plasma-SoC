@@ -7,7 +7,7 @@ package wb_pkg is
     constant data_w : natural := 32;
     constant sel_w : natural := addr_w / 8;
     constant masters : natural := 1;
-    constant slaves : natural := 3;
+    constant slaves : natural := 4;
 
     type map_entry is record
         base_addr : std_logic_vector(31 downto 0);

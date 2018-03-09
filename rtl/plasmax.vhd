@@ -65,7 +65,7 @@ end; --entity plasma
 architecture logic of plasmax is
     
    constant masters : positive := 1;
-   constant slaves : positive := 3;
+   constant slaves : positive := 4;
 
    signal data_read_uart      : std_logic_vector(7 downto 0);
    signal data_write_uart     : std_logic_vector(7 downto 0);
@@ -93,118 +93,84 @@ architecture logic of plasmax is
   
     signal master_select    : std_logic_vector(bit_width(masters) downto 0);    
     signal slave_select     : std_logic_vector(bit_width(slaves) downto 0);
-        
-    signal cpu_port : wb_port;
-    signal mem_port, ext_mem_port, misc_port : wb_port;
 
-    signal bus_busy : std_logic;
 
     signal master_ports : wb_master_ports;
-    signal slave_ports : wb_slave_ports;
+    signal slave_ports  : wb_slave_ports;
 
-    signal gpio_enable : std_logic;   
-    
-    
-    constant debug : string := "false";    
-        
-    attribute mark_debug : string;
-    attribute mark_debug of cpu_port : signal is debug;
-    attribute mark_debug of mem_port : signal is debug;
-    attribute mark_debug of ext_mem_port : signal is debug;
-    attribute mark_debug of misc_port : signal is debug;
-    attribute mark_debug of slave_select : signal is debug;
+
+    type ports is array(natural range<>) of wb_port;
+    signal m_ports : ports(masters - 1 downto 0);
+    signal s_ports : ports(slaves - 1 downto 0);
+     
+    alias cpu_port : wb_port is m_ports(0);
+    alias mem_port : wb_port is s_ports(0);
+    alias ext_mem_port : wb_port is s_ports(1);
+    alias uart_port : wb_port is s_ports(2);
+    alias misc_port : wb_port is s_ports(3);
+
+    signal bus_busy : std_logic;
+    signal gpio_enable : std_logic;  
+    signal uart_irq : std_logic; 
 begin  --architecture
 
     irq_status_raw <= gpioA_in(31 downto 30)
                    & (gpioA_in(31 downto 30) xor "11") 
                    & counter_reg(18) 
                    & not counter_reg(18) 
-                   & not uart_write_busy 
-                   & uart_data_avail;
+                   & not uart_port.stall--not uart_write_busy 
+                   & uart_irq;
 
     irq <= '1' when (irq_status_raw and irq_mask_reg) /= ZERO(7 downto 0) else '0';
     gpio0_out <= gpio0_reg;   
 
 
     gpio_enable <= '1' when misc_port.adr(7 downto 4) = "0011" and misc_port.stb = '1' else '0';
-    --error_code(bit_width(slaves) downto 0) <= slave_select;
-    --error_code <= x"00" & "00" & gpio_enable & cpu_port.stall & cpu_port.we & mem_port.stb & ext_mem_port.stb & misc_port.stb;
 
-    master_ports.cyc(0)     <= cpu_port.cyc;
-    master_ports.stb(0)     <= cpu_port.stb;
+    -- connect wishbone masters to aggregated ports 
+    master_con: for i in 0 to masters - 1 generate
+        master_ports.cyc(i)     <= m_ports(i).cyc;
+        master_ports.stb(i)     <= m_ports(i).stb;
 
-    master_ports.adr        <= cpu_port.adr;
-    master_ports.we(0)      <= cpu_port.we;
-    cpu_port.dat_i           <= master_ports.dat_i;
-    master_ports.sel        <= cpu_port.sel;
+        master_ports.adr((i + 1) * addr_w - 1 downto i * addr_w)       
+                                <= m_ports(i).adr;
 
-    master_ports.dat_o      <= cpu_port.dat_o;
+        master_ports.we(i)      <= m_ports(i).we;
+        m_ports(i).dat_i        <= master_ports.dat_i((i + 1) * data_w - 1 downto i * data_w);
 
-    cpu_port.ack        <= master_ports.ack;
-    cpu_port.stall      <= master_ports.stall;
-    cpu_port.err        <= master_ports.err;   
-    cpu_port.rty        <= master_ports.rty;  
+        master_ports.sel((i + 1) * sel_w - 1 downto i * sel_w)          
+                                <= m_ports(i).sel;
 
-    mem_port.cyc             <= slave_ports.cyc(0);
-    ext_mem_port.cyc         <= slave_ports.cyc(1);
-    misc_port.cyc            <= slave_ports.cyc(2);
+        master_ports.dat_o      <= m_ports(i).dat_o;
 
-    mem_port.stb             <= slave_ports.stb(0);
-    ext_mem_port.stb         <= slave_ports.stb(1);
-    misc_port.stb            <= slave_ports.stb(2);
+        m_ports(i).ack          <= master_ports.ack;
+        m_ports(i).stall        <= master_ports.stall;
+        m_ports(i).err          <= master_ports.err;   
+        m_ports(i).rty          <= master_ports.rty;
+    end generate;    
 
-    mem_port.adr            <= slave_ports.adr;
-    ext_mem_port.adr        <= slave_ports.adr;
-    misc_port.adr           <= slave_ports.adr;
-                
-    mem_port.we             <= slave_ports.we;
-    ext_mem_port.we         <= slave_ports.we;
-    misc_port.we            <= slave_ports.we;
+    -- connect wishbone slaves to aggregated ports 
+    slave_con: for i in 0 to slaves - 1 generate
+        s_ports(i).cyc          <= slave_ports.cyc(i);
+        s_ports(i).stb          <= slave_ports.stb(i);
 
-    mem_port.dat_i          <= slave_ports.dat_i;
-    ext_mem_port.dat_i      <= slave_ports.dat_i;
-    misc_port.dat_i         <= slave_ports.dat_i;
+        s_ports(i).adr          <= slave_ports.adr;
 
-    mem_port.sel            <= slave_ports.sel;
-    ext_mem_port.sel        <= slave_ports.sel;
-    misc_port.sel           <= slave_ports.sel;
+        s_ports(i).we           <= slave_ports.we;
+        s_ports(i).dat_i        <= slave_ports.dat_i;
 
-    slave_ports.dat_o      <= mem_port.dat_o & ext_mem_port.dat_o & misc_port.dat_o;
+        s_ports(i).sel          <= slave_ports.sel;
 
-    slave_ports.ack(0)     <= mem_port.ack;
-    slave_ports.ack(1)     <= ext_mem_port.ack;
-    slave_ports.ack(2)     <= misc_port.ack;
+        slave_ports.dat_o((i + 1) * data_w - 1 downto i * data_w)
+                                <= s_ports(i).dat_o;
 
-    slave_ports.stall(0)     <= mem_port.stall;
-    slave_ports.stall(1)     <= ext_mem_port.stall;
-    slave_ports.stall(2)     <= misc_port.stall;
+        slave_ports.ack(i)      <= s_ports(i).ack;
+        slave_ports.stall(i)    <= s_ports(i).stall;
+        slave_ports.err(i)      <= s_ports(i).err;   
+        slave_ports.rty(i)      <= s_ports(i).rty;
+    end generate;
 
-    slave_ports.err(0)     <= mem_port.err;
-    slave_ports.err(1)     <= ext_mem_port.err;
-    slave_ports.err(2)     <= misc_port.err;
-
-    slave_ports.rty(0)     <= mem_port.rty;
-    slave_ports.rty(1)     <= ext_mem_port.rty;
-    slave_ports.rty(2)     <= misc_port.rty;
-
-    -- slave_ports.ack        <= mem_port.ack & ext_mem_port.ack & misc_port.ack;
-    -- slave_ports.stall      <= mem_port.stall & ext_mem_port.stall & misc_port.stall;
-    -- slave_ports.err        <= mem_port.err & ext_mem_port.err & misc_port.err;   
-    -- slave_ports.rty        <= mem_port.rty & ext_mem_port.rty & misc_port.rty;
-
-    -- wb_map_master_to_channel(0, master_ports, cpu_port);
-    -- wb_map_channel_to_master(0, master_ports, cpu_port);
-
-    -- wb_map_slave_to_channel(0, slave_ports, mem_port);
-    -- wb_map_channel_to_slave(0, slave_ports, mem_port);
-
-    -- wb_map_slave_to_channel(1, slave_ports, ext_mem_port);
-    -- wb_map_channel_to_slave(1, slave_ports, ext_mem_port);
-
-    -- wb_map_slave_to_channel(2, slave_ports, misc_port);
-    -- wb_map_channel_to_slave(2, slave_ports, misc_port);
-
-
+    -- bus arbiter
     arbiter : entity plasmax_lib.arbiter
     generic map(
         channel_descriptors => ( 0 => 16#1# )
@@ -222,13 +188,14 @@ begin  --architecture
 
     system_bus : entity plasmax_lib.shared_bus
     generic map (
-        masters => 1,
-        slaves => 3,
+        masters => masters,
+        slaves => slaves,
 
         memmap => (
             ( x"00000000", x"0FFFFFFF" ),  -- internal memory
             ( x"10000000", x"001FFFFF" ),  -- external memory
-            ( x"20000000", x"0FFFFFFF" )   -- misc
+            ( x"20000000", x"0FFFFF0F" ),  -- uart
+            ( x"20000100", x"0FFFF0FF" )   -- misc
         )
     )
     port map
@@ -237,7 +204,7 @@ begin  --architecture
         rst_i => reset,
 
         busy_o => bus_busy,
-        cs_o => slave_select,
+
         -- arbiter interface 
         master_gnt_i => "0",--master_select,
 
@@ -281,7 +248,6 @@ begin  --architecture
         rst_i   => reset,
 
         irq_i   => irq,
-        mem_pause_o => mem_pause,
 
         cyc_o   => cpu_port.cyc,
         stb_o   => cpu_port.stb,
@@ -305,20 +271,46 @@ begin  --architecture
         clk_i   => clk,
         rst_i   => reset,
 
-        cyc_i => mem_port.cyc,
-        stb_i => mem_port.stb,
-        we_i  => mem_port.we,
+        cyc_i   => mem_port.cyc,
+        stb_i   => mem_port.stb,
+        we_i    => mem_port.we,
 
-        adr_i => mem_port.adr,
-        dat_i => mem_port.dat_i,
+        adr_i   => mem_port.adr,
+        dat_i   => mem_port.dat_i,
 
-        sel_i => mem_port.sel,
+        sel_i   => mem_port.sel,
 
-        dat_o => mem_port.dat_o,
-        ack_o => mem_port.ack,
-        rty_o => mem_port.rty,
+        dat_o   => mem_port.dat_o,
+        ack_o   => mem_port.ack,
+        rty_o   => mem_port.rty,
         stall_o => mem_port.stall,
-        err_o => mem_port.err
+        err_o   => mem_port.err
+    );
+
+    u3_uart: entity plasmax_lib.slave_uart
+    port map
+    (
+        clk_i   => clk,
+        rst_i   => reset,
+
+        tx      => uart_write,
+        rx      => uart_read,
+        irq     => uart_irq,
+
+        cyc_i   => uart_port.cyc,
+        stb_i   => uart_port.stb,
+        we_i    => uart_port.we,
+
+        adr_i   => uart_port.adr,
+        dat_i   => uart_port.dat_i,
+
+        sel_i   => uart_port.sel,
+
+        dat_o   => uart_port.dat_o,
+        ack_o   => uart_port.ack,
+        rty_o   => uart_port.rty,
+        stall_o => uart_port.stall,
+        err_o   => uart_port.err
     );
 
     -- ext. mem:
@@ -333,29 +325,7 @@ begin  --architecture
     ext_mem_port.stall <= mem_pause_in;
     ext_mem_port.err <= '0';
 
-    -- uart
-
-    enable_uart <= '1' when misc_port.stb = '1' and misc_port.adr(7 downto 4) = "0000" else '0';
-    uart_we <= '1' when misc_port.stb = '1' and misc_port.sel /= "0000" else '0';
-    enable_uart_read <= misc_port.stb and enable_uart;
-    enable_uart_write <= '1' when misc_port.stb = '1' and enable_uart = '1' and uart_we = '1' else '0';
-
-    u3_uart: entity plasma_lib.uart
-    generic map (log_file => log_file)
-    port map
-    (
-        clk          => clk,
-        reset        => reset,
-
-        enable_read  => enable_uart_read, 
-        enable_write => enable_uart_write, 
-        data_in      => misc_port.dat_i(7 downto 0),
-        data_out     => data_read_uart,
-        uart_read    => uart_read,
-        uart_write   => uart_write,
-        busy_write   => uart_write_busy,
-        data_avail   => uart_data_avail
-    );
+    -- misc: 
 
     misc_port.err <= '0';
     misc_port.rty <= '0';
@@ -377,10 +347,10 @@ begin  --architecture
             if misc_port.stb = '1' then
                 if misc_port.we = '0' then 
                     case misc_port.adr(7 downto 4) is
-                    when "0000" =>      --uart
-                        misc_port.dat_o <= ZERO(31 downto 8) & data_read_uart;
-                        misc_port.stall <= '0';                       
-                        misc_port.ack <= '1';
+                    --when "0000" =>      --uart
+                    --    misc_port.dat_o <= ZERO(31 downto 8) & data_read_uart;
+                    --    misc_port.stall <= '0';                       
+                    --    misc_port.ack <= '1';
                     when "0001" =>      --irq_mask
                         misc_port.dat_o <= ZERO(31 downto 8) & irq_mask_reg;
                         misc_port.stall <= '0';                       
@@ -411,10 +381,10 @@ begin  --architecture
                     --misc_port.dat_o <= mem_port.dat_o;
 
                     case misc_port.adr(7 downto 4) is
-                    when "0000" =>      --uart
-                        misc_port.stall <= uart_write_busy;
-                        misc_port.ack <= not uart_write_busy;
-                        misc_port.err <= '0';
+                    --when "0000" =>      --uart
+                    --    misc_port.stall <= uart_write_busy;
+                    --    misc_port.ack <= not uart_write_busy;
+                    --    misc_port.err <= '0';
                     when "0001" =>      --irq_mask
                         irq_mask_reg <= misc_port.dat_i(7 downto 0);
                         misc_port.stall <= '0';                       
