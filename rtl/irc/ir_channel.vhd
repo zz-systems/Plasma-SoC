@@ -27,16 +27,23 @@ begin
     state_o <= state_s;
     inv_s   <= raw_s xor inv_i;
 
-    process(clk_i, rst_i) 
+    process(clk_i, rst_i)
     begin
         if rst_i = '1' then
-            raw_s   <= '0';
-            edge_s  <= '0';
-            state_s <= '0';
+            raw_s <= '0';
+            edge_s <= '0';
         elsif rising_edge(clk_i) then
-            raw_s   <= ir_i;
-            edge_s  <= inv_s;   
-            state_s <= ((inv_s and (edge_s nand edge_i)) and en_i) or (state_s and not clear_i);          
+            raw_s <= ir_i;
+            edge_s <= inv_s;             
+        end if;            
+    end process;
+
+    process(clk_i, rst_i)
+    begin
+        if rst_i = '1' then
+            state_s <= '0';
+        elsif falling_edge(clk_i) then
+            state_s <= ((inv_s and (edge_s nand edge_i)) and en_i) or (state_s and not clear_i);
         end if;            
     end process;
 end behavior;

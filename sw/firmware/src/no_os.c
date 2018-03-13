@@ -21,8 +21,8 @@ int puts(const char *string)
 
 void OS_InterruptServiceRoutine(unsigned int status)
 {
-   (void)status;
-   putchar('I');
+//    (void)status;
+//    putchar('I');
 }
 
 int kbhit(void)

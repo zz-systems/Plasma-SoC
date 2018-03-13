@@ -207,7 +207,7 @@ begin  --architecture
         (
             ( x"00000000", x"0FFFFFFF" ),  -- internal memory
             ( x"10000000", x"001FFFFF" ),  -- external memory                 
-            ( x"20000000", x"0FFFFF0F" ),  -- irc       
+            ( x"20000000", x"0FFFF0FF" ),  -- irc       
             ( x"20000100", x"0FFFF0FF" ),  -- uart
             ( x"20000200", x"0FFFF0FF" )   -- misc
         )
@@ -352,6 +352,10 @@ begin  --architecture
     );
 
     u_uart: entity plasmax_lib.slave_uart
+    generic map 
+    (
+        log_file => log_file
+    )
     port map
     (
         clk_i   => clk,

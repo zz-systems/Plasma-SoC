@@ -16,6 +16,13 @@
 CMakeFiles
 build
 
+#########
+Exclude vivado project folder
+#########
+proj
+!proj/vivado/plasmax.xpr
+!proj/vivado/tb_plasma_vs_plasmax_behav.wcfg
+
 ###########################################################################
 ##	VIVADO
 ###########################################################################

@@ -9,7 +9,7 @@ library plasma_lib;
 entity slave_uart is 
 generic
 (
-    constant log_file : string := "UNUSED"
+    log_file : string := "UNUSED"
 );
 port
 (

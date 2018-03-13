@@ -21,24 +21,24 @@
 #define RAM_EXTERNAL_SIZE 0x00100000
 #define ETHERNET_RECEIVE  0x13ff0000
 #define ETHERNET_TRANSMIT 0x13fe0000
-#define UART_WRITE        0x20000000
-#define UART_READ         0x20000000
+#define UART_WRITE        0x20000100
+#define UART_READ         0x20000100
 #define MISC_BASE         0x20000100
 //#define IRQ_MASK          0x20000110
 //#define IRQ_STATUS        0x20000120
-#define GPIO0_SET         0x20000130
-#define GPIO0_CLEAR       0x20000140
-#define GPIOA_IN          0x20000150
-#define COUNTER_REG       0x20000160
-#define ETHERNET_REG      0x20000170
+#define GPIO0_SET         0x20000230
+#define GPIO0_CLEAR       0x20000240
+#define GPIOA_IN          0x20000250
+#define COUNTER_REG       0x20000260
+#define ETHERNET_REG      0x20000270
 #define FLASH_BASE        0x30000000
 
-#define IRC_STATUS_RAW    0x20000100
-#define IRC_STATUS        0x20000110
-#define IRC_CLEAR         0x20000120
-#define IRC_INVERT        0x20000140
-#define IRC_ENABLE        0x20000140
-#define IRC_EDGE          0x20000150
+#define IRC_STATUS_RAW    0x20000000
+#define IRC_STATUS        0x20000010
+#define IRC_CLEAR         0x20000020
+#define IRC_INVERT        0x20000030
+#define IRC_ENABLE        0x20000040
+#define IRC_EDGE          0x20000050
 
 
 #define DISPLAY		  0x40000000

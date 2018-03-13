@@ -69,11 +69,13 @@ begin
     begin         
         if rst_i = '1' then  
             ir_s    <= (others => '0');
-            state_s <= (others => '0');
+            --state_s <= (others => '0');
             clear_s <= (others => '0');
             inv_s   <= (others => '0');
             mask_s  <= (others => '0');
             edge_s  <= (others => '0');
+
+            dat_o   <= (others => '0');
             err_s   <= '0';  
         elsif rising_edge(clk_i) then
             if stb_i = '1' then
@@ -83,20 +85,20 @@ begin
 
                 if we_i = '0' then
                     case adr_i(7 downto 4) is
-                        when x"0" => dat_o      <= state_s;
-                        when x"1" => dat_o      <= clear_s;
-                        when x"2" => dat_o      <= inv_s;
-                        when x"3" => dat_o      <= mask_s;
-                        when x"4" => dat_o      <= edge_s;
+                        when x"0" => dat_o      <= ir_i;
+                        when x"1" => dat_o      <= state_s;
+                        when x"2" => dat_o      <= clear_s;
+                        when x"3" => dat_o      <= inv_s;
+                        when x"4" => dat_o      <= mask_s;
+                        when x"5" => dat_o      <= edge_s;
                         when others => err_v    := '1';
                     end case;
                 else
                     case adr_i(7 downto 4) is
-                        when x"0" => state_s    <= dat_i;
-                        when x"1" => clear_s    <= dat_i;
-                        when x"2" => inv_s      <= dat_i;
-                        when x"3" => mask_s     <= dat_i;
-                        when x"4" => edge_s     <= dat_i;
+                        when x"2" => clear_s    <= dat_i;
+                        when x"3" => inv_s      <= dat_i;
+                        when x"4" => mask_s     <= dat_i;
+                        when x"5" => edge_s     <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;

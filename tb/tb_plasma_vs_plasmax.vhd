@@ -32,8 +32,8 @@ architecture logic of tb_plasma_vs_plasmax is
    "output.txt";
 
    constant log_file_px : string := 
-      "UNUSED";
-   --   "output_plasmax.txt";
+--      "UNUSED";
+   "output_plasmax.txt";
 
    signal clk, clkx   : std_logic := '1';
    signal reset       : std_logic := '1';
