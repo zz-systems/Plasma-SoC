@@ -1,7 +1,7 @@
 library ieee;
     use ieee.std_logic_1164.all;
 
-entity ir_control is
+entity counter is
 port
 (
     clk_i   : in std_logic;
@@ -15,7 +15,7 @@ port
 );
 end;
 
-architecture behavior of ir_channel is
+architecture behavior of counter is
     signal cnt_s : integer;
     signal rld_s : integer;
 begin
@@ -24,6 +24,7 @@ begin
     process(clk_i, rst_i)
     begin
         if rst_i = '1' then
+            cnt_s <= 0;
         else
             if rising_edge(clk_i) then
                 rld_s <= to_integer(unsigned(rld_i));
