@@ -16,8 +16,8 @@ int main()
 
 	//MemoryWrite(IRQ_MASK, 0x02);
 	puts("Hello MAIN\n");
-	// while((MemoryRead(IRC_STATUS) & IRQ_UART_WRITE_AVAILABLE) == 0)
-    //   	    MemoryWrite(GPIO0_SET, 0xFFFFFFFF);
+	//while((MemoryRead(IRC_STATUS) & IRQ_UART_WRITE_AVAILABLE) == 0)
+       	//    MemoryWrite(GPIO0_SET, 0xFFFFFFFF);
 
 	while(1)
 	{
@@ -26,14 +26,14 @@ int main()
 
         MemoryWrite(GPIO0_SET, 0x00000000);
         puts("LED OFF\n");
-		//wait_for(500);
+		wait_for(500);
 
 		// Does not work
 		//MemoryWrite(GPIO0_CLEAR, 0xFFFFFFFF);
 
         MemoryWrite(GPIO0_SET, 0xFFFFFFFF);
         puts("LED ON\n");
-		//wait_for(500);
+		wait_for(500);
 	}
 
 while(1)
