@@ -24,14 +24,14 @@ int main()
         //puts("Hello SDCARD\n");
         puts("Hello UART\n");
 
-        MemoryWrite(GPIO0_SET, 0x00000000);
+        MemoryWrite(GPIO0_DATA, 0x00000000);
         puts("LED OFF\n");
 		wait_for(500);
 
 		// Does not work
 		//MemoryWrite(GPIO0_CLEAR, 0xFFFFFFFF);
 
-        MemoryWrite(GPIO0_SET, 0xFFFFFFFF);
+        MemoryWrite(GPIO0_DATA, 0xFFFFFFFF);
         puts("LED ON\n");
 		wait_for(500);
 	}

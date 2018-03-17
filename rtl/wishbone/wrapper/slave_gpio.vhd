@@ -69,14 +69,14 @@ begin
 
                 if we_i = '0' then
                     case adr_i(7 downto 4) is
-                        when x"0" => dat_o      <= mask_s;
-                        when x"1" => dat_o      <= dat_os;
+                        when x"0" => dat_o      <= dat_os;
+                        when x"1" => dat_o      <= mask_s;
                         when others => err_v    := '1';
                     end case;
                 else
                     case adr_i(7 downto 4) is
-                        when x"0" => mask_s     <= dat_i;
-                        when x"1" => dat_is     <= dat_i;
+                        when x"0" => dat_is     <= dat_i;
+                        when x"1" => mask_s     <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;
@@ -86,7 +86,7 @@ begin
         end if;
     end process;
 
-    irc: entity plasmax_lib.gpio
+    gpio: entity plasmax_lib.gpio
     port map 
     (
         clk_i   => clk_i,

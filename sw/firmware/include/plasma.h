@@ -26,9 +26,15 @@
 #define MISC_BASE         0x20000100
 //#define IRQ_MASK          0x20000110
 //#define IRQ_STATUS        0x20000120
-#define GPIO0_SET         0x20000230
-#define GPIO0_CLEAR       0x20000240
-#define GPIOA_IN          0x20000250
+
+
+#define GPIO0_DATA        0x20000300
+#define GPIO0_MASK        0x20000310
+
+// #define GPIO0_SET         0x20000230
+// #define GPIO0_CLEAR       0x20000240
+// #define GPIOA_IN          0x20000250
+
 #define COUNTER_REG       0x20000260
 #define ETHERNET_REG      0x20000270
 #define FLASH_BASE        0x30000000

@@ -24,7 +24,7 @@ end;
 architecture behavior of gpio is
     signal mask_s : std_logic_vector(mask_i'range);
 begin
-    irq_o <= or_reduce(gpio_i and mask_s);
+    irq_o <= or_reduce(gpio_i and not mask_s);
 
     process(clk_i, rst_i)
     begin

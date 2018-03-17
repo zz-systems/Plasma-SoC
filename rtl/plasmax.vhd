@@ -66,7 +66,7 @@ end; --entity plasma
 architecture logic of plasmax is
     
    constant masters : positive := 1;
-   constant slaves : positive := 5;
+   constant slaves : positive := 6;
 
    signal data_read_uart      : std_logic_vector(7 downto 0);
    signal data_write_uart     : std_logic_vector(7 downto 0);
@@ -110,10 +110,11 @@ architecture logic of plasmax is
     alias irc_port : wb_port is s_ports(2);
     alias uart_port : wb_port is s_ports(3);
     alias misc_port : wb_port is s_ports(4);
+    alias gpio0_port : wb_port is s_ports(5);
 
     
     signal gpio_enable : std_logic;  
-    signal uart_irq : std_logic; 
+    signal uart_irq, gpio_irq : std_logic; 
 
     signal irq_inputs : std_logic_vector(31 downto 0);
 begin  --architecture
@@ -125,9 +126,8 @@ begin  --architecture
     --                & not uart_port.stall--not uart_write_busy 
     --                & uart_irq;
 
-    irq_inputs <= ZERO(31 downto 8)
-                & gpioA_in(31 downto 30)
-                & (gpioA_in(31 downto 30) xor "11") 
+    irq_inputs <= ZERO(31 downto 5)
+                & gpio_irq
                 & counter_reg(18) 
                 & not counter_reg(18) 
                 & not uart_port.stall
@@ -209,7 +209,8 @@ begin  --architecture
             ( x"10000000", x"001FFFFF" ),  -- external memory                 
             ( x"20000000", x"0FFFF0FF" ),  -- irc       
             ( x"20000100", x"0FFFF0FF" ),  -- uart
-            ( x"20000200", x"0FFFF0FF" )   -- misc
+            ( x"20000200", x"0FFFF0FF" ),  -- misc
+            ( x"20000300", x"0FFFF0FF" )   -- gpio0
         )
     )
     port map
@@ -380,6 +381,32 @@ begin  --architecture
         stall_o => uart_port.stall,
         err_o   => uart_port.err
     );
+    
+    u_gpio0: entity plasmax_lib.slave_gpio 
+    port map
+    (
+        clk_i   => clk,
+        rst_i   => reset,
+
+        gpio_i  => gpioA_in,
+        gpio_o  => gpio0_reg,
+        irq_o   => gpio_irq,
+
+        cyc_i   => gpio0_port.cyc,
+        stb_i   => gpio0_port.stb,
+        we_i    => gpio0_port.we,
+
+        adr_i   => gpio0_port.adr,
+        dat_i   => gpio0_port.dat_i,
+
+        sel_i   => gpio0_port.sel,
+
+        dat_o   => gpio0_port.dat_o,
+        ack_o   => gpio0_port.ack,
+        rty_o   => gpio0_port.rty,
+        stall_o => gpio0_port.stall,
+        err_o   => gpio0_port.err
+    );
 
     -- misc: 
 
@@ -389,8 +416,8 @@ begin  --architecture
     misc : process(clk, reset, misc_port.stb)
     begin 
         if reset = '1' then
-            irq_mask_reg           <= ZERO(7 downto 0);
-            gpio0_reg              <= ZERO;
+            --irq_mask_reg           <= ZERO(7 downto 0);
+            --gpio0_reg              <= ZERO;
             counter_reg            <= ZERO;
         
             misc_port.dat_o        <= (others => '0');
@@ -415,24 +442,22 @@ begin  --architecture
                     --    misc_port.dat_o <= ZERO(31 downto 8) & irq_status_raw; --x"02";--
                     --    misc_port.stall <= '0';                       
                     --    misc_port.ack <= '1';
-                    when "0011" =>      --gpio0
-                        misc_port.dat_o <= gpio0_reg;
-                        misc_port.stall <= '0';                       
-                        misc_port.ack <= '1';
-                    when "0101" =>      --gpioA
-                        misc_port.dat_o <= gpioA_in;
-                        misc_port.stall <= '0';                       
-                        misc_port.ack <= '1';
+                    -- when "0011" =>      --gpio0
+                    --     misc_port.dat_o <= gpio0_reg;
+                    --     misc_port.stall <= '0';                       
+                    --     misc_port.ack <= '1';
+                    -- when "0101" =>      --gpioA
+                    --     misc_port.dat_o <= gpioA_in;
+                    --     misc_port.stall <= '0';                       
+                    --     misc_port.ack <= '1';
                     when "0110" =>      --counter
                         misc_port.dat_o <= counter_reg;
                         misc_port.stall <= '0';                       
                         misc_port.ack <= '1';
+                        misc_port.err <= '0';
                     when others =>
-                        misc_port.dat_o <= gpioA_in;
-                        misc_port.stall <= '0';                       
-                        misc_port.ack <= '1';
+                        misc_port.err <= '1';
                     end case;
-                    misc_port.err <= '0';
                 else 
                     --misc_port.dat_o <= mem_port.dat_o;
 
@@ -446,17 +471,17 @@ begin  --architecture
                     --    misc_port.stall <= '0';                       
                     --    misc_port.ack <= '1';
                     --    misc_port.err <= '0';
-                    when "0010" =>      --irq_status
-                        misc_port.err <= '1';
-                    when "0011" =>      --gpio0
-                        gpio0_reg    <= misc_port.dat_i;  
-                        misc_port.stall <= '0';                                            
-                        misc_port.ack <= '1';
-                        misc_port.err <= '0';
-                    when "0101" =>      --gpioA 
-                        misc_port.stall <= '0';                                              
-                        misc_port.ack <= '1';
-                        misc_port.err <= '0';
+                    -- when "0010" =>      --irq_status
+                    --     misc_port.err <= '1';
+                    -- when "0011" =>      --gpio0
+                    --     gpio0_reg    <= misc_port.dat_i;  
+                    --     misc_port.stall <= '0';                                            
+                    --     misc_port.ack <= '1';
+                    --     misc_port.err <= '0';
+                    -- when "0101" =>      --gpioA 
+                    --     misc_port.stall <= '0';                                              
+                    --     misc_port.ack <= '1';
+                    --     misc_port.err <= '0';
                     when "0110" =>      --counter
                         misc_port.err <= '1';
                     when others =>
