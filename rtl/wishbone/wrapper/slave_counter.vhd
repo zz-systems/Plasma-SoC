@@ -1,32 +1,30 @@
 library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
-    use ieee.math_real.all;
     
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
 library plasmax_lib;
 
--- wb enabled gpio port
+-- wb enabled counter with reload and direction selection
 ----------------|-----------|------------------------------------
 -- registers    | address   | description
 ----------------|-----------|------------------------------------
--- gpio port    | 0         | gpio r/w
--- mask         | 1         | gpio interrupt mask
+-- counter      | 0         | current counter value (r)
+-- reload       | 1         | reload value (r/w)
+-- control      | 2         | counter control register (r/w)
 ----------------|-----------|------------------------------------
-entity slave_gpio is 
-generic
-(
-    constant channels : positive := 32
-);
+-- control register:
+-- bit 0: enable
+-- bit 1: direction (0 = count up, 1 = count down)
+-- bit 2: user reset
+entity slave_counter is 
 port
 (
     clk_i : in std_logic;
     rst_i : in std_logic;
 
-    gpio_i  : in std_logic_vector(31 downto 0);
-    gpio_o  : out std_logic_vector(31 downto 0);
     irq_o   : out std_logic;
 
     cyc_i   : in std_logic;
@@ -44,13 +42,13 @@ port
     stall_o : out std_logic;
     err_o   : out std_logic
 );
-end slave_gpio;
+end slave_counter;
 
-architecture behavior of slave_gpio is 
-    signal err_s   : std_logic := '0';
-    signal mask_s  : std_logic_vector(31 downto 0) := (others => '0');
-    signal dat_is  : std_logic_vector(31 downto 0) := (others => '0');
-    signal dat_os  : std_logic_vector(31 downto 0) := (others => '0');
+architecture behavior of slave_counter is 
+    signal err_s        : std_logic := '0';
+    signal rld_s        : std_logic_vector(31 downto 0) := (others => '0');
+    signal cnt_os       : std_logic_vector(31 downto 0) := (others => '0');
+    signal control_s    : std_logic_vector(31 downto 0) := (others => '0');
 begin
     stall_o <= '0';
     err_o   <= err_s;
@@ -70,14 +68,14 @@ begin
                 if we_i = '0' then
                     case adr_i(7 downto 4) is
                         when x"0" => dat_o      <= cnt_os;
-                        when x"1" => dat_o      <= rld_is;
-                        when x"2" => dat_o      <= dir_s;
+                        when x"1" => dat_o      <= rld_s;
+                        when x"2" => dat_o      <= control_s;
                         when others => err_v    := '1';
                     end case;
                 else
                     case adr_i(7 downto 4) is
                         when x"1" => rld_s      <= dat_i;
-                        when x"2" => dir_s      <= dat_i;
+                        when x"2" => control_s  <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;
@@ -87,14 +85,15 @@ begin
         end if;
     end process;
 
-    irc: entity plasmax_lib.counter
+    counter: entity plasmax_lib.counter
     port map 
     (
         clk_i   => clk_i,
-        rst_i   => rst_i,
+        rst_i   => rst_i or control_s(2),
 
+        en_i    => control_s(0),
         rld_i   => rld_s,
-        dir_i   => dir_s,
+        dir_i   => control_s(1),
         cnt_o   => cnt_os,
 
         irq_o  => irq_o

@@ -28,14 +28,11 @@
 //#define IRQ_STATUS        0x20000120
 
 
-#define GPIO0_DATA        0x20000300
-#define GPIO0_MASK        0x20000310
-
 // #define GPIO0_SET         0x20000230
 // #define GPIO0_CLEAR       0x20000240
 // #define GPIOA_IN          0x20000250
 
-#define COUNTER_REG       0x20000260
+//#define COUNTER_REG       0x20000260
 #define ETHERNET_REG      0x20000270
 #define FLASH_BASE        0x30000000
 
@@ -46,6 +43,12 @@
 #define IRC_ENABLE        0x20000040
 #define IRC_EDGE          0x20000050
 
+#define COUNTER_DATA      0x20000200
+#define COUNTER_RELOAD    0x20000210
+#define COUNTER_CONTROL   0x20000220
+
+#define GPIO0_DATA        0x20000300
+#define GPIO0_MASK        0x20000310
 
 #define DISPLAY		  0x40000000
 
