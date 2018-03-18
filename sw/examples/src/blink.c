@@ -9,8 +9,7 @@ extern void OS_RegisterInterrupt(IR_HANDLER handler, unsigned config);
 
 int main()
 {
-    //MemoryWrite(IRC_EDGE, 0x00000088);      // TMO & GPIO0
-    MemoryWrite(IRC_ENABLE, 0x00000003);    // TMO, UART, GPIO0
+    MemoryWrite(IRC_ENABLE, 0x00000003);    // UART R/W
     OS_AsmInterruptEnable(0);
 
     puts("Hello MAIN\n");
