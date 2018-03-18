@@ -85,7 +85,7 @@ begin
         end if;
     end process;
 
-    -- address translation
+    -- address translation -----------------------------------------------------
 
     addr_dec : for i in 0 to slaves - 1 generate
         cs_s(i) <= '1' when memmap(i).base_addr = (addr_s and not memmap(i).size) else 
@@ -104,7 +104,7 @@ begin
         addr_offset_s <= offset;
     end process;
 
-    -- master to slave
+    -- master to slave ---------------------------------------------------------
     slave_stb_cyc : for i in 0 to slaves - 1 generate
         slave_stb_o(i) <= cs_s(i) and or_reduce(master_stb_i);
         slave_cyc_o(i) <= cs_s(i) and or_reduce(master_cyc_i);
@@ -115,7 +115,7 @@ begin
     slave_sel_o <= master_sel_i((master_id_s + 1) * sel_w - 1   downto master_id_s * sel_w);
     slave_we_o  <= master_we_i(master_id_s);
 
-    -- slave to master   
+    -- slave to master ---------------------------------------------------------
     
     master_ack_o    <= or_reduce(slave_ack_i);
     master_err_o    <= or_reduce(slave_err_i) or nor_reduce(cs_s); -- error if slave reports error or invalid address provided

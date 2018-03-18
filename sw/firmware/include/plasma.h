@@ -50,6 +50,9 @@
 #define GPIO0_DATA        0x20000300
 #define GPIO0_MASK        0x20000310
 
+#define SPI_DATA          0x20000400
+#define SPI_CONTROL       0x20000410
+
 #define DISPLAY		  0x40000000
 
 /*********** GPIO out bits ***************/
@@ -68,6 +71,12 @@
 #define IRQ_ETHERNET_TRANSMIT    0x20
 #define IRQ_GPIO31_NOT           0x40
 #define IRQ_GPIO31               0x80
+
+/************** SPI bits *****************/
+#define SPI_ENABLE               0x01
+#define SPI_BUSY                 0x02
+#define SPI_HAS_DATA             0x04
+
 
 #define MemoryRead(A) (*(volatile unsigned int*)(A))
 #define MemoryWrite(A,V) (*(volatile unsigned int*)(A)=(V))

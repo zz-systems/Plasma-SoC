@@ -44,9 +44,18 @@ library plasmax_lib;
     use plasmax_lib.util_pkg.all;
 
 entity plasmax is
-   generic(memory_type : string := "XILINX_16X"; --"DUAL_PORT_" "ALTERA_LPM";
-           log_file    : string := "UNUSED");
-   port(clk               : in std_logic;
+    generic
+    (
+        memory_type : string := "XILINX_16X"; --"DUAL_PORT_" "ALTERA_LPM";   
+        log_file    : string := "UNUSED";
+
+        constant spi_slaves : positive := 1;
+        constant sys_clk    : positive := 50000000;
+        constant spi_clk    : positive := 1000000
+    );
+    port
+    (
+        clk               : in std_logic;
         reset             : in std_logic;
 
         uart_write        : out std_logic;
@@ -59,13 +68,18 @@ entity plasmax is
         mem_pause_in      : in std_logic;
 
         gpio0_out         : out std_logic_vector(31 downto 0);
-        gpioA_in          : in std_logic_vector(31 downto 0)
+        gpioA_in          : in std_logic_vector(31 downto 0);
+
+        MOSI              : out std_logic;
+        MISO              : in std_logic;
+        SCLK              : out std_logic;
+        CS                : out std_logic_vector(spi_slaves - 1 downto 0)
     );
 end; --entity plasma
 
 architecture logic of plasmax is
     constant masters    : positive := 1;
-    constant slaves     : positive := 6;
+    constant slaves     : positive := 7;
   
     signal master_select    : std_logic_vector(bit_width(masters) downto 0);    
     signal slave_select     : std_logic_vector(bit_width(slaves) downto 0);
@@ -79,12 +93,14 @@ architecture logic of plasmax is
     signal s_ports : ports(slaves - 1 downto 0);
      
     alias cpu_port      : wb_port is m_ports(0);
+
     alias mem_port      : wb_port is s_ports(0);
     alias ext_mem_port  : wb_port is s_ports(1);
     alias irc_port      : wb_port is s_ports(2);
     alias uart_port     : wb_port is s_ports(3);
     alias counter0_port : wb_port is s_ports(4);
     alias gpio0_port    : wb_port is s_ports(5);
+    alias spic_port     : wb_port is s_ports(6);
 
     signal irq          : std_logic;
     signal irq_inputs   : std_logic_vector(31 downto 0);
@@ -173,7 +189,8 @@ begin  --architecture
             ( x"20000000", x"0FFFF0FF" ),  -- irc       
             ( x"20000100", x"0FFFF0FF" ),  -- uart
             ( x"20000200", x"0FFFF0FF" ),  -- counter
-            ( x"20000300", x"0FFFF0FF" )   -- gpio0
+            ( x"20000300", x"0FFFF0FF" ),   -- gpio0
+            ( x"20000400", x"0FFFF0FF" )   -- spi
         )
     )
     port map
@@ -395,6 +412,40 @@ begin  --architecture
         rty_o   => gpio0_port.rty,
         stall_o => gpio0_port.stall,
         err_o   => gpio0_port.err
+    );
+
+    u_spic: entity plasmax_lib.slave_spic 
+    generic map
+    (
+        slaves      => spi_slaves,
+        data_w      => 8,
+        sys_clk     => sys_clk,
+        spi_clk     => spi_clk
+    )
+    port map
+    (
+        clk_i   => clk,
+        rst_i   => reset,
+
+        MOSI    => MOSI,
+        MISO    => MISO,
+        SCLK    => SCLK,
+        CS      => CS,
+
+        cyc_i   => spic_port.cyc,
+        stb_i   => spic_port.stb,
+        we_i    => spic_port.we,
+
+        adr_i   => spic_port.adr,
+        dat_i   => spic_port.dat_i,
+
+        sel_i   => spic_port.sel,
+
+        dat_o   => spic_port.dat_o,
+        ack_o   => spic_port.ack,
+        rty_o   => spic_port.rty,
+        stall_o => spic_port.stall,
+        err_o   => spic_port.err
     );
 
 end; --architecture logic

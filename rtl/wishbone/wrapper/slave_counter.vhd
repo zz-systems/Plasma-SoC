@@ -16,9 +16,9 @@ library plasmax_lib;
 -- control      | 2         | counter control register (r/w)
 ----------------|-----------|------------------------------------
 -- control register:
--- bit 0: enable
--- bit 1: direction (0 = count up, 1 = count down)
--- bit 2: user reset
+-- bit 0: (r/w) enable
+-- bit 1: (r/w) direction (0 = count up, 1 = count down)
+-- bit 2: (r/w) user reset
 entity slave_counter is 
 port
 (

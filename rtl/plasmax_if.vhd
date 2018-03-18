@@ -32,6 +32,10 @@ end;
 
 architecture logic of plasmax_if is
 
+    constant spi_slaves : positive := 1;
+    constant sys_clk    : positive := 50000000;
+    constant spi_clk    : positive := 1000000;
+
     signal uart_read          : std_logic;
     signal uart_write         : std_logic;
   
@@ -47,6 +51,11 @@ architecture logic of plasmax_if is
     signal gpioA_in           : std_logic_vector(31 downto 0);
 
     signal debug_data         : std_logic_vector(15 downto 0);
+
+    signal sclk         : std_logic;
+    signal cs_n         : std_logic_vector(spi_slaves - 1 downto 0);
+    signal miso         : std_logic;
+    signal mosi         : std_logic;
 begin
     clk_in <= GCLK;
     reset <= RST;
@@ -85,7 +94,11 @@ begin
     generic map 
     (
         memory_type => "XILINX_16X",
-        log_file    => "UNUSED"
+        log_file    => "UNUSED",
+
+        spi_slaves  => spi_slaves,
+        sys_clk     => sys_clk,
+        spi_clk     => spi_clk
     )
     port map
     (
@@ -101,6 +114,11 @@ begin
         mem_pause_in      => mem_pause_in,
 
         gpio0_out         => gpio0_out,
-        gpioA_in          => gpioA_in
+        gpioA_in          => gpioA_in,
+
+        MOSI    => mosi,
+        MISO    => miso,
+        SCLK    => sclk,
+        CS      => cs_n
     );
 end;
