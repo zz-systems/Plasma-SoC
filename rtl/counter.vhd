@@ -37,13 +37,13 @@ begin
 
                 if en_i = '1' then 
                     if dir_i = '0' then -- count up
-                        if cnt_s = rld_s - 1 then
+                        if cnt_s >= rld_s - 1 then
                             cnt_s <= 0;
                         else
                             cnt_s <= cnt_s + 1;
                         end if;
                     else                -- count down
-                        if cnt_s = 1 then
+                        if cnt_s <= 1 then
                             cnt_s <= rld_s;
                         else
                             cnt_s <= cnt_s - 1;
