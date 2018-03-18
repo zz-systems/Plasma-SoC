@@ -51,16 +51,17 @@ architecture behavior of slave_counter is
     signal control_s    : std_logic_vector(31 downto 0) := (others => '0');
 begin
     stall_o <= '0';
-    err_o   <= err_s;
+    --err_o   <= err_s;
     rty_o   <= '0';
-    ack_o   <= stb_i and not err_s;
+    
 
     process(clk_i, rst_i)
         variable err_v  : std_logic := '0';
     begin         
         if rst_i = '1' then  
             dat_o   <= (others => '0');
-            err_s   <= '0';  
+            err_o   <= '0';  
+            ack_o   <= '0'; 
         elsif rising_edge(clk_i) then
             if stb_i = '1' then
                 err_v := '0';
@@ -79,9 +80,10 @@ begin
                         when others => err_v    := '1';
                     end case;
                 end if;
-                
-                err_s <= err_v;
             end if;
+                
+            ack_o <= stb_i and not err_v;
+            err_o <= err_v;
         end if;
     end process;
 
