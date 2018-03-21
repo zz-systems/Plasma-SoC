@@ -1,3 +1,30 @@
+--------------------------------------------------------------------------------
+-- TITLE:  Interrupt controller Wishbone interface
+-- AUTHOR: Sergej Zuyev (sergej.zuyev - at - zz-systems.net)
+--------------------------------------------------------------------------------
+-- INTERRUPT CONTROLLER
+----------------|-----------|-------|-------------------------------------------
+-- REGISTER     | address   | mode  | description
+----------------|-----------|-------|-------------------------------------------
+-- control      | 0         | r/w   | control register
+-- status       | 1         | r     | status register
+-- raw flags    | 2         | r     | raw interrupt flag state
+-- flags        | 3         | r     | interrupt flag state
+-- clear        | 4         | r/w   | clear interrupt flag
+-- invert       | 5         | r/w   | invert flag
+-- mask         | 6         | r/w   | interrupt flag enable/disable mask     
+-- edge         | 7         | r/w   | interrupt edge detection
+----------------|-----------|-------|-------------------------------------------
+-- CONTROL      |           |       | 
+----------------|-----------|-------|-------------------------------------------
+-- reset        | 0         | r/w   | reset device
+-- enable       | 1         | r/w   | enable device
+----------------|-----------|-------|-------------------------------------------
+-- STATUS       |           |       | 
+----------------|-----------|-------|-------------------------------------------
+-- ready        | 0         | r     | device ready
+----------------|-----------|-------|-------------------------------------------
+
 library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
@@ -8,17 +35,6 @@ library plasma_lib;
     
 library plasmax_lib;
 
--- wb enabled interrupt controller
-----------------|-----------|------------------------------------
--- registers    | address   | description
-----------------|-----------|------------------------------------
--- raw state    | 0         | raw interrupt flag state
--- state        | 1         | interrupt flag state
--- clear        | 2         | clear interrupt flag
--- invert       | 3         | invert flag
--- mask         | 4         | interrupt flag enable/disable mask     
--- edge         | 5         | interrupt edge detection
-----------------|-----------|------------------------------------
 entity slave_irc is 
 generic
 (
@@ -50,6 +66,9 @@ port
 end slave_irc;
 
 architecture behavior of slave_irc is 
+    signal ctrl_s  : std_logic_vector(31 downto 0) := (others => '0');
+    signal stat_s  : std_logic_vector(31 downto 0) := (others => '0');
+
     signal ir_s    : std_logic_vector(channels - 1 downto 0) := (others => '0');
     signal clear_s : std_logic_vector(channels - 1 downto 0) := (others => '0');
     signal state_s : std_logic_vector(channels - 1 downto 0) := (others => '0');
@@ -68,8 +87,7 @@ begin
         variable err_v  : std_logic := '0';
     begin         
         if rst_i = '1' then  
-            ir_s    <= (others => '0');
-            --state_s <= (others => '0');
+            ctrl_s  <= (others => '0');
             clear_s <= (others => '0');
             inv_s   <= (others => '0');
             mask_s  <= (others => '0');
@@ -85,20 +103,25 @@ begin
 
                 if we_i = '0' then
                     case adr_i(7 downto 4) is
-                        when x"0" => dat_o      <= ir_i;
-                        when x"1" => dat_o      <= state_s;
-                        when x"2" => dat_o      <= clear_s;
-                        when x"3" => dat_o      <= inv_s;
-                        when x"4" => dat_o      <= mask_s;
-                        when x"5" => dat_o      <= edge_s;
+                        when x"0" => dat_o      <= ctrl_s;
+                        when x"1" => dat_o      <= stat_s;
+
+                        when x"2" => dat_o      <= ir_i;
+                        when x"3" => dat_o      <= state_s;
+                        when x"4" => dat_o      <= clear_s;
+                        when x"5" => dat_o      <= inv_s;
+                        when x"6" => dat_o      <= mask_s;
+                        when x"7" => dat_o      <= edge_s;
                         when others => err_v    := '1';
                     end case;
                 else
                     case adr_i(7 downto 4) is
-                        when x"2" => clear_s    <= dat_i;
-                        when x"3" => inv_s      <= dat_i;
-                        when x"4" => mask_s     <= dat_i;
-                        when x"5" => edge_s     <= dat_i;
+                        when x"0" => ctrl_s     <= dat_i;
+
+                        when x"4" => clear_s    <= dat_i;
+                        when x"5" => inv_s      <= dat_i;
+                        when x"6" => mask_s     <= dat_i;
+                        when x"7" => edge_s     <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;
@@ -126,7 +149,7 @@ begin
         mask_i  => mask_s,
         edge_i  => edge_s,
 
-        irq_o  => irq_o
+        irq_o   => irq_o
     );
 
 end behavior;
