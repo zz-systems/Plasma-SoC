@@ -14,12 +14,15 @@ library plasmax_lib;
 -- registers    | address   | description
 ----------------|-----------|------------------------------------
 -- data         | 0         | data register
--- control      | 1         | control/status register
+-- address      | 1         | slave address
+-- control      | 2         | control register
+-- status       | 3         | status register
 ----------------|-----------|------------------------------------
 -- control register:
 -- bit 0: (r/w) enable
--- bit 1: (r) busy
--- bit 2: (r) dat_o ready
+-- status register:
+-- bit 0: (r) busy
+-- bit 0: (r) dat_o ready
 entity slave_spic is 
 generic
 (
@@ -59,22 +62,25 @@ port
 end slave_spic;
 
 architecture behavior of slave_spic is 
-    signal adr_is  : std_logic_vector(31 downto 0) := (others => '0');
-    signal ctrl_s  : std_logic_vector(31 downto 0) := (others => '0');
     signal dat_is  : std_logic_vector(31 downto 0) := (others => '0');
     signal dat_os  : std_logic_vector(31 downto 0) := (others => '0');
+    signal adr_is  : std_logic_vector(31 downto 0) := (others => '0');
+    signal ctrl_s  : std_logic_vector(31 downto 0) := (others => '0');
+    signal stat_s  : std_logic_vector(31 downto 0) := (others => '0');
 
     signal ack_s   : std_logic := '0';
     signal err_s   : std_logic := '0';
 
-    alias irq_a    : std_logic is ctrl_s(2);
-    alias busy_a   : std_logic is ctrl_s(1);
+    alias irq_a    : std_logic is stat_s(1);
+    alias ack_a    : std_logic is stat_s(0);
+
     alias en_a     : std_logic is ctrl_s(0);
 begin
     ack_o   <= ack_s;
     err_o   <= err_s;  
-    stall_o <= busy_a;
+    stall_o <= stb_i and not ack_a;
     irq_o   <= irq_a;
+    rty_o   <= '0';
  
     process(clk_i, rst_i)
         variable err_v  : std_logic := '0';
@@ -90,22 +96,23 @@ begin
                 if we_i = '0' then
                     case adr_i(7 downto 4) is
                         when x"0" => dat_o      <= dat_os;
-                        when x"1" => dat_o      <= ctrl_s;
-                        when x"2" => dat_o      <= adr_is;
+                        when x"1" => dat_o      <= adr_is;
+                        when x"2" => dat_o      <= ctrl_s;
+                        when x"3" => dat_o      <= stat_s;
                         when others => err_v    := '1';
                     end case;
                 else
                     case adr_i(7 downto 4) is
                         when x"0" => dat_is     <= dat_i;
-                        when x"1" => ctrl_s     <= dat_i;
-                        when x"2" => adr_is     <= dat_i;
+                        when x"1" => adr_is     <= dat_i;
+                        when x"2" => ctrl_s     <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;
             end if;
                 
             err_s <= err_v;
-            ack_s <= stb_i and not err_s and not busy_a;
+            ack_s <= stb_i and not err_s and ack_a;
         end if;
     end process;
 
@@ -132,7 +139,7 @@ begin
         SCLK    => SCLK,
         CS      => CS,
 
-        busy_o  => busy_a,
+        ack_o   => ack_a,
         irq_o   => irq_a
     );
 

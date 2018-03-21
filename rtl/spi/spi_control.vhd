@@ -30,31 +30,34 @@ port
     SCLK    : out std_logic;
     CS      : out std_logic_vector(slaves - 1 downto 0);
 
-    busy_o  : out std_logic;
+    ack_o   : out std_logic;
     irq_o   : out std_logic
 );
 end;
 
 architecture behavior of spi_control is
     constant divisor    : positive := (sys_clk / spi_clk) / 2;
-    constant data_bw    : positive := bit_width(data_w);
+    constant data_bw    : positive := bit_width(data_w) + 1;
 
-    type states         is (idle, transition1, transition2, done1, done2);
-    signal state_s      : states := idle;
+    type states is (idle, send, hold1, hold2, hold3, hold4, done);
+    signal state_s          : states := idle;
 
-    signal adr_s        : std_logic_vector(adr_i'range);
-    signal spi_clk_s    : std_logic := '0';
-    signal spi_stb_s    : std_logic := '0';
-    signal spi_ack_s    : std_logic := '0';
-    signal spi_clk_en_s : std_logic := '0';
-    signal rst_spi_bit_cnt_s : std_logic := '0';
+    signal adr_s            : std_logic_vector(adr_i'range);
+
+    signal spi_clk_s        : std_logic := '1';
+    signal spi_stb_s        : std_logic := '0';
+    signal spi_ack_s        : std_logic := '0';
+    signal spi_clk_en_s     : std_logic := '0';
+    signal spi_bit_cnt_en_s : std_logic := '0';
+    signal rst_counters_s   : std_logic := '0';
     
-
-    signal miso_s       : std_logic := '0';
+    signal spi_clk_falling  : std_logic := '0';
+    signal miso_s           : std_logic := '0';
     
-    signal fifo_s       : std_logic_vector(dat_o'range);
+    signal fifo_s           : std_logic_vector(dat_o'range);
 begin
     process(clk_i, rst_i)
+        variable ack_delay_v : std_logic := '0';
     begin
         if rst_i = '1' then
             adr_s   <= (others => '0');
@@ -62,58 +65,55 @@ begin
         else
             if rising_edge(clk_i) then
                 adr_s <= adr_i;
-
                 case state_s is 
-                    when idle => 
-                        if en_i = '1' then 
-                            state_s <= transition1;
-                        end if;
-                    when transition1 => 
-                        if spi_stb_s = '1' then 
-                            state_s <= transition2;
-                        end if;
-                    when transition2 => 
-                        if spi_stb_s = '1' then 
-                            if spi_ack_s = '1' then 
-                                state_s <= done1;
-                            else 
-                                state_s <= transition1;
-                            end if;
-                        end if;
-                    when done1 => 
-                        if spi_stb_s = '1' then 
-                            state_s <= done2;
-                        end if;
-                    when done2 => 
-                        if spi_stb_s = '1' then 
-                            state_s <= idle;
-                        end if;
-                    when others => 
+                    when idle => --Wait for SPI_EN to go high
+						if(en_i = '1') then
+							state_s <= send;
+						end if;
+					when send => --Start sending bits, transition out when all bits are sent and SCLK is high
+                        if spi_ack_s = '1' and spi_clk_falling = '0' then
+                            state_s <= hold1;
+                        end if; 
+					when hold1 => --Hold CS low for a bit
+                        state_s <= hold2;
+					when hold2 => --Hold CS low for a bit
+                        state_s <= hold3;
+					when hold3 => --Hold CS low for a bit
+                        state_s <= hold4;
+					when hold4 => --Hold CS low for a bit
+                        state_s <= done;
+					when done => --Finish SPI transimission wait for SPI_EN to go low
+						if(en_i = '0') then
+							state_s <= idle;
+						end if;
+					when others =>
                         state_s <= idle;
                 end case;
             end if;
         end if;
     end process;
 
-    spi_clk_en_s    <= '1' when state_s = transition1 or state_s = transition2 else 
-                       '0';
-
-    irq_o           <= '1' when state_s = done1 and spi_stb_s = '1' else 
+    irq_o           <= '1' when state_s = done and spi_stb_s = '1' else 
                        '0';
 
     dat_o           <= fifo_s;
 
-    busy_o          <= '1' when state_s /= idle else 
+    ack_o           <= '1' when state_s = done else 
                        '0';
+
+    rst_counters_s  <= rst_i or not spi_clk_en_s;
+
     -- spi clock generation ----------------------------------------------------
+    spi_clk_en_s    <= '1' when state_s = send else 
+                       '0';
 
     spi_clk_cnt : entity plasmax_lib.counter 
     port map
     (
         clk_i => clk_i,
-        rst_i => rst_i,
+        rst_i => rst_counters_s,
 
-        en_i  => '1',
+        en_i  => spi_clk_en_s,
         rld_i => std_logic_vector(to_unsigned(divisor, 32)),
         dir_i => '0',
         cnt_o => open,
@@ -124,7 +124,7 @@ begin
     spi_clk_gen: process(clk_i, rst_i)
     begin 
         if rst_i = '1' or spi_clk_en_s = '0' then 
-            spi_clk_s <= '0';
+            spi_clk_s <= '1';
         elsif rising_edge(clk_i) then
             if spi_stb_s = '1' then
                 spi_clk_s <= not spi_clk_s;
@@ -134,22 +134,10 @@ begin
 
     SCLK <= spi_clk_s;
 
-    -- address translation -----------------------------------------------------
+    -- spi bit counter ---------------------------------------------------------
+    spi_bit_cnt_en_s  <= '1' when state_s = send and spi_clk_s = '0' and spi_clk_falling = '0' else
+                         '0';
 
-    addr_dec : for i in 0 to slaves - 1 generate
-        CS(i) <= '0' when to_integer(unsigned(adr_s)) = i 
-                     and (state_s = idle or state_s = done2) else 
-                 '1';
-    end generate;
-
-    -- master to slave ---------------------------------------------------------
-    
-    MOSI <= fifo_s(data_w - 1);
-
-    -- slave to master ---------------------------------------------------------
-    
-    rst_spi_bit_cnt_s <= rst_i or not spi_clk_en_s;
-    
     spi_bit_cnt : entity plasmax_lib.counter 
     generic map
     (
@@ -158,26 +146,51 @@ begin
     port map
     (
         clk_i => clk_i,
-        rst_i => rst_spi_bit_cnt_s,
+        rst_i => rst_counters_s,
 
-        en_i  => spi_clk_en_s,
-        rld_i => std_logic_vector(to_unsigned(data_w - 1, data_bw)),
+        en_i  => spi_bit_cnt_en_s,
+        rld_i => std_logic_vector(to_unsigned(data_w + 1, data_bw)),
         dir_i => '0',
         cnt_o => open,
 
         irq_o => spi_ack_s
     );
 
+    -- address translation -----------------------------------------------------
+
+    addr_dec : for i in 0 to slaves - 1 generate
+        CS(i) <= '1' when to_integer(unsigned(adr_s)) /= i or ((state_s = idle) and en_i = '0') else
+                 '0';
+    end generate;
+
+    -- master to slave ---------------------------------------------------------
+    
     process(clk_i)
+    begin
+        if rising_edge(clk_i) then
+            if state_s = send and spi_clk_s = '0' and spi_clk_falling = '0' then 
+                MOSI <= fifo_s(data_w - 1);
+            elsif state_s = idle then
+                MOSI <= '1';
+            end if;
+        end if;
+    end process;    
+
+    -- slave to master ---------------------------------------------------------
+    
+    process(clk_i, spi_clk_s, spi_stb_s)
     begin
         if rising_edge(clk_i) then
             case state_s is 
             when idle => 
                 fifo_s <= dat_i;
-            when transition1 => 
-                miso_s <= MISO;
-            when transition2 => 
-                fifo_s <= fifo_s(data_w - 2 downto 0) & miso_s;
+            when send => 
+                if spi_clk_s = '0' and spi_clk_falling = '0' then 
+                    spi_clk_falling <= '1';
+                    fifo_s <= fifo_s(data_w - 2 downto 0) & MISO;
+                elsif spi_clk_s = '1' then
+                    spi_clk_falling <= '0';
+                end if;
             when others => 
                 -- nop;
             end case;
