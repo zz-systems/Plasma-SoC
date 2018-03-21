@@ -7,21 +7,22 @@
          <top_modules>
             <top_module name="mlite_pack" />
             <top_module name="tb_plasma_vs_plasmax" />
+            <top_module name="timer_pkg" />
             <top_module name="util_pkg" />
             <top_module name="wb_pkg" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="9294739453fs"></ZoomStartTime>
-      <ZoomEndTime time="11041052110fs"></ZoomEndTime>
-      <Cursor1Time time="9718477000fs"></Cursor1Time>
+      <ZoomStartTime time="1071379451161fs"></ZoomStartTime>
+      <ZoomEndTime time="1072316109768fs"></ZoomEndTime>
+      <Cursor1Time time="1072160000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="61"></ValueColumnWidth>
+      <NameColumnWidth column_width="174"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="39" />
+   <WVObjectSize size="40" />
    <wvobject fp_name="/tb_plasma_vs_plasmax/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -39,16 +40,16 @@
       <obj_property name="ObjectShortName">interrupt</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/cs_s" type="array">
-      <obj_property name="ElementShortName">cs_s[5:0]</obj_property>
-      <obj_property name="ObjectShortName">cs_s[5:0]</obj_property>
+      <obj_property name="ElementShortName">cs_s[7:0]</obj_property>
+      <obj_property name="ObjectShortName">cs_s[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_stall_i" type="array">
-      <obj_property name="ElementShortName">slave_stall_i[5:0]</obj_property>
-      <obj_property name="ObjectShortName">slave_stall_i[5:0]</obj_property>
+      <obj_property name="ElementShortName">slave_stall_i[7:0]</obj_property>
+      <obj_property name="ObjectShortName">slave_stall_i[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_ack_i" type="array">
-      <obj_property name="ElementShortName">slave_ack_i[5:0]</obj_property>
-      <obj_property name="ObjectShortName">slave_ack_i[5:0]</obj_property>
+      <obj_property name="ElementShortName">slave_ack_i[7:0]</obj_property>
+      <obj_property name="ObjectShortName">slave_ack_i[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u2_plasma/enable_misc" type="logic">
       <obj_property name="ElementShortName">enable_misc</obj_property>
@@ -219,7 +220,6 @@
    <wvobject fp_name="group291" type="group">
       <obj_property name="label">wb.control</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_cpu/u1_cpu/u3_control/mem_source_out" type="array">
          <obj_property name="ElementShortName">mem_source_out[3:0]</obj_property>
          <obj_property name="ObjectShortName">mem_source_out[3:0]</obj_property>
@@ -416,7 +416,6 @@
    <wvobject fp_name="group256" type="group">
       <obj_property name="label">wb.pc_next</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_cpu/u1_cpu/u1_pc_next/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -593,22 +592,6 @@
    <wvobject fp_name="group222" type="group">
       <obj_property name="label">wb.irq/uart</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/uart_write_busy" type="logic">
-         <obj_property name="ElementShortName">uart_write_busy</obj_property>
-         <obj_property name="ObjectShortName">uart_write_busy</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/uart_data_avail" type="logic">
-         <obj_property name="ElementShortName">uart_data_avail</obj_property>
-         <obj_property name="ObjectShortName">uart_data_avail</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/irq_mask_reg" type="array">
-         <obj_property name="ElementShortName">irq_mask_reg[7:0]</obj_property>
-         <obj_property name="ObjectShortName">irq_mask_reg[7:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/irq_status_raw" type="array">
-         <obj_property name="ElementShortName">irq_status_raw[7:0]</obj_property>
-         <obj_property name="ObjectShortName">irq_status_raw[7:0]</obj_property>
-      </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/irq" type="logic">
          <obj_property name="ElementShortName">irq</obj_property>
          <obj_property name="ObjectShortName">irq</obj_property>
@@ -702,12 +685,12 @@
          <obj_property name="ObjectShortName">master_rty_o</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_cyc_o" type="array">
-         <obj_property name="ElementShortName">slave_cyc_o[5:0]</obj_property>
-         <obj_property name="ObjectShortName">slave_cyc_o[5:0]</obj_property>
+         <obj_property name="ElementShortName">slave_cyc_o[7:0]</obj_property>
+         <obj_property name="ObjectShortName">slave_cyc_o[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_stb_o" type="array">
-         <obj_property name="ElementShortName">slave_stb_o[5:0]</obj_property>
-         <obj_property name="ObjectShortName">slave_stb_o[5:0]</obj_property>
+         <obj_property name="ElementShortName">slave_stb_o[7:0]</obj_property>
+         <obj_property name="ObjectShortName">slave_stb_o[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_adr_o" type="array">
          <obj_property name="ElementShortName">slave_adr_o[31:0]</obj_property>
@@ -726,24 +709,24 @@
          <obj_property name="ObjectShortName">slave_sel_o[3:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_dat_i" type="array">
-         <obj_property name="ElementShortName">slave_dat_i[191:0]</obj_property>
-         <obj_property name="ObjectShortName">slave_dat_i[191:0]</obj_property>
+         <obj_property name="ElementShortName">slave_dat_i[255:0]</obj_property>
+         <obj_property name="ObjectShortName">slave_dat_i[255:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_ack_i" type="array">
-         <obj_property name="ElementShortName">slave_ack_i[5:0]</obj_property>
-         <obj_property name="ObjectShortName">slave_ack_i[5:0]</obj_property>
+         <obj_property name="ElementShortName">slave_ack_i[7:0]</obj_property>
+         <obj_property name="ObjectShortName">slave_ack_i[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_stall_i" type="array">
-         <obj_property name="ElementShortName">slave_stall_i[5:0]</obj_property>
-         <obj_property name="ObjectShortName">slave_stall_i[5:0]</obj_property>
+         <obj_property name="ElementShortName">slave_stall_i[7:0]</obj_property>
+         <obj_property name="ObjectShortName">slave_stall_i[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_err_i" type="array">
-         <obj_property name="ElementShortName">slave_err_i[5:0]</obj_property>
-         <obj_property name="ObjectShortName">slave_err_i[5:0]</obj_property>
+         <obj_property name="ElementShortName">slave_err_i[7:0]</obj_property>
+         <obj_property name="ObjectShortName">slave_err_i[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/slave_rty_i" type="array">
-         <obj_property name="ElementShortName">slave_rty_i[5:0]</obj_property>
-         <obj_property name="ObjectShortName">slave_rty_i[5:0]</obj_property>
+         <obj_property name="ElementShortName">slave_rty_i[7:0]</obj_property>
+         <obj_property name="ObjectShortName">slave_rty_i[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/master_id_s" type="other">
          <obj_property name="ElementShortName">master_id_s</obj_property>
@@ -758,8 +741,8 @@
          <obj_property name="ObjectShortName">addr_offset_s[31:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/cs_s" type="array">
-         <obj_property name="ElementShortName">cs_s[5:0]</obj_property>
-         <obj_property name="ObjectShortName">cs_s[5:0]</obj_property>
+         <obj_property name="ElementShortName">cs_s[7:0]</obj_property>
+         <obj_property name="ObjectShortName">cs_s[7:0]</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/masters" type="other">
          <obj_property name="ElementShortName">masters</obj_property>
@@ -786,15 +769,14 @@
          <obj_property name="ObjectShortName">addr_dec_w</obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/system_bus/memmap" type="array">
-         <obj_property name="ElementShortName">memmap[0:5]</obj_property>
-         <obj_property name="ObjectShortName">memmap[0:5]</obj_property>
+         <obj_property name="ElementShortName">memmap[0:7]</obj_property>
+         <obj_property name="ObjectShortName">memmap[0:7]</obj_property>
          <obj_property name="isExpanded"></obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group275" type="group">
       <obj_property name="label">mult</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_cpu/u1_cpu/u8_mult/clk" type="logic">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -888,16 +870,19 @@
       <obj_property name="ElementShortName">m_ports[0:0]</obj_property>
       <obj_property name="ObjectShortName">m_ports[0:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/m_ports[0]" type="array">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-      </wvobject>
    </wvobject>
    <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports" type="array">
-      <obj_property name="ElementShortName">s_ports[5:0]</obj_property>
-      <obj_property name="ObjectShortName">s_ports[5:0]</obj_property>
+      <obj_property name="ElementShortName">s_ports[7:0]</obj_property>
+      <obj_property name="ObjectShortName">s_ports[7:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports[7]" type="array">
+         <obj_property name="ElementShortName">[7]</obj_property>
+         <obj_property name="ObjectShortName">[7]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports[6]" type="array">
+         <obj_property name="ElementShortName">[6]</obj_property>
+         <obj_property name="ObjectShortName">[6]</obj_property>
+      </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports[5]" type="array">
          <obj_property name="ElementShortName">[5]</obj_property>
          <obj_property name="ObjectShortName">[5]</obj_property>
@@ -914,7 +899,6 @@
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports[2]" type="array">
          <obj_property name="ElementShortName">[2]</obj_property>
          <obj_property name="ObjectShortName">[2]</obj_property>
-         <obj_property name="isExpanded"></obj_property>
       </wvobject>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/s_ports[1]" type="array">
          <obj_property name="ElementShortName">[1]</obj_property>
@@ -928,7 +912,6 @@
    <wvobject fp_name="group298" type="group">
       <obj_property name="label">irc</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_irc/ir_i" type="array">
          <obj_property name="ElementShortName">ir_i[31:0]</obj_property>
          <obj_property name="ObjectShortName">ir_i[31:0]</obj_property>
@@ -960,6 +943,56 @@
       <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_irc/irq_o" type="logic">
          <obj_property name="ElementShortName">irq_o</obj_property>
          <obj_property name="ObjectShortName">irq_o</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group367" type="group">
+      <obj_property name="label">counter</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/clk_i" type="logic">
+         <obj_property name="ElementShortName">clk_i</obj_property>
+         <obj_property name="ObjectShortName">clk_i</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/rst_i" type="logic">
+         <obj_property name="ElementShortName">rst_i</obj_property>
+         <obj_property name="ObjectShortName">rst_i</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/en_i" type="logic">
+         <obj_property name="ElementShortName">en_i</obj_property>
+         <obj_property name="ObjectShortName">en_i</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/rld_i" type="array">
+         <obj_property name="ElementShortName">rld_i[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rld_i[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/dir_i" type="logic">
+         <obj_property name="ElementShortName">dir_i</obj_property>
+         <obj_property name="ObjectShortName">dir_i</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/cnt_o" type="array">
+         <obj_property name="ElementShortName">cnt_o[31:0]</obj_property>
+         <obj_property name="ObjectShortName">cnt_o[31:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/irq_o" type="logic">
+         <obj_property name="ElementShortName">irq_o</obj_property>
+         <obj_property name="ObjectShortName">irq_o</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/cnt_s" type="array">
+         <obj_property name="ElementShortName">cnt_s[31:0]</obj_property>
+         <obj_property name="ObjectShortName">cnt_s[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/rld_s" type="array">
+         <obj_property name="ElementShortName">rld_s[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rld_s[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/data_w" type="other">
+         <obj_property name="ElementShortName">data_w</obj_property>
+         <obj_property name="ObjectShortName">data_w</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_plasma_vs_plasmax/u1_plasmax/u_counter/counter/zero" type="array">
+         <obj_property name="ElementShortName">zero[31:0]</obj_property>
+         <obj_property name="ObjectShortName">zero[31:0]</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>
