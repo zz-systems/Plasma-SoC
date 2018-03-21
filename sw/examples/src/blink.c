@@ -16,12 +16,12 @@ int main()
 
 	while(1)
 	{
-        MemoryWrite(GPIO0_DATA, 0x00000000);
-        puts("LED OFF\n");
-        wait(500);
-
         MemoryWrite(GPIO0_DATA, 0xFFFFFFFF);
         puts("LED ON\n");
+        wait(500);
+
+        MemoryWrite(GPIO0_DATA, 0x00000000);
+        puts("LED OFF\n");
         wait(500);
 	}
 
@@ -31,11 +31,11 @@ while(1)
 
 void wait(int msec)
 {
-    int ticks = 12500 * msec; // 1s?
+    int ticks = TICKS_PER_MS * msec; // 1s?
 
     MemoryWrite(COUNTER_RELOAD, ticks); 
-    MemoryWrite(COUNTER_CONTROL, 0x4); // disable, reset, reload
-    MemoryWrite(COUNTER_CONTROL, 0x3); // enable, count down
+    MemoryWrite(COUNTER_CONTROL, COUNTER_RESET | COUNTER_DIRECTION); 
+    MemoryWrite(COUNTER_CONTROL, COUNTER_ENABLE | COUNTER_DIRECTION); // enable, count down
 
     while(MemoryRead(COUNTER_DATA) > 0);
 }

@@ -10,7 +10,8 @@ library plasmax_lib;
 
 
 entity shared_bus is    
-    generic (
+    generic 
+    (
         constant masters : natural := 1;
         constant slaves : natural := 2;
         constant addr_w : natural := 32;
@@ -24,7 +25,8 @@ entity shared_bus is
             ( x"10000000", x"0FFFFFFF" )
         )
     );
-    port (
+    port 
+    (
         clk_i           : in std_logic;
         rst_i           : in std_logic;
 

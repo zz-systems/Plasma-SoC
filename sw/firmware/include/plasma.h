@@ -13,7 +13,12 @@
 #define __PLASMA_H__
 
 // 50 MHz
-#define PLASMA_CLOCK 50 * 1000 * 1000
+#define PLASMA_CLOCK      (50 * 1000 * 1000)
+#define TICKS_PER_S       (PLASMA_CLOCK)
+#define TICKS_PER_MS      (TICKS_PER_S / 1000)
+#define TICKS_PER_US      (TICKS_PER_MS / 1000)
+#define TICKS_PER_NS      (TICKS_PER_NS / 1000)
+#define TICKS_PER_TICK    (1)
 
 /*********** Hardware addresses ***********/
 #define RAM_INTERNAL_BASE 0x00000000 //8KB
@@ -24,36 +29,39 @@
 #define UART_WRITE        0x20000100
 #define UART_READ         0x20000100
 #define MISC_BASE         0x20000100
-//#define IRQ_MASK          0x20000110
-//#define IRQ_STATUS        0x20000120
-
-
-// #define GPIO0_SET         0x20000230
-// #define GPIO0_CLEAR       0x20000240
-// #define GPIOA_IN          0x20000250
-
-//#define COUNTER_REG       0x20000260
 #define ETHERNET_REG      0x20000270
 #define FLASH_BASE        0x30000000
 
-#define IRC_STATUS_RAW    0x20000000
-#define IRC_STATUS        0x20000010
-#define IRC_CLEAR         0x20000020
-#define IRC_INVERT        0x20000030
-#define IRC_ENABLE        0x20000040
-#define IRC_EDGE          0x20000050
+#define IRC_BASE          0x20000000
+#define IRC_CONTROL         (IRC_BASE + 0x00)
+#define IRC_STATUS          (IRC_BASE + 0x10)
+#define IRC_FLAGS_RAW       (IRC_BASE + 0x20)
+#define IRC_FLAGS           (IRC_BASE + 0x30)
+#define IRC_CLEAR           (IRC_BASE + 0x40)
+#define IRC_INVERT          (IRC_BASE + 0x50)
+#define IRC_ENABLE          (IRC_BASE + 0x60)
+#define IRC_EDGE            (IRC_BASE + 0x70)
 
-#define COUNTER_DATA      0x20000200
-#define COUNTER_RELOAD    0x20000210
-#define COUNTER_CONTROL   0x20000220
+#define COUNTER_BASE      0x20000200
+#define COUNTER_CONTROL   (COUNTER_BASE + 0x00)
+#define COUNTER_STATUS    (COUNTER_BASE + 0x10)
+#define COUNTER_DATA      (COUNTER_BASE + 0x20)
+#define COUNTER_RELOAD    (COUNTER_BASE + 0x30)
 
-#define GPIO0_DATA        0x20000300
-#define GPIO0_MASK        0x20000310
+#define GPIO0_BASE          0x20000300
+#define GPIO0_CONTROL       (GPIO0_BASE + 0x00)
+#define GPIO0_STATUS        (GPIO0_BASE + 0x10)
+#define GPIO0_DATA          (GPIO0_BASE + 0x20)
+#define GPIO0_MASK          (GPIO0_BASE + 0x30)
 
-#define SPI_DATA          0x20000400
-#define SPI_CONTROL       0x20000410
+#define SPI_BASE          0x20000400
+#define SPI_DATA          (SPI_BASE + 0x00)
+#define SPI_CONTROL       (SPI_BASE + 0x10)
 
-#define DISPLAY		  0x40000000
+#define DISPLAY_BASE	  0x40000000
+#define DISPLAY_CONTROL	  (DISPLAY_BASE + 0x00)
+#define DISPLAY_STATUS	  (DISPLAY_BASE + 0x10)
+#define DISPLAY_DATA	  (DISPLAY_BASE + 0x20)
 
 /*********** GPIO out bits ***************/
 #define ETHERNET_MDIO     0x00200000
@@ -73,9 +81,25 @@
 #define IRQ_GPIO31               0x80
 
 /************** SPI bits *****************/
-#define SPI_ENABLE               0x01
-#define SPI_BUSY                 0x02
-#define SPI_HAS_DATA             0x04
+#define SPI_ENABLE               0x01 // control reg
+#define SPI_BUSY                 0x01 // status reg
+#define SPI_HAS_DATA             0x02 // status reg
+
+/************ COUNTER bits ***************/
+#define COUNTER_RESET            0x01 // control reg
+#define COUNTER_ENABLE           0x02 // control reg
+#define COUNTER_AUTORESET        0x04 // control reg
+#define COUNTER_DIRECTION        0x08 // control reg
+
+#define DISPLAY_READY            0x01 // status reg
+
+/************ DISPLAY bits ***************/
+#define DISPLAY_RESET            0x01 // control reg
+#define DISPLAY_IMMEDIATE        0x02 // control reg
+#define DISPLAY_TEXTMODE         0x04 // control reg
+#define DISPLAY_FLUSH            0x08 // control reg
+
+#define DISPLAY_READY            0x01 // status reg
 
 
 #define MemoryRead(A) (*(volatile unsigned int*)(A))

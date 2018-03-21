@@ -20,13 +20,22 @@ entity plasmax_if is
         UART_TX     : out   std_logic;
         UART_RX     : in   std_logic;
     
+        -- PMOD SD pinout
         SD_SPI_CS   : out   std_logic;
         SD_SPI_MOSI : out   std_logic;
         SD_SPI_MISO : in   std_logic;
         SD_SPI_SCLK : out   std_logic;
     
         SD_CD       : in   std_logic;
-        SD_WP       : in   std_logic
+        SD_WP       : in   std_logic;
+
+        -- OLED pinout
+        OLED_DC     : out std_logic;
+        OLED_RES    : out std_logic;
+        OLED_SCLK   : out std_logic;
+        OLED_SDIN   : out std_logic;
+        OLED_VBAT   : out std_logic;
+        OLED_VDD    : out std_logic
     );
 end;
 
@@ -34,7 +43,7 @@ architecture logic of plasmax_if is
 
     constant spi_slaves : positive := 1;
     constant sys_clk    : positive := 50000000;
-    constant spi_clk    : positive := 1000000;
+    constant spi_clk    : positive := 1562500;
 
     signal uart_read          : std_logic;
     signal uart_write         : std_logic;
@@ -119,6 +128,13 @@ begin
         MOSI    => mosi,
         MISO    => miso,
         SCLK    => sclk,
-        CS      => cs_n
+        CS      => cs_n,
+
+        oled_sdin_o      => OLED_SDIN,
+        oled_sclk_o      => OLED_SCLK,
+        oled_dc_o        => OLED_DC,
+        oled_res_o       => OLED_RES,
+        oled_vbat_o      => OLED_VBAT,
+        oled_vdd_o       => OLED_VDD
     );
 end;

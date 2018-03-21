@@ -28,6 +28,8 @@ package util_pkg is
 
     function to_std_logic(L: BOOLEAN) return std_ulogic;
     function bit_width(L : natural) return integer;
+    function max(LEFT, RIGHT : integer) return integer;
+    function min(LEFT, RIGHT : integer) return integer;
 end package;
 
 package body util_pkg is
@@ -44,4 +46,22 @@ package body util_pkg is
     begin
         return integer(ceil(log2(real(L))));
     end function;
+
+    function max(LEFT, RIGHT: integer) return integer is
+    begin
+        if LEFT > RIGHT then 
+            return LEFT;
+        else 
+            return RIGHT;
+        end if;
+    end;
+    
+    function min(LEFT, RIGHT: integer) return integer is
+    begin
+        if LEFT < RIGHT then 
+            return LEFT;
+        else 
+            return RIGHT;
+        end if;
+    end;
 end package body;

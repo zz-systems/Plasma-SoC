@@ -70,16 +70,25 @@ entity plasmax is
         gpio0_out         : out std_logic_vector(31 downto 0);
         gpioA_in          : in std_logic_vector(31 downto 0);
 
+        -- SPI
         MOSI              : out std_logic;
         MISO              : in std_logic;
         SCLK              : out std_logic;
-        CS                : out std_logic_vector(spi_slaves - 1 downto 0)
+        CS                : out std_logic_vector(spi_slaves - 1 downto 0);
+
+        -- OLED display
+        oled_sdin_o       : out std_logic;
+        oled_sclk_o       : out std_logic;
+        oled_dc_o         : out std_logic;
+        oled_res_o        : out std_logic;
+        oled_vbat_o       : out std_logic;
+        oled_vdd_o        : out std_logic
     );
 end; --entity plasma
 
 architecture logic of plasmax is
     constant masters    : positive := 1;
-    constant slaves     : positive := 7;
+    constant slaves     : positive := 8;
   
     signal master_select    : std_logic_vector(bit_width(masters) downto 0);    
     signal slave_select     : std_logic_vector(bit_width(slaves) downto 0);
@@ -101,17 +110,21 @@ architecture logic of plasmax is
     alias counter0_port : wb_port is s_ports(4);
     alias gpio0_port    : wb_port is s_ports(5);
     alias spic_port     : wb_port is s_ports(6);
+    alias oledc_port    : wb_port is s_ports(7);
 
     signal irq          : std_logic;
     signal irq_inputs   : std_logic_vector(31 downto 0);
 
     signal irq_uart      : std_logic;
-    signal irq_gpio0      : std_logic;
+    signal irq_gpio0     : std_logic;
     signal irq_counter0  : std_logic;
+    signal irq_oledc     : std_logic;
 begin  --architecture
 
 -- INTERRUPTS ------------------------------------------------------------------
-    irq_inputs <= ZERO(31 downto 4)
+    irq_inputs <= cpu_port.err          -- access violation
+                & ZERO(30 downto 5)
+                & irq_oledc
                 & irq_gpio0
                 & irq_counter0
                 & not uart_port.stall   -- uart write available
@@ -189,8 +202,9 @@ begin  --architecture
             ( x"20000000", x"0FFFF0FF" ),  -- irc       
             ( x"20000100", x"0FFFF0FF" ),  -- uart
             ( x"20000200", x"0FFFF0FF" ),  -- counter
-            ( x"20000300", x"0FFFF0FF" ),   -- gpio0
-            ( x"20000400", x"0FFFF0FF" )   -- spi
+            ( x"20000300", x"0FFFF0FF" ),  -- gpio0
+            ( x"20000400", x"0FFFF0FF" ),  -- spic
+            ( x"40000000", x"000007FF" )   -- oledc
         )
     )
     port map
@@ -446,6 +460,42 @@ begin  --architecture
         rty_o   => spic_port.rty,
         stall_o => spic_port.stall,
         err_o   => spic_port.err
+    );
+
+    u_oledc: entity plasmax_lib.slave_oledc 
+    generic map
+    (
+        sys_clk     => sys_clk,
+        spi_clk     => spi_clk
+    )
+    port map
+    (
+        clk_i   => clk,
+        rst_i   => reset,
+
+        sdin_o  => oled_sdin_o,
+        sclk_o  => oled_sclk_o,
+        dc_o    => oled_dc_o,
+        res_o   => oled_res_o,
+        vbat_o  => oled_vbat_o,
+        vdd_o   => oled_vdd_o,
+
+        irq_o   => irq_oledc,
+
+        cyc_i   => oledc_port.cyc,
+        stb_i   => oledc_port.stb,
+        we_i    => oledc_port.we,
+
+        adr_i   => oledc_port.adr,
+        dat_i   => oledc_port.dat_i,
+
+        sel_i   => oledc_port.sel,
+
+        dat_o   => oledc_port.dat_o,
+        ack_o   => oledc_port.ack,
+        rty_o   => oledc_port.rty,
+        stall_o => oledc_port.stall,
+        err_o   => oledc_port.err
     );
 
 end; --architecture logic
