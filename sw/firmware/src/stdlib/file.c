@@ -18,7 +18,7 @@ FILE* fopen(device* device, char mode)
 
         if (mode & FILE_READ_MODE)
         {
-            file->read_buffer = (buffer_t*)malloc(sizeof(buffer_t));
+            file->read_buffer = (uint8_t*)malloc(BUF_SIZE);
 
             if(file->read_buffer == NULL)
             {
@@ -26,12 +26,12 @@ FILE* fopen(device* device, char mode)
                 return NULL;
             }
 
-            file->read_buffer->buf_ptr = file->read_buffer->buffer;
+            file->read_ptr = file->read_buffer;
         }
 
         if (mode & FILE_WRITE_MODE)
         {
-            file->write_buffer = (buffer_t*)malloc(sizeof(buffer_t));
+            file->write_buffer = (uint8_t*)malloc(BUF_SIZE);
 
             if(file->write_buffer == NULL)
             {
@@ -39,7 +39,7 @@ FILE* fopen(device* device, char mode)
                 return NULL;
             }
 
-            file->write_buffer->buf_ptr = file->write_buffer->buffer;
+            file->write_ptr = file->write_buffer;
         }
     }
 
@@ -57,9 +57,9 @@ int fwrite(FILE* file, uint8_t data)
 {
     if (file->write_buffer != NULL)
     {
-        if(file->write_buffer->buf_ptr < file->write_buffer->buffer + BUF_SIZE)
+        if(file->write_ptr < file->write_buffer + BUF_SIZE)
         {
-            *(file->write_buffer->buf_ptr++) = data;
+            *(file->write_ptr++) = data;
             return 1;
         }
     }
@@ -93,17 +93,17 @@ uint8_t fread(FILE* file)
     {
         file->err = FILE_ERR_MODE_WRONG;
     }
-    
+
     return 0;
 }
 
 void fflush(FILE* file)
 {
-    for(uint8_t *buf_ptr = file->write_buffer->buffer; buf_ptr < file->write_buffer->buf_ptr; buf_ptr++)
+    for(uint8_t *buf_ptr = file->write_buffer; buf_ptr < file->write_ptr; buf_ptr++)
     {
         dputc(file->device, *buf_ptr);
     }
 
     // Seek to begin
-    file->write_buffer->buf_ptr = file->write_buffer->buffer;
+    file->write_ptr = file->write_buffer;
 }

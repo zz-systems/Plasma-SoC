@@ -95,6 +95,7 @@ begin
         cmd_i       => '0',
         text_mode_i => '1',
         flush_i     => SW(0),
+        clear_i     => '0',
         ready_o     => open
     );
 end;

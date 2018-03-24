@@ -13,9 +13,9 @@ int dgetc(device* device);
 int dputs(device* device, const char *string);
 
 #define dcwrite(dev, data) (dev->device.control = (data))
-#define dcread(dev, data) (dev->device.control)
+#define dcread(dev) (dev->device.control)
 
-#define dsread(dev, data) (dev->device.status)
+#define dsread(dev) (dev->device.status)
 
 #define ddwrite(dev, data) (dev->device.data = (data))
-#define ddread(dev, data) (dev->device.data)
+#define ddread(dev) (dev->device.data)

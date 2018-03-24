@@ -30,3 +30,9 @@ void display_flush(display* display)
     display->device.control |= DISPLAY_CONTROL_FLUSH;
     display->device.control &= ~DISPLAY_CONTROL_FLUSH;
 }
+
+void display_clear(display* display)
+{
+    display->device.control |= DISPLAY_CONTROL_CLEAR;
+    display->device.control &= ~DISPLAY_CONTROL_CLEAR;
+}

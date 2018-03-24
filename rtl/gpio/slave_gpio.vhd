@@ -80,7 +80,8 @@ architecture behavior of slave_gpio is
     alias stat_davail_a     : std_logic is stat_s(1);
 
     alias ctrl_reset_a      : std_logic is ctrl_s(0);
-    alias ctrl_mask_en_a    : std_logic is ctrl_s(1);
+    alias ctrl_en_a         : std_logic is ctrl_s(1);
+    alias ctrl_mask_en_a    : std_logic is ctrl_s(2);
 begin
     stat_ready_a <= '1';
 

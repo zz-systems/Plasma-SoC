@@ -27,12 +27,17 @@ architecture sim of tb_oled_control is
     signal vdd   : std_logic := '1';
 
     signal ready     : std_logic := '0';
+
+    signal flush_s  : std_logic;
+
+    signal iadr_s   : integer := 0;
 begin
     uut: entity plasmax_lib.oled_control
     generic map
     (
-        sys_clk     => 50000000, -- 50ns = 20MHz
-        spi_clk     => 1562500
+        sys_clk         => 50000000, -- 50ns = 20MHz
+        spi_clk         => 1562500,
+        example_active  => false
     )
     port map 
     (  
@@ -52,10 +57,54 @@ begin
 
         cmd_i       => '0',
         text_mode_i => '1',
-        flush_i     => '0',
+        flush_i     => flush_s,
+        clear_i     => '0',
         ready_o     => ready
     );
        
     clk   <= not clk after 20 ns;
     reset <= '0' after 250 ns;   
+
+    adr_s <= std_logic_vector(to_unsigned(iadr_s, 10));
+
+    process
+    begin
+        wait until reset = '0';
+        wait until rising_edge(clk);
+
+        flush_s <= '0';
+
+        wait until ready = '1';
+        wait until rising_edge(clk);
+        we_s    <= '1';
+
+        iadr_s <= 0;
+        dat_is <= x"54"; -- T
+
+        wait until rising_edge(clk);
+
+        iadr_s <= 1;
+        dat_is <= x"65"; -- e
+
+        wait until rising_edge(clk);
+
+        iadr_s <= 2;
+        dat_is <= x"73"; -- s
+
+        wait until rising_edge(clk);
+
+        iadr_s <= 3;
+        dat_is <= x"74"; -- t
+
+        wait until rising_edge(clk);
+        we_s    <= '0';
+        flush_s <= '1';
+        wait until rising_edge(clk);
+        flush_s <= '0';
+
+       -- wait until ready = '1';
+        wait for 250 ns;
+        wait until rising_edge(clk);
+
+    end process;
 end;

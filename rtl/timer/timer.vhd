@@ -87,7 +87,6 @@ begin
         end if;
     end process;
 
-
     counter: entity plasmax_lib.counter
     generic map
     (

@@ -34,7 +34,7 @@
     <Option Name="DSAVendor" Val="xilinx"/>
     <Option Name="DSABoardId" Val="zed"/>
     <Option Name="DSANumComputeUnits" Val="16"/>
-    <Option Name="WTXSimLaunchSim" Val="1179"/>
+    <Option Name="WTXSimLaunchSim" Val="1248"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -414,6 +414,11 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PPRDIR/tb_oled_control_behav.wcfg">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="tb_plasma_vs_plasmax"/>
@@ -424,6 +429,7 @@
         <Option Name="XSimWcfgFile" Val="$PPRDIR/tb_plasma_vs_plasmax_behav.wcfg"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/tb_spi_control_behav.wcfg"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/tb_mem_init_sections_behav.wcfg"/>
+        <Option Name="XSimWcfgFile" Val="$PPRDIR/tb_oled_control_behav.wcfg"/>
       </Config>
     </FileSet>
   </FileSets>

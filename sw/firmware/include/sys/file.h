@@ -11,15 +11,12 @@
 
 typedef struct
 {
-    uint8_t buffer[BUF_SIZE];
-    uint8_t *buf_ptr;
-} buffer_t;
-
-typedef struct
-{
     device *device;
-    buffer_t *read_buffer;
-    buffer_t *write_buffer;
+    uint8_t *read_buffer;
+    uint8_t *write_buffer;
+
+    uint8_t *read_ptr;
+    uint8_t *write_ptr;
     int err;
 } FILE;
 

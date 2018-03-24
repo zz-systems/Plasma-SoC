@@ -40,13 +40,22 @@ port
     cmd_i       : in std_logic; -- issue direct commands via spi
     text_mode_i : in std_logic; -- text mode
     flush_i     : in std_logic; -- flush the video buffer to screen
+    clear_i     : in std_logic; -- clear screen
     ready_o     : out std_logic
 );
 end oled_control;
 
 architecture behavioral of oled_control is
 
-    --type states is (Idle, OledInitialize, OledExample, Done);
+    constant in_simulation : boolean := false
+    --pragma synthesis_off
+                                        or true
+    --pragma synthesis_on
+    ;
+    constant in_synthesis : boolean := not in_simulation;
+
+
+    signal unit : unit_t := unit_msec;
 
      -- States for state machine
      type states is 
@@ -58,6 +67,8 @@ architecture behavioral of oled_control is
 
         --OledExample,
         SendImmediate,
+        Flush1,
+        Flush2,
 
         -- Initializer sequence
         VddOn,
@@ -225,7 +236,7 @@ begin
 		rst_i   => rst_i,
 	
 		en_i    => delay_en,
-		unit_i  => unit_msec,
+		unit_i  => unit,
 		rld_i   => delay_ms,
 	
 		irq_o   => delay_done
@@ -242,6 +253,9 @@ begin
     vdd_o 	    <= temp_vdd;
 
     ready_o     <= '1' when current_state = Idle else '0';
+
+    unit        <= unit_usec when in_simulation else unit_msec;
+    
     delay_ms    <=  example_delay_ms    when example_en = '1' else  
                     x"064"              when after_state = DispContrast1 else   -- 100ms
                     x"001";                                                     -- 1ms;
@@ -281,11 +295,15 @@ begin
                             current_state <= SendImmediate;
                         else
                             addr_v := to_integer(unsigned(adr_i));
-                            vram((addr_v + 1) * 8 - 1 downto addr_v * 8) <= dat_i;
+
+                            vram(addr_v * 8 to (addr_v + 1) * 8 - 1) <= dat_i;
                         end if;
                     elsif flush_i = '1' then
-                        current_state <= UpdateScreen;
-                    else                         
+                        current_state <= Flush1;
+                    elsif clear_i = '1' then
+                        vram                <= clear_screen;
+                        current_state       <= Flush1;
+                    else                       
                         current_state <= Idle;
                     end if;
 
@@ -296,6 +314,16 @@ begin
                 when SendImmediate => 
                     spi_data   <= dat_s;
                     current_state   <= Transition1;   
+
+                -- Do example and return to idle when finished
+                when Flush1 =>
+                    current_state <= ClearDC;
+                    after_page_state <= Flush2;
+                    temp_page <= "00";
+
+                when Flush2 => 
+                    current_state <= UpdateScreen;
+                    after_update_state <= Idle;
                 
                 when Init => 
                     current_state <= VddOn;
@@ -374,7 +402,7 @@ begin
                     current_state <= Transition1;
 
                 when InitDone => 
-                    if example_active then 
+                    if example_active and in_synthesis then 
                         current_state <= Example;
                     else 
                         current_state <= Idle;

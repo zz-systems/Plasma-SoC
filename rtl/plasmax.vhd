@@ -215,7 +215,7 @@ begin  --architecture
             -- gpios -----------------------------------------------------------
             ( x"20000300", x"0000000F" ),  -- gpio0
             ( x"20000400", x"0000000F" ),  -- spic
-            ( x"40000000", x"0000000F" )   -- oledc
+            ( x"40000000", x"0000007F" )   -- oledc
         )
     )
     port map
@@ -479,7 +479,8 @@ begin  --architecture
     generic map
     (
         sys_clk     => sys_clk,
-        spi_clk     => spi_clk
+        spi_clk     => spi_clk,
+        example_active => true
     )
     port map
     (

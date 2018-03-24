@@ -4,7 +4,7 @@
 #include "sys/types.h"
 
 // IR table
-ir_handler ir_handlers[33] = { 0 };
+ir_handler ir_handlers[64] = { 0 };
 
 // void kregister_ir_handler(ir_handler handler, unsigned ir_flag)
 // {
@@ -26,10 +26,12 @@ ir_handler ir_handlers[33] = { 0 };
 
 void kir_handler(int interrupt)
 {
+    interrupt += 32;
+
     if(ir_handlers[interrupt] != NULL)
         ir_handlers[interrupt]();
-    else if(ir_handlers[32] != NULL)
-        ir_handlers[32]();
+    //else if(ir_handlers[32] != NULL)
+    //    ir_handlers[32]();
     else 
         gpio0->device.data = 0xDEADBEEF;
 }
@@ -43,7 +45,7 @@ void kregister_ir_handler(ir_handler handler, unsigned ir_flag)
     int edge    = (ir_flag >> 17) & 1;
     int clear   = ~(1 << index);
 
-    ir_handlers[index] = handler;
+    ir_handlers[index + 32] = handler;
 
     // implicitly enable interrupt if handler specified
     irc0->mask   |= 1 << index;
