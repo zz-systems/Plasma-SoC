@@ -62,24 +62,6 @@ architecture behavior of timer is
     signal unit_s           : unit_t;
     signal rld_s            : unsigned(data_w + 31 downto 0);
 begin
-    counter: entity plasmax_lib.counter
-    generic map
-    (
-        data_w => data_w + 32
-    )
-    port map 
-    (
-        clk_i   => clk_i,
-        rst_i   => rst_i,
-
-        en_i    => en_i,
-        rld_i   => std_logic_vector(rld_s),
-        dir_i   => '0',
-        cnt_o   => open,
-
-        irq_o  => irq_o
-    );
-
     process(clk_i, rst_i)
     begin
         if rst_i = '1' then
@@ -104,4 +86,23 @@ begin
             end if;
         end if;
     end process;
+
+
+    counter: entity plasmax_lib.counter
+    generic map
+    (
+        data_w => data_w + 32
+    )
+    port map 
+    (
+        clk_i   => clk_i,
+        rst_i   => rst_i,
+
+        en_i    => en_i,
+        rld_i   => std_logic_vector(rld_s),
+        dir_i   => '0',
+        cnt_o   => open,
+
+        irq_o  => irq_o
+    );
 end behavior;

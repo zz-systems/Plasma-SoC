@@ -6,14 +6,14 @@
 ----------------|-----------|-------|-------------------------------------------
 -- REGISTER     | address   | mode  | description
 ----------------|-----------|-------|-------------------------------------------
--- control      | 0         | r/w   | control register
--- status       | 1         | r     | status register
--- raw flags    | 2         | r     | raw interrupt flag state
--- flags        | 3         | r     | interrupt flag state
--- clear        | 4         | r/w   | clear interrupt flag
--- invert       | 5         | r/w   | invert flag
--- mask         | 6         | r/w   | interrupt flag enable/disable mask     
--- edge         | 7         | r/w   | interrupt edge detection
+-- control      | 0x00      | r/w   | control register
+-- status       | 0x04      | r     | status register
+-- data         | 0x08      | r     | interrupt flag state
+-- imm flags    | 0x0C      | r     | immediate interrupt flag state (input passthrough)
+-- clear        | 0x10      | r/w   | clear interrupt flag
+-- invert       | 0x14      | r/w   | invert flag
+-- mask         | 0x18      | r/w   | interrupt flag enable/disable mask     
+-- edge         | 0x1C      | r/w   | interrupt edge detection
 ----------------|-----------|-------|-------------------------------------------
 -- CONTROL      |           |       | 
 ----------------|-----------|-------|-------------------------------------------
@@ -66,24 +66,27 @@ port
 end slave_irc;
 
 architecture behavior of slave_irc is 
-    signal ctrl_s  : std_logic_vector(31 downto 0) := (others => '0');
-    signal stat_s  : std_logic_vector(31 downto 0) := (others => '0');
+    signal ctrl_s       : std_logic_vector(31 downto 0) := (others => '0');
+    signal stat_s       : std_logic_vector(31 downto 0) := (others => '0');
 
-    signal ir_s    : std_logic_vector(channels - 1 downto 0) := (others => '0');
-    signal clear_s : std_logic_vector(channels - 1 downto 0) := (others => '0');
-    signal state_s : std_logic_vector(channels - 1 downto 0) := (others => '0');
-    signal inv_s   : std_logic_vector(channels - 1 downto 0) := (others => '0');
-    signal mask_s  : std_logic_vector(channels - 1 downto 0) := (others => '0');
-    signal edge_s  : std_logic_vector(channels - 1 downto 0) := (others => '0');
+    signal ir_s         : std_logic_vector(channels - 1 downto 0) := (others => '0');
+    signal clear_s      : std_logic_vector(channels - 1 downto 0) := (others => '0');
+    signal ir_state_s   : std_logic_vector(channels - 1 downto 0) := (others => '0');
+    signal inv_s        : std_logic_vector(channels - 1 downto 0) := (others => '0');
+    signal mask_s       : std_logic_vector(channels - 1 downto 0) := (others => '0');
+    signal edge_s       : std_logic_vector(channels - 1 downto 0) := (others => '0');
 
-    signal err_s   : std_logic := '0';
+    signal ack_s        : std_logic := '0';
+    signal err_s        : std_logic := '0';
 begin
+
+    ack_o   <= ack_s;
+    rty_o   <= '0';
     stall_o <= '0';
     err_o   <= err_s;
-    rty_o   <= '0';
-    ack_o   <= stb_i and not err_s;
 
     process(clk_i, rst_i)
+        variable ack_v  : std_logic := '0';
         variable err_v  : std_logic := '0';
     begin         
         if rst_i = '1' then  
@@ -94,40 +97,46 @@ begin
             edge_s  <= (others => '0');
 
             dat_o   <= (others => '0');
+
+            ack_s   <= '0';
             err_s   <= '0';  
         elsif rising_edge(clk_i) then
+            ack_v := '0';
+            err_v := '0';
+
             if stb_i = '1' then
-                err_v := '0';
+                ack_v := '1';
 
                 ir_s <= ir_i;
 
                 if we_i = '0' then
-                    case adr_i(7 downto 4) is
-                        when x"0" => dat_o      <= ctrl_s;
-                        when x"1" => dat_o      <= stat_s;
+                    case adr_i(7 downto 0) is
+                        when x"00" => dat_o     <= ctrl_s;
+                        when x"04" => dat_o     <= stat_s;
 
-                        when x"2" => dat_o      <= ir_i;
-                        when x"3" => dat_o      <= state_s;
-                        when x"4" => dat_o      <= clear_s;
-                        when x"5" => dat_o      <= inv_s;
-                        when x"6" => dat_o      <= mask_s;
-                        when x"7" => dat_o      <= edge_s;
+                        when x"08" => dat_o     <= ir_state_s;
+                        when x"0C" => dat_o     <= ir_i;
+                        when x"10" => dat_o     <= clear_s;
+                        when x"14" => dat_o     <= inv_s;
+                        when x"18" => dat_o     <= mask_s;
+                        when x"1C" => dat_o     <= edge_s;
                         when others => err_v    := '1';
                     end case;
                 else
-                    case adr_i(7 downto 4) is
-                        when x"0" => ctrl_s     <= dat_i;
+                    case adr_i(7 downto 0) is
+                        when x"00" => ctrl_s    <= dat_i;
 
-                        when x"4" => clear_s    <= dat_i;
-                        when x"5" => inv_s      <= dat_i;
-                        when x"6" => mask_s     <= dat_i;
-                        when x"7" => edge_s     <= dat_i;
+                        when x"10" => clear_s   <= dat_i;
+                        when x"14" => inv_s     <= dat_i;
+                        when x"18" => mask_s    <= dat_i;
+                        when x"1C" => edge_s    <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;
-                
-                err_s <= err_v;
             end if;
+            
+            ack_s <= ack_v and not err_v;
+            err_s <= err_v;
         end if;
     end process;
 
@@ -144,7 +153,7 @@ begin
         ir_i    => ir_i,
 
         clear_i => clear_s,
-        state_o => state_s,
+        state_o => ir_state_s,
         inv_i   => inv_s,
         mask_i  => mask_s,
         edge_i  => edge_s,

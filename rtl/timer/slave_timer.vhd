@@ -1,50 +1,43 @@
 --------------------------------------------------------------------------------
--- TITLE:  GPIO Wishbone interface
+-- TITLE:  Timer Wishbone interface
 -- AUTHOR: Sergej Zuyev (sergej.zuyev - at - zz-systems.net)
 --------------------------------------------------------------------------------
--- GPIO
+-- TIMER
 ----------------|-----------|-------|-------------------------------------------
 -- REGISTER     | address   | mode  | description
 ----------------|-----------|-------|-------------------------------------------
 -- control      | 0x0       | r/w   | control register
 -- status       | 0x4       | r     | status register
--- data         | 0x8       | r/w   | GPIO data
--- mask         | 0xC       | r/w   | GPIO irq mask
+-- data         | 0x8       | r     | current timer value
 ----------------|-----------|-------|-------------------------------------------
 -- CONTROL      |           |       | 
 ----------------|-----------|-------|-------------------------------------------
 -- reset        | 0         | r/w   | user reset
--- enable       | 1         | r/w   | enable device
--- irq mask en  | 2         | r/w   | use irq mask
+-- enable       | 1         | r/w   | enable timer
+-- autoreload   | 2         | r/w   | reload on overflow
+-- unit         | 3:5       | r/w   | timer measurement unit
 ----------------|-----------|-------|-------------------------------------------
 -- STATUS       |           |       | 
 ----------------|-----------|-------|-------------------------------------------
--- ready        | 0         | r     | gpio ready
--- davail       | 1         | r     | data available
+-- ready        | 0         | r     | timer ready
+-- overflow     | 1         | r     | timer overflow, reloaded
 ----------------|-----------|-------|-------------------------------------------
 
 library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
-    use ieee.math_real.all;
     
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
 library plasmax_lib;
 
-entity slave_gpio is 
-generic
-(
-    constant channels : positive := 32
-);
+entity slave_counter is 
 port
 (
     clk_i : in std_logic;
     rst_i : in std_logic;
 
-    gpio_i  : in std_logic_vector(31 downto 0);
-    gpio_o  : out std_logic_vector(31 downto 0);
     irq_o   : out std_logic;
 
     cyc_i   : in std_logic;
@@ -62,29 +55,29 @@ port
     stall_o : out std_logic;
     err_o   : out std_logic
 );
-end slave_gpio;
+end slave_counter;
 
-architecture behavior of slave_gpio is 
-    signal ctrl_s       : std_logic_vector(31 downto 0) := (others => '0');
-    signal stat_s       : std_logic_vector(31 downto 0) := (others => '0');
+architecture behavior of slave_counter is 
+    signal ctrl_s  : std_logic_vector(31 downto 0) := (others => '0');
+    signal stat_s  : std_logic_vector(31 downto 0) := (others => '0');
+
+    signal dat_is  : std_logic_vector(31 downto 0) := (others => '0');
+    signal dat_os  : std_logic_vector(31 downto 0) := (others => '0');
     
-    signal dat_is       : std_logic_vector(31 downto 0) := (others => '0');
-    signal dat_os       : std_logic_vector(31 downto 0) := (others => '0');
-    signal gpio_in_s    : std_logic_vector(31 downto 0) := (others => '0');
-    signal mask_s       : std_logic_vector(31 downto 0) := (others => '0');
-
-    signal ack_s   : std_logic := '0';
-    signal err_s   : std_logic := '0';
-
+    signal cnt_s   : std_logic_vector(31 downto 0) := (others => '0');
+    
+    signal ack_s        : std_logic := '0';
+    signal err_s        : std_logic := '0';
+    
     alias stat_ready_a      : std_logic is stat_s(0);
-    alias stat_davail_a     : std_logic is stat_s(1);
+    alias stat_overflow_a   : std_logic is stat_s(1);
 
-    alias ctrl_reset_a      : std_logic is ctrl_s(0);
-    alias ctrl_mask_en_a    : std_logic is ctrl_s(1);
+    alias ctrl_rst_a        : std_logic is ctrl_s(0);
+    alias ctrl_en_a         : std_logic is ctrl_s(1);
+    alias ctrl_autoreload_a : std_logic is ctrl_s(2);
+    alias ctrl_unit_a       : std_logic_vector(2 downto 0) is ctrl_s(5 downto 3);
 begin
-    stat_ready_a <= '1';
-
-    irq_o   <= stat_davail_a;
+    irq_o   <= stat_overflow_a;    
 
     dat_o   <= dat_os;
 
@@ -93,15 +86,17 @@ begin
     stall_o <= '0';
     err_o   <= err_s;
 
+    stat_ready_a <= '1';
+
     process(clk_i, rst_i)
         variable ack_v  : std_logic := '0';
         variable err_v  : std_logic := '0';
     begin         
         if rst_i = '1' then  
             ctrl_s  <= (others => '0');
-            dat_os  <= (others => '0');
+
             dat_is  <= (others => '0');
-            mask_s  <= (others => '0');
+            dat_os  <= (others => '0');
 
             ack_s   <= '0';
             err_s   <= '0';  
@@ -114,42 +109,35 @@ begin
 
                 if we_i = '0' then
                     case adr_i(3 downto 0) is
-                        when x"0" => dat_os      <= ctrl_s;
-                        when x"4" => dat_os      <= stat_s;
-                        when x"8" => dat_os      <= gpio_in_s;
-                        when x"C" => dat_os      <= mask_s;
+                        when x"0" => dat_os     <= ctrl_s;
+                        when x"4" => dat_os     <= stat_s;
+                        when x"8" => dat_os     <= cnt_s;
                         when others => err_v    := '1';
                     end case;
                 else
                     case adr_i(3 downto 0) is
-                        when x"0" => ctrl_s      <= dat_i;
-                        when x"8" => dat_is      <= dat_i;
-                        when x"C" => mask_s      <= dat_i;
+                        when x"0" => ctrl_s     <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;
             end if;
-                
+
             ack_s <= ack_v and not err_v;
             err_s <= err_v;
         end if;
     end process;
 
-    gpio: entity plasmax_lib.gpio
+    counter: entity plasmax_lib.timer
     port map 
     (
         clk_i   => clk_i,
-        rst_i   => rst_i or ctrl_reset_a,
+        rst_i   => rst_i or ctrl_rst_a,
 
-        we_i    => we_i,
+        en_i    => ctrl_en_a and ((not stat_overflow_a) or ctrl_autoreload_a),
+        unit_i  => ctrl_unit_a,
+        cnt_o   => cnt_s,
 
-        mask_i  => mask_s and (mask_s'range => ctrl_mask_en_a),
-        dat_i   => dat_is,
-        dat_o   => gpio_in_s,
-        gpio_i  => gpio_i,
-        gpio_o  => gpio_o,
-
-        irq_o  => stat_davail_a
+        irq_o   => stat_overflow_a
     );
 
 end behavior;

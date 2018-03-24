@@ -93,11 +93,7 @@ begin
     mem_pause_in <= '0';
 
 
-    LD(7 downto 0) <= --error_code(15 downto 8) when SW(0) else -- sd fat error
-                    --error_code(7 downto 0) when SW(1) else -- bootrom state
-                    --data_write(7 downto 0) when SW(2) else -- data
-                    (reset, not SD_CD, gpio0_out(0), '0') & "0000";
-
+    LD(7 downto 0) <= gpio0_out(7 downto 0) when reset = '0' else x"80";
 
     u1_plasmax: entity plasmax_lib.plasmax
     generic map 

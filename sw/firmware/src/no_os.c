@@ -1,11 +1,13 @@
 #include "plasma.h"
 #include "no_os.h"
+#include "kernel/devicemap.h"
+#include "kernel/io.h"
+
 
 void putchar(int value)
 {
-   while((MemoryRead(IRC_FLAGS) & IRQ_UART_WRITE_AVAILABLE) == 0)
-      ;
-   MemoryWrite(UART_WRITE, value);
+    while((irc0->device.data & IRQ_UART_WRITE_AVAILABLE) == 0);
+    uart0->device.data = value;
 }
 
 int puts(const char *string)
@@ -17,6 +19,7 @@ int puts(const char *string)
       putchar(*string++);
    }
    return 0;
+    //return dputs(&uart0->device, string);
 }
 
 void OS_InterruptServiceRoutine(unsigned int status)
@@ -27,12 +30,14 @@ void OS_InterruptServiceRoutine(unsigned int status)
 
 int kbhit(void)
 {
-   return MemoryRead(IRC_FLAGS) & IRQ_UART_READ_AVAILABLE;
+    return irc0->device.data & IRQ_UART_READ_AVAILABLE;
 }
 
 int getch(void)
 {
-   while(!kbhit()) ;
+   while(!kbhit());
+
+   //return dread(&uart0->device);
    return MemoryRead(UART_READ);
 }
 

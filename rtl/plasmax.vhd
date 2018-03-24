@@ -87,8 +87,12 @@ entity plasmax is
 end; --entity plasma
 
 architecture logic of plasmax is
+    constant counters       : positive := 4;
+    constant counters_start : positive := 4;
+    constant counters_end   : positive := counters_start + counters - 1;
+
     constant masters    : positive := 1;
-    constant slaves     : positive := 8;
+    constant slaves     : positive := 7 + counters;
   
     signal master_select    : std_logic_vector(bit_width(masters) downto 0);    
     signal slave_select     : std_logic_vector(bit_width(slaves) downto 0);
@@ -107,26 +111,26 @@ architecture logic of plasmax is
     alias ext_mem_port  : wb_port is s_ports(1);
     alias irc_port      : wb_port is s_ports(2);
     alias uart_port     : wb_port is s_ports(3);
-    alias counter0_port : wb_port is s_ports(4);
-    alias gpio0_port    : wb_port is s_ports(5);
-    alias spic_port     : wb_port is s_ports(6);
-    alias oledc_port    : wb_port is s_ports(7);
+    alias counter_ports : ports   is s_ports(counters_end downto counters_start);
+    alias gpio0_port    : wb_port is s_ports(counters_end + 1);
+    alias spic_port     : wb_port is s_ports(counters_end + 2);
+    alias oledc_port    : wb_port is s_ports(counters_end + 3);
 
     signal irq          : std_logic;
     signal irq_inputs   : std_logic_vector(31 downto 0);
 
     signal irq_uart      : std_logic;
     signal irq_gpio0     : std_logic;
-    signal irq_counter0  : std_logic;
+    signal irq_counters  : std_logic_vector(counters_end downto counters_start);
     signal irq_oledc     : std_logic;
 begin  --architecture
 
 -- INTERRUPTS ------------------------------------------------------------------
     irq_inputs <= cpu_port.err          -- access violation
-                & ZERO(30 downto 5)
+                & ZERO(30 downto 8)
                 & irq_oledc
                 & irq_gpio0
-                & irq_counter0
+                & irq_counters
                 & not uart_port.stall   -- uart write available
                 & irq_uart;             -- uart read available
 -- BUS SYSTEM ------------------------------------------------------------------
@@ -199,12 +203,19 @@ begin  --architecture
         (
             ( x"00000000", x"0FFFFFFF" ),  -- internal memory
             ( x"10000000", x"001FFFFF" ),  -- external memory                 
-            ( x"20000000", x"0FFFF0FF" ),  -- irc       
-            ( x"20000100", x"0FFFF0FF" ),  -- uart
-            ( x"20000200", x"0FFFF0FF" ),  -- counter
-            ( x"20000300", x"0FFFF0FF" ),  -- gpio0
-            ( x"20000400", x"0FFFF0FF" ),  -- spic
-            ( x"40000000", x"000007FF" )   -- oledc
+            ( x"20000000", x"0000001F" ),  -- irc       
+            ( x"20000100", x"0000000F" ),  -- uart
+
+            -- counters --------------------------------------------------------
+            ( x"20000200", x"0000000F" ),  -- counter0
+            ( x"20000210", x"0000000F" ),  -- counter1
+            ( x"20000220", x"0000000F" ),  -- counter2
+            ( x"20000220", x"0000000F" ),  -- counter3
+            -- timers ----------------------------------------------------------
+            -- gpios -----------------------------------------------------------
+            ( x"20000300", x"0000000F" ),  -- gpio0
+            ( x"20000400", x"0000000F" ),  -- spic
+            ( x"40000000", x"0000000F" )   -- oledc
         )
     )
     port map
@@ -360,7 +371,7 @@ begin  --architecture
 
         tx      => uart_write,
         rx      => uart_read,
-        irq     => irq_uart,
+        irq_o   => irq_uart,
 
         cyc_i   => uart_port.cyc,
         stb_i   => uart_port.stb,
@@ -378,29 +389,31 @@ begin  --architecture
         err_o   => uart_port.err
     );
 
-    u_counter: entity plasmax_lib.slave_counter 
-    port map
-    (
-        clk_i   => clk,
-        rst_i   => reset,
-        
-        irq_o   => irq_counter0,
+    gen_counters: for i in counters_start to counters_end generate
+        u_counter: entity plasmax_lib.slave_counter 
+        port map
+        (
+            clk_i   => clk,
+            rst_i   => reset,
+            
+            irq_o   => irq_counters(i),
 
-        cyc_i   => counter0_port.cyc,
-        stb_i   => counter0_port.stb,
-        we_i    => counter0_port.we,
+            cyc_i   => counter_ports(i).cyc,
+            stb_i   => counter_ports(i).stb,
+            we_i    => counter_ports(i).we,
 
-        adr_i   => counter0_port.adr,
-        dat_i   => counter0_port.dat_i,
+            adr_i   => counter_ports(i).adr,
+            dat_i   => counter_ports(i).dat_i,
 
-        sel_i   => counter0_port.sel,
+            sel_i   => counter_ports(i).sel,
 
-        dat_o   => counter0_port.dat_o,
-        ack_o   => counter0_port.ack,
-        rty_o   => counter0_port.rty,
-        stall_o => counter0_port.stall,
-        err_o   => counter0_port.err
-    );
+            dat_o   => counter_ports(i).dat_o,
+            ack_o   => counter_ports(i).ack,
+            rty_o   => counter_ports(i).rty,
+            stall_o => counter_ports(i).stall,
+            err_o   => counter_ports(i).err
+        );
+    end generate;
 
     u_gpio0: entity plasmax_lib.slave_gpio 
     port map

@@ -6,10 +6,10 @@
 ----------------|-----------|-------|-------------------------------------------
 -- REGISTER     | address   | mode  | description
 ----------------|-----------|-------|-------------------------------------------
--- control      | 0         | r/w   | control register
--- status       | 1         | r     | status register
--- data         | 2         | r     | current counter value
--- reload       | 3         | r/w   | reload value on overflow
+-- control      | 0x0       | r/w   | control register
+-- status       | 0x4       | r     | status register
+-- data         | 0x8       | r     | current counter value
+-- reload       | 0xC       | r/w   | reload value on overflow
 ----------------|-----------|-------|-------------------------------------------
 -- CONTROL      |           |       | 
 ----------------|-----------|-------|-------------------------------------------
@@ -68,6 +68,7 @@ architecture behavior of slave_counter is
     signal rld_s   : std_logic_vector(31 downto 0) := (others => '0');
     signal cnt_s   : std_logic_vector(31 downto 0) := (others => '0');
     
+    signal ack_s        : std_logic := '0';
     signal err_s        : std_logic := '0';
     
     alias stat_ready_a      : std_logic is stat_s(0);
@@ -82,7 +83,7 @@ begin
 
     dat_o   <= dat_os;
 
-    ack_o   <= stb_i and not err_s;
+    ack_o   <= ack_s;
     rty_o   <= '0';
     stall_o <= '0';
     err_o   <= err_s;
@@ -90,6 +91,7 @@ begin
     stat_ready_a <= '1';
 
     process(clk_i, rst_i)
+        variable ack_v  : std_logic := '0';
         variable err_v  : std_logic := '0';
     begin         
         if rst_i = '1' then  
@@ -100,28 +102,33 @@ begin
 
             rld_s   <= (others => '0');
 
+            ack_s   <= '0';
             err_s   <= '0';  
         elsif rising_edge(clk_i) then
+            ack_v := '0';
+            err_v := '0';
+
             if stb_i = '1' then
-                err_v := '0';
+                ack_v := '1';
 
                 if we_i = '0' then
-                    case adr_i(7 downto 4) is
+                    case adr_i(3 downto 0) is
                         when x"0" => dat_os     <= ctrl_s;
-                        when x"1" => dat_os     <= stat_s;
-                        when x"2" => dat_os     <= cnt_s;
-                        when x"3" => dat_os     <= rld_s;
+                        when x"4" => dat_os     <= stat_s;
+                        when x"8" => dat_os     <= cnt_s;
+                        when x"C" => dat_os     <= rld_s;
                         when others => err_v    := '1';
                     end case;
                 else
-                    case adr_i(7 downto 4) is
+                    case adr_i(3 downto 0) is
                         when x"0" => ctrl_s     <= dat_i;
-                        when x"3" => rld_s      <= dat_i;
+                        when x"C" => rld_s      <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;
             end if;
 
+            ack_s <= ack_v and not err_v;
             err_s <= err_v;
         end if;
     end process;

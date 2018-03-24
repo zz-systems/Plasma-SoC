@@ -32,36 +32,21 @@
 #define ETHERNET_REG      0x20000270
 #define FLASH_BASE        0x30000000
 
-#define IRC_BASE          0x20000000
-#define IRC_CONTROL         (IRC_BASE + 0x00)
-#define IRC_STATUS          (IRC_BASE + 0x10)
-#define IRC_FLAGS_RAW       (IRC_BASE + 0x20)
-#define IRC_FLAGS           (IRC_BASE + 0x30)
-#define IRC_CLEAR           (IRC_BASE + 0x40)
-#define IRC_INVERT          (IRC_BASE + 0x50)
-#define IRC_ENABLE          (IRC_BASE + 0x60)
-#define IRC_EDGE            (IRC_BASE + 0x70)
+#define UART0_BASE          0x20000100
 
-#define COUNTER_BASE      0x20000200
-#define COUNTER_CONTROL   (COUNTER_BASE + 0x00)
-#define COUNTER_STATUS    (COUNTER_BASE + 0x10)
-#define COUNTER_DATA      (COUNTER_BASE + 0x20)
-#define COUNTER_RELOAD    (COUNTER_BASE + 0x30)
+#define IRC_BASE            0x20000000
+
+#define COUNTER0_BASE       0x20000200
+#define COUNTER1_BASE       (COUNTER0_BASE + 0x10)
+#define COUNTER2_BASE       (COUNTER0_BASE + 0x20)
+#define COUNTER3_BASE       (COUNTER0_BASE + 0x30)
 
 #define GPIO0_BASE          0x20000300
-#define GPIO0_CONTROL       (GPIO0_BASE + 0x00)
-#define GPIO0_STATUS        (GPIO0_BASE + 0x10)
-#define GPIO0_DATA          (GPIO0_BASE + 0x20)
-#define GPIO0_MASK          (GPIO0_BASE + 0x30)
-
-#define SPI_BASE          0x20000400
-#define SPI_DATA          (SPI_BASE + 0x00)
-#define SPI_CONTROL       (SPI_BASE + 0x10)
-
-#define DISPLAY_BASE	  0x40000000
-#define DISPLAY_CONTROL	  (DISPLAY_BASE + 0x00)
-#define DISPLAY_STATUS	  (DISPLAY_BASE + 0x10)
-#define DISPLAY_DATA	  (DISPLAY_BASE + 0x20)
+#define SPI_BASE            0x20000400
+#define DISPLAY0_BASE	    0x40000000
+// #define DISPLAY_CONTROL	  (DISPLAY_BASE + 0x00)
+// #define DISPLAY_STATUS	  (DISPLAY_BASE + 0x10)
+// #define DISPLAY_DATA	  (DISPLAY_BASE + 0x20)
 
 /*********** GPIO out bits ***************/
 #define ETHERNET_MDIO     0x00200000
@@ -73,6 +58,9 @@
 #define IRQ_UART_READ_AVAILABLE  0x01
 #define IRQ_UART_WRITE_AVAILABLE 0x02
 #define IRQ_COUNTER0             0x04
+#define IRQ_COUNTER1             0x05
+#define IRQ_COUNTER2             0x06
+#define IRQ_COUNTER3             0x07
 #define IRQ_GPIO0                0x08
 
 #define IRQ_ETHERNET_RECEIVE     0x10

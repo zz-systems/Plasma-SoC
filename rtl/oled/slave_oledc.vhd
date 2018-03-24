@@ -6,9 +6,10 @@
 ----------------|-----------|-------|-------------------------------------------
 -- REGISTER     | address   | mode  | description
 ----------------|-----------|-------|-------------------------------------------
--- control      | 0         | r/w   | control register
--- status       | 1         | r     | status register
--- data         | 513:2     | w     | vram data
+-- control      | 0x0       | r/w   | control register
+-- status       | 0x4       | r     | status register
+-- data         | 0x8       | w     | vram data window
+-- vaddr        | 0xC       | r/w   | vram address
 ----------------|-----------|-------|-------------------------------------------
 -- CONTROL      |           |       | 
 ----------------|-----------|-------|-------------------------------------------
@@ -78,6 +79,7 @@ architecture behavior of slave_oledc is
 
     signal adr_s   : std_logic_vector(9 downto 0)  := (others => '0');
 
+    signal ack_s    : std_logic := '0';
     signal err_s    : std_logic := '0';
     signal we_s     : std_logic := '0';
 
@@ -92,12 +94,13 @@ begin
 
     dat_o   <= dat_os;
 
-    ack_o   <= stb_i and stat_ready_a and not err_s;
+    ack_o   <= ack_s;
     rty_o   <= '0';
-    stall_o <= stb_i and not stat_ready_a;
+    stall_o <= '0';
     err_o   <= err_s;
 
     process(clk_i, rst_i)
+        variable ack_v  : std_logic := '0';
         variable err_v  : std_logic := '0';
         variable we_v   : std_logic := '0';
     begin         
@@ -109,36 +112,39 @@ begin
 
             adr_s   <= (others => '0');
 
+            ack_s   <= '0';
             err_s   <= '0'; 
             we_s    <= '0'; 
         elsif rising_edge(clk_i) then
+            ack_v := '0';
+            err_v := '0';
+            we_v  := '0';
+
             if stb_i = '1' then
-                err_v := '0';
-                we_v  := '0';
+                ack_v := '1';
 
                 if we_i = '0' then
-                    if adr_i(15 downto 4) = x"000" then
-                        dat_os     <= ctrl_s;
-                    elsif adr_i(15 downto 4) = x"001" then
-                        dat_os     <= stat_s;
-                    else
-                        err_v := '1';
-                    end if;
+                    case adr_i(3 downto 0) is 
+                        when x"0" => dat_os     <= ctrl_s;
+                        when x"4" => dat_os     <= stat_s;
+                        when x"C" => dat_os     <= ZERO(31 downto 10) & adr_s;
+                        when others => err_v := '1';
+                    end case;
                 else
-                    if adr_i(15 downto 4) = x"000" then
-                        ctrl_s     <= dat_i;
-                    elsif adr_i(15 downto 4) >= x"002" and adr_i(15 downto 4) <= x"202" then
-                        dat_is  <= dat_i(7 downto 0);
-                        adr_s   <= adr_i(15 downto 6);
-                        we_v    := '1';
-                    else 
-                        err_v := '1';
-                    end if;
+                    case adr_i(3 downto 0) is 
+                        when x"0" => ctrl_s     <= dat_i;
+                        when x"8" => adr_s      <= dat_i(9 downto 0);
+                        when x"C" => 
+                            dat_is     <= dat_i(7 downto 0);
+                            we_v    := '1';
+                        when others => err_v := '1';
+                    end case;
                 end if;
-                
-                err_s   <= err_v;
-                we_s    <= we_v;
             end if;
+
+            ack_s   <= ack_v and not err_v;    
+            err_s   <= err_v;
+            we_s    <= we_v;
         end if;
     end process;
 

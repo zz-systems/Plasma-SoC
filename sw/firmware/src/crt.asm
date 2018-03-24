@@ -1,5 +1,5 @@
 	.align 2
-	.comm ISR_Table, 128   
+	#.comm ISR_Table, 128   
 
 	.text
 	.align 2
@@ -30,7 +30,7 @@ $SBSS_CLEAR:
 	addiu $5, $5, 4
 	
 # COPY DATA
-	la		$6, __rom_data_start
+	la	  $6, __rom_data_start
 	la    $5,  __data_start		
 	la    $4,  __data_end		
 $DATA_COPY:
@@ -42,7 +42,7 @@ $DATA_COPY:
 	addiu $5, $5, 4
 
 # COPY SDATA
-	la		$6, __rom_sdata_start
+	la	  $6, __rom_sdata_start
 	la    $5,  __sdata_start		
 	la    $4,  __sdata_end		
 $SDATA_COPY:
@@ -52,6 +52,9 @@ $SDATA_COPY:
 	addiu $6, $6, 4
 	bnez  $3, $SDATA_COPY
 	addiu $5, $5, 4
+
+    # jal kinit_sections
+    # nop
 
 # JUMP TO MAIN
 	jal   main
@@ -101,7 +104,7 @@ interrupt_service_routine:
 
    lui   $6,  0x2000
 _ISR_TEST_STATUS:
-   lw    $6,  0x90($6)   #IRQ_STATUS
+   lw    $6,  0x08($6)   #IRQ_STATUS
    beq   $0, $6, _ISR_DONE
    add  $4, $0, $0
    addi $5, $0, 1
@@ -116,15 +119,15 @@ _ISR_BIT_LOOP:
 
 _ISR_BIT_FOUND:
    sw    $4, 100($29)
-   jal   OS_InterruptServiceRoutine #$4 = IR-Number
+   jal   kir_handler #OS_InterruptServiceRoutine #$4 = IR-Number
    addi  $5,  $29, 0
    lw    $4, 100($29)
 
    addi $5, $0, 1
    sll  $5, $5, $4
    lui   $6,  0x2000
-   sw    $5,  0xD0($6)   #IRQ_CLEAR
-   sw    $0,  0xD0($6)   #IRQ_CLEAR
+   sw    $5,  0x10($6)   #IRQ_CLEAR
+   sw    $0,  0x10($6)   #IRQ_CLEAR
 
 
    j  _ISR_TEST_STATUS
@@ -179,40 +182,40 @@ OS_AsmInterruptEnable:
    .end OS_AsmInterruptEnable
 
    
-###################################################
-   .global OS_RegisterInterrupt
-   .ent OS_RegisterInterrupt
-OS_RegisterInterrupt:
-   .set noreorder
-   # $4 = Handler
-   # $5 = Flags
-   andi	$8, $5, 0x001F
-   sll	$9, $8, 2
-   sw	$4, ISR_Table($9)
+# ###################################################
+#    .global OS_RegisterInterrupt
+#    .ent OS_RegisterInterrupt
+# OS_RegisterInterrupt:
+#    .set noreorder
+#    # $4 = Handler
+#    # $5 = Flags
+#    andi	$8, $5, 0x001F
+#    sll	$9, $8, 2
+#    sw	$4, ISR_Table($9)
    
-   lui	$9, 0x2000
-   ori	$12, $0, 1
-   sll	$12, $12, $8
-   nor	$12, $0, $12
+#    lui	$9, 0x2000
+#    ori	$12, $0, 1
+#    sll	$12, $12, $8
+#    nor	$12, $0, $12
    
-   srl	$10, $5, 16
-   andi	$10, $10, 1
-   sll	$10, $10, $8
-   lw	$11, 0xA0($9) # Invert
-   and	$11, $11, $12
-   or	$11, $11, $10
-   sw	$11, 0xA0($9) # Invert
+#    srl	$10, $5, 16
+#    andi	$10, $10, 1
+#    sll	$10, $10, $8
+#    lw	$11, 0x14($9) # Invert
+#    and	$11, $11, $12
+#    or	$11, $11, $10
+#    sw	$11, 0x14($9) # Invert
    
 
-   srl	$10, $5, 17
-   andi	$10, $10, 1
-   sll	$10, $10, $8
-   lw	$11, 0xB0($9) # Edge
-   and	$11, $11, $12
-   or	$11, $11, $10
-   sw	$11, 0xB0($9) # Edge
+#    srl	$10, $5, 17
+#    andi	$10, $10, 1
+#    sll	$10, $10, $8
+#    lw	$11, 0x1C($9) # Edge
+#    and	$11, $11, $12
+#    or	$11, $11, $10
+#    sw	$11, 0x1C($9) # Edge
    
-   jr    $31
-   nop
-   .set reorder
-   .end OS_RegisterInterrupt
+#    jr    $31
+#    nop
+#    .set reorder
+#    .end OS_RegisterInterrupt
