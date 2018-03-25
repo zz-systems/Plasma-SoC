@@ -39,6 +39,6 @@
 
 typedef struct gpio_device
 {
-    device  device;
-    reg32_t mask;
+    device_t    device;
+    reg32_t     mask;
 } gpio;

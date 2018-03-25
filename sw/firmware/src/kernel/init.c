@@ -1,39 +1,4 @@
-// extern char __bss_start, __bss_size;
-// extern char __sbss_start, __sbss_size;
-
-// extern char __rom_data_start, __rom_sdata_start;
-// extern char __data_start, __data_size;
-// extern char __sdata_start, __sdata_size;
-
-// void kinit_sections()
-// {
-//     char *__bss = &__bss_start;
-//     char *__sbss = &__sbss_start;
-
-//     char *__rom_data = &__rom_data_start;
-//     char *__rom_sdata = &__rom_sdata_start;
-
-//     char *__data = &__data_start;
-//     char *__sdata = &__sdata_start;
-
-    
-//     // clear bss 
-//     for(int i = 0; i < __bss_size; i++)
-//         __bss[i] = 0;
-
-//     // clear sbss 
-//     for(int i = 0; i < __sbss_size; i++)
-//         __sbss[i] = 0;
-
-//     // copy data
-//     for(int i = 0; i < __data_size; i++)
-//         __data[i] = __rom_data[i];
-
-//     // copy sdata
-//     for(int i = 0; i < __sdata_size; i++)
-//         __sdata[i] = __rom_sdata[i];
-// }
-
+#include "kernel/memory.h"
 
 extern unsigned __bss_start, __bss_end;
 extern unsigned __sbss_start, __sbss_end;

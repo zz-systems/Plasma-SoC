@@ -67,18 +67,31 @@ architecture logic of tb_plasma_vs_plasmax is
     signal mosi         : std_logic;
 begin  --architecture
     --Uncomment the line below to test interrupts
-    interrupt <= '1' after 20 us when interrupt = '0' else '0' after 445 ns;
+    --interrupt <= '1' after 20 us when interrupt = '0' else '0' after 445 ns;
 
     clk   <= not clk after 20 ns;
     clkx   <= not clkx after 20 ns;
 
-    reset <= '0' after 250 ns;
+    --reset <= '0' after 250 ns;
+    
     -- resetx <= '0' after 500 ns;
     --mem_pause <= not mem_pause after 100 ns;
     --uart_read <= '0';
     px_data_read <= interrupt & ZERO(30 downto 0);
     p_data_read <= interrupt & ZERO(30 downto 0);
 
+    process
+    begin
+        wait for 250 ns;
+        reset <= '0';
+        
+        wait for 1 ms;
+        reset <= '1';
+        
+        wait for 250 ns;
+        reset <= '0';
+    end process;
+    
     u1_plasmax: entity plasmax_lib.plasmax
     generic map 
     (
@@ -130,4 +143,5 @@ begin  --architecture
          gpioA_in          => p_data_read);
 
 
+    
 end; --architecture logic

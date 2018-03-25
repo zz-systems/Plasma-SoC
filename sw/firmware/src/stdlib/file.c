@@ -1,45 +1,78 @@
 #include "sys/file.h"
 #include "sys/memory.h"
+#include "sys/string.h"
 #include "kernel/io.h"
+#include "kernel/devicemap.h"
 
-FILE* fopen(device* device, char mode)
+FILE* fopen(const char* path, const char* mode)
 {
-    if ((mode & FILE_READ_MODE) == 0 && (mode & FILE_WRITE_MODE) == 0)
+    int parsed_mode = 0;
+
+    // get device descriptor
+    device_descriptor_t *device_desc = kdopen(path);
+    if(device_desc->type == DEVICE_UNKNOWN)
+        return NULL;
+
+    // parse file mode
+    if(strcmp(mode, "rw") == 0)
+        parsed_mode = FILE_READ_MODE | FILE_WRITE_MODE;
+    else if(strcmp(mode, "w") == 0)
+        parsed_mode = FILE_WRITE_MODE;
+    else if(strcmp(mode, "r") == 0)
+        parsed_mode = FILE_READ_MODE;
+    else
+        return NULL;
+    
+
+    return fdopen(device_desc, parsed_mode);
+}
+
+FILE* fdopen(device_descriptor_t *device_desc, int mode)
+{
+    if(device_desc->type == DEVICE_UNKNOWN)
         return NULL;
     
     FILE* file = (FILE*)malloc(sizeof(FILE));
 
     if(file != NULL)
     {
-        file->device        = device;
-        file->read_buffer   = NULL;
-        file->write_buffer  = NULL;
-        file->err           = 0;
+        file->device_desc       = device_desc;
+        file->read_buffer       = NULL;
+        file->write_buffer      = NULL;
+        file->err               = 0;
 
-        if (mode & FILE_READ_MODE)
+        if(device_desc->type == DEVICE_DISPLAY)
         {
-            file->read_buffer = (uint8_t*)malloc(BUF_SIZE);
-
-            if(file->read_buffer == NULL)
-            {
-                free(file);
-                return NULL;
-            }
-
-            file->read_ptr = file->read_buffer;
+            file->write_buffer  = (uint8_t*)(&display0->device.data);
+            file->write_ptr     = file->write_buffer;
         }
-
-        if (mode & FILE_WRITE_MODE)
-        {
-            file->write_buffer = (uint8_t*)malloc(BUF_SIZE);
-
-            if(file->write_buffer == NULL)
+        else
+        {            
+            if (mode & FILE_READ_MODE)
             {
-                free(file);
-                return NULL;
+                file->read_buffer = (uint8_t*)malloc(BUF_SIZE);
+
+                if(file->read_buffer == NULL)
+                {
+                    free(file);
+                    return NULL;
+                }
+
+                file->read_ptr = file->read_buffer;
             }
 
-            file->write_ptr = file->write_buffer;
+            if (mode & FILE_WRITE_MODE)
+            {
+                file->write_buffer = (uint8_t*)malloc(BUF_SIZE);
+
+                if(file->write_buffer == NULL)
+                {
+                    free(file);
+                    return NULL;
+                }
+
+                file->write_ptr = file->write_buffer;
+            }
         }
     }
 
@@ -49,6 +82,14 @@ FILE* fopen(device* device, char mode)
 void fclose(FILE* file)
 {
     fflush(file);
+
+    if(file->device_desc->type != DEVICE_DISPLAY)
+    {
+        free(file->read_buffer);
+        free(file->write_buffer);
+    }
+
+    free(file->device_desc);
 
     free(file);
 }
@@ -99,11 +140,36 @@ uint8_t fread(FILE* file)
 
 void fflush(FILE* file)
 {
-    for(uint8_t *buf_ptr = file->write_buffer; buf_ptr < file->write_ptr; buf_ptr++)
-    {
-        dputc(file->device, *buf_ptr);
+    if(file->device_desc->type != DEVICE_DISPLAY)
+    { 
+        for(uint8_t *buf_ptr = file->write_buffer; buf_ptr < file->write_ptr; buf_ptr++)
+        {
+            dputc(file->device_desc->device, *buf_ptr);
+        }
     }
 
     // Seek to begin
-    file->write_ptr = file->write_buffer;
+    fseek(file, 0, SEEK_SET);
+}
+
+void fseek(FILE *file, int offset, int seek_origin)
+{
+    if(seek_origin == SEEK_SET)
+    {
+        if(file->write_buffer)
+            file->write_ptr = file->write_buffer + offset;
+        if(file->read_buffer)
+            file->read_ptr = file->read_buffer + offset;
+    }
+    else if(seek_origin == SEEK_CUR)
+    {
+        if(file->write_buffer)
+            file->write_ptr += offset;
+        if(file->read_buffer)
+            file->read_ptr += offset;
+    }
+    else if(seek_origin == SEEK_END)
+    {
+        // not implemented
+    }
 }

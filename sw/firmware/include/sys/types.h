@@ -9,6 +9,8 @@ typedef uint16_t volatile reg16_t;
 typedef uint8_t  volatile reg8_t;
 
 typedef uint32_t addr_t;
+typedef uint32_t uintptr_t;
+typedef uint32_t size_t;
 
 #define NULL    (0)
 #define TRUE    (1)

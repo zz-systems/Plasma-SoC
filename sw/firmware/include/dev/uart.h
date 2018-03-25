@@ -29,7 +29,7 @@
 
 typedef struct uart_device
 {
-    device device;
+    device_t device;
 } uart;
 
 

@@ -43,8 +43,8 @@
 
 typedef struct display_device
 {
-    device device;
-    reg32_t addr;
+    device_t    device;
+    reg32_t     addr;
 } display;
 
 

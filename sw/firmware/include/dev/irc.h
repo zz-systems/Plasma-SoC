@@ -43,7 +43,7 @@
 
 typedef struct irc_device
 {
-    device  device;
+    device_t  device;
     reg32_t imm_flags;
     reg32_t clear;
     reg32_t invert;

@@ -10,6 +10,7 @@ set_source_files_properties(
         PROPERTIES COMPILE_FLAGS "-x assembler-with-cpp")
 
 add_library(stdlib STATIC       src/stdlib/file.c
+                                src/stdlib/string.c
                                 src/stdlib/memory.c)
 
 target_link_libraries(stdlib PUBLIC linker_cfg kernel)

@@ -24,3 +24,15 @@
 #define gpio0       (device_at(gpio, GPIO0_BASE))
 #define uart0       (device_at(uart, UART0_BASE))
 #define display0    (device_at(display, DISPLAY0_BASE))
+
+typedef enum 
+{
+    DEVICE_UNKNOWN,
+    DEVICE_COUNTER,
+    DEVICE_IRC,
+    DEVICE_GPIO,
+    DEVICE_UART,
+    DEVICE_DISPLAY
+} devices_t;
+
+device_descriptor_t *kdopen(const char* path);

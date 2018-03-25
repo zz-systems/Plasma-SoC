@@ -42,8 +42,8 @@
 
 typedef struct
 {
-    device  device;
-    reg32_t reload;
+    device_t    device;
+    reg32_t     reload;
 } counter_t;
 
 

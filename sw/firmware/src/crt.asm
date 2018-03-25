@@ -55,6 +55,8 @@ $SDATA_COPY:
 
     # jal kinit_sections
     # nop
+    jal kinit_heap
+    nop
 
 # JUMP TO MAIN
 	jal   main

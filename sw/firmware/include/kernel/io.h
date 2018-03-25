@@ -2,15 +2,15 @@
 
 #include "kernel/device.h"
 
-uint32_t dread(device* device);
+uint32_t dread(device_t* device);
 
-void dwrite(device* device, uint32_t data);
+void dwrite(device_t* device, uint32_t data);
 
-int dputc(device* device, int character);
+int dputc(device_t* device, int character);
 
-int dgetc(device* device);
+int dgetc(device_t* device);
 
-int dputs(device* device, const char *string);
+int dputs(device_t* device, const char *string);
 
 #define dcwrite(dev, data) (dev->device.control = (data))
 #define dcread(dev) (dev->device.control)

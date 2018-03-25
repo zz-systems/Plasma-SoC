@@ -19,11 +19,16 @@ typedef struct
     reg32_t control;
     reg32_t status;
     reg32_t data;
-} volatile device;
+} volatile device_t;
 
+typedef struct
+{
+    device_t *device;
+    int type;
+} device_descriptor_t;
 
-void device_await_ready     (device* device);
-void device_await_data      (device* device);
-void device_reset           (device* device);
-void device_enable          (device* device);
-void device_disable         (device* device);
+void device_await_ready     (device_t* device);
+void device_await_data      (device_t* device);
+void device_reset           (device_t* device);
+void device_enable          (device_t* device);
+void device_disable         (device_t* device);
