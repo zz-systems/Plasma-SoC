@@ -104,36 +104,38 @@ interrupt_service_routine:
    mflo  $27
    sw    $27, 96($29)    #lo
 
-   lui   $6,  0x2000
-_ISR_TEST_STATUS:
-   lw    $6,  0x08($6)   #IRQ_STATUS
-   beq   $0, $6, _ISR_DONE
-   add  $4, $0, $0
-   addi $5, $0, 1
+#    lui   $6,  0x2000
+# _ISR_TEST_STATUS:
+#    lw    $6,  0x08($6)   #IRQ_STATUS
+#    beq   $0, $6, _ISR_DONE
+#    add  $4, $0, $0
+#    addi $5, $0, 1
 
-_ISR_BIT_LOOP:
-   and  $8, $6, $5  # mask lowest bit
-   beq  $5, $8, _ISR_BIT_FOUND
-   srl  $6, $6, 1
-   addi $4, $4, 1
-   j  _ISR_BIT_LOOP
-   nop
+# _ISR_BIT_LOOP:
+#    and  $8, $6, $5  # mask lowest bit
+#    beq  $5, $8, _ISR_BIT_FOUND
+#    srl  $6, $6, 1
+#    addi $4, $4, 1
+#    j  _ISR_BIT_LOOP
+#    nop
 
-_ISR_BIT_FOUND:
-   sw    $4, 100($29)
-   jal   kir_handler #OS_InterruptServiceRoutine #$4 = IR-Number
-   addi  $5,  $29, 0
-   lw    $4, 100($29)
+# _ISR_BIT_FOUND:
+#    sw    $4, 100($29)
+#    jal   kir_handler #OS_InterruptServiceRoutine #$4 = IR-Number
+#    addi  $5,  $29, 0
+#    lw    $4, 100($29)
 
-   addi $5, $0, 1
-   sll  $5, $5, $4
-   lui   $6,  0x2000
-   sw    $5,  0x10($6)   #IRQ_CLEAR
-   sw    $0,  0x10($6)   #IRQ_CLEAR
+#    addi $5, $0, 1
+#    sll  $5, $5, $4
+#    lui   $6,  0x2000
+#    sw    $5,  0x10($6)   #IRQ_CLEAR
+#    sw    $0,  0x10($6)   #IRQ_CLEAR
 
 
-   j  _ISR_TEST_STATUS
-   nop
+#    j  _ISR_TEST_STATUS
+#    nop
+    jal   kir_handler
+    nop
 
 _ISR_DONE:
    #Restore all temporary registers

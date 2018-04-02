@@ -85,11 +85,11 @@ begin  --architecture
         wait for 250 ns;
         reset <= '0';
         
-        wait for 1 ms;
-        reset <= '1';
+        --wait for 1 ms;
+        --reset <= '1';
         
-        wait for 250 ns;
-        reset <= '0';
+        --wait for 250 ns;
+        --reset <= '0';
     end process;
     
     u1_plasmax: entity plasmax_lib.plasmax
@@ -115,8 +115,8 @@ begin  --architecture
         write_byte_enable => px_mem_byte_sel,
         mem_pause_in      => px_mem_pause,
 
-        gpio0_out         => open,
-        gpioA_in          => px_data_read,
+        gpio_o            => open,
+        gpio_i            => (127 downto 32 => '0') & px_data_read,
 
         MOSI    => mosi,
         MISO    => miso,

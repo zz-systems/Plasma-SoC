@@ -38,7 +38,7 @@
 #define COUNTER_COUNT_DOWN                  0x08 
 
 // status register bits
-#define COUNTER_STATUS_OVERFLOW             0x01
+#define COUNTER_STATUS_OVERFLOW             0x02
 
 typedef struct
 {

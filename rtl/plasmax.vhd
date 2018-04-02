@@ -67,8 +67,8 @@ entity plasmax is
         write_byte_enable : out std_logic_vector(3 downto 0);
         mem_pause_in      : in std_logic;
 
-        gpio0_out         : out std_logic_vector(31 downto 0);
-        gpioA_in          : in std_logic_vector(31 downto 0);
+        gpio_o            : out std_logic_vector(127 downto 0);
+        gpio_i            : in std_logic_vector(127 downto 0);
 
         -- SPI
         MOSI              : out std_logic;
@@ -87,12 +87,8 @@ entity plasmax is
 end; --entity plasma
 
 architecture logic of plasmax is
-    constant counters       : positive := 4;
-    constant counters_start : positive := 4;
-    constant counters_end   : positive := counters_start + counters - 1;
-
     constant masters    : positive := 1;
-    constant slaves     : positive := 7 + counters;
+    constant slaves     : positive := 18;
   
     signal master_select    : std_logic_vector(bit_width(masters) downto 0);    
     signal slave_select     : std_logic_vector(bit_width(slaves) downto 0);
@@ -111,26 +107,29 @@ architecture logic of plasmax is
     alias ext_mem_port  : wb_port is s_ports(1);
     alias irc_port      : wb_port is s_ports(2);
     alias uart_port     : wb_port is s_ports(3);
-    alias counter_ports : ports   is s_ports(counters_end downto counters_start);
-    alias gpio0_port    : wb_port is s_ports(counters_end + 1);
-    alias spic_port     : wb_port is s_ports(counters_end + 2);
-    alias oledc_port    : wb_port is s_ports(counters_end + 3);
+    alias timer_ports   : ports(3 downto 0) is s_ports(7 downto 4);
+    alias counter_ports : ports(3 downto 0) is s_ports(11 downto 8);
+    alias gpio_ports    : ports(3 downto 0) is s_ports(15 downto 12);
+    alias spic_port     : wb_port is s_ports(16);
+    alias oledc_port    : wb_port is s_ports(17);
 
     signal irq          : std_logic;
     signal irq_inputs   : std_logic_vector(31 downto 0);
 
     signal irq_uart      : std_logic;
-    signal irq_gpio0     : std_logic;
-    signal irq_counters  : std_logic_vector(counters_end downto counters_start);
+    signal irq_gpios     : std_logic_vector(3 downto 0);
+    signal irq_counters  : std_logic_vector(3 downto 0);
+    signal irq_timers    : std_logic_vector(3 downto 0);
     signal irq_oledc     : std_logic;
 begin  --architecture
 
 -- INTERRUPTS ------------------------------------------------------------------
     irq_inputs <= cpu_port.err          -- access violation
-                & ZERO(30 downto 8)
+                & ZERO(30 downto 15)
                 & irq_oledc
-                & irq_gpio0
+                & irq_gpios
                 & irq_counters
+                & irq_timers
                 & not uart_port.stall   -- uart write available
                 & irq_uart;             -- uart read available
 -- BUS SYSTEM ------------------------------------------------------------------
@@ -206,15 +205,25 @@ begin  --architecture
             ( x"20000000", x"0000001F" ),  -- irc       
             ( x"20000100", x"0000000F" ),  -- uart
 
-            -- counters --------------------------------------------------------
-            ( x"20000200", x"0000000F" ),  -- counter0
-            ( x"20000210", x"0000000F" ),  -- counter1
-            ( x"20000220", x"0000000F" ),  -- counter2
-            ( x"20000220", x"0000000F" ),  -- counter3
             -- timers ----------------------------------------------------------
+            ( x"20000200", x"0000000F" ),  -- timer0
+            ( x"20000210", x"0000000F" ),  -- timer1
+            ( x"20000220", x"0000000F" ),  -- timer2
+            ( x"20000220", x"0000000F" ),  -- timer3
+
+            -- counters --------------------------------------------------------
+            ( x"20000300", x"0000000F" ),  -- counter0
+            ( x"20000310", x"0000000F" ),  -- counter1
+            ( x"20000320", x"0000000F" ),  -- counter2
+            ( x"20000320", x"0000000F" ),  -- counter3
+           
             -- gpios -----------------------------------------------------------
-            ( x"20000300", x"0000000F" ),  -- gpio0
-            ( x"20000400", x"0000000F" ),  -- spic
+            ( x"20000400", x"0000000F" ),  -- gpio0
+            ( x"20000410", x"0000000F" ),  -- gpio1
+            ( x"20000420", x"0000000F" ),  -- gpio2
+            ( x"20000430", x"0000000F" ),  -- gpio3
+
+            ( x"20000500", x"0000000F" ),  -- spic
             ( x"40000000", x"0000007F" )   -- oledc
         )
     )
@@ -389,7 +398,33 @@ begin  --architecture
         err_o   => uart_port.err
     );
 
-    gen_counters: for i in counters_start to counters_end generate
+    gen_timer: for i in 0 to 3 generate
+        u_timer: entity plasmax_lib.slave_timer
+        port map
+        (
+            clk_i   => clk,
+            rst_i   => reset,
+            
+            irq_o   => irq_timers(i),
+
+            cyc_i   => timer_ports(i).cyc,
+            stb_i   => timer_ports(i).stb,
+            we_i    => timer_ports(i).we,
+
+            adr_i   => timer_ports(i).adr,
+            dat_i   => timer_ports(i).dat_i,
+
+            sel_i   => timer_ports(i).sel,
+
+            dat_o   => timer_ports(i).dat_o,
+            ack_o   => timer_ports(i).ack,
+            rty_o   => timer_ports(i).rty,
+            stall_o => timer_ports(i).stall,
+            err_o   => timer_ports(i).err
+        );
+    end generate;
+
+    gen_counter: for i in 0 to 3 generate
         u_counter: entity plasmax_lib.slave_counter 
         port map
         (
@@ -415,31 +450,34 @@ begin  --architecture
         );
     end generate;
 
-    u_gpio0: entity plasmax_lib.slave_gpio 
-    port map
-    (
-        clk_i   => clk,
-        rst_i   => reset,
+    gen_gpio: for i in 0 to 3 generate
+        u_gpio: entity plasmax_lib.slave_gpio 
+        port map
+        (
+            clk_i   => clk,
+            rst_i   => reset,
 
-        gpio_i  => gpioA_in,
-        gpio_o  => gpio0_out,
-        irq_o   => irq_gpio0,
+            gpio_i  => gpio_i((i + 1) * 32 - 1 downto i * 32),
+            gpio_o  => gpio_o((i + 1) * 32 - 1 downto i * 32),
 
-        cyc_i   => gpio0_port.cyc,
-        stb_i   => gpio0_port.stb,
-        we_i    => gpio0_port.we,
+            irq_o   => irq_gpios(i),
 
-        adr_i   => gpio0_port.adr,
-        dat_i   => gpio0_port.dat_i,
+            cyc_i   => gpio_ports(i).cyc,
+            stb_i   => gpio_ports(i).stb,
+            we_i    => gpio_ports(i).we,
 
-        sel_i   => gpio0_port.sel,
+            adr_i   => gpio_ports(i).adr,
+            dat_i   => gpio_ports(i).dat_i,
 
-        dat_o   => gpio0_port.dat_o,
-        ack_o   => gpio0_port.ack,
-        rty_o   => gpio0_port.rty,
-        stall_o => gpio0_port.stall,
-        err_o   => gpio0_port.err
-    );
+            sel_i   => gpio_ports(i).sel,
+
+            dat_o   => gpio_ports(i).dat_o,
+            ack_o   => gpio_ports(i).ack,
+            rty_o   => gpio_ports(i).rty,
+            stall_o => gpio_ports(i).stall,
+            err_o   => gpio_ports(i).err
+        );
+    end generate;
 
     u_spic: entity plasmax_lib.slave_spic 
     generic map
@@ -480,7 +518,7 @@ begin  --architecture
     (
         sys_clk     => sys_clk,
         spi_clk     => spi_clk,
-        example_active => true
+        example_active => false
     )
     port map
     (

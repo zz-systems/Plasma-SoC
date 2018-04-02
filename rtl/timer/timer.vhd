@@ -47,6 +47,7 @@ port
     en_i    : in std_logic;
     unit_i  : in std_logic_vector(2 downto 0);
     rld_i   : in std_logic_vector(data_w - 1 downto 0);
+    cnt_o   : out std_logic_vector(data_w - 1 downto 0);
 
     irq_o   : out std_logic
 );
@@ -61,7 +62,11 @@ architecture behavior of timer is
 
     signal unit_s           : unit_t;
     signal rld_s            : unsigned(data_w + 31 downto 0);
+
+    signal cnt_s            : std_logic_vector(data_w + 31 downto 0) := (others => '0');
 begin
+    cnt_o <= cnt_s(cnt_o'range);
+
     process(clk_i, rst_i)
     begin
         if rst_i = '1' then
@@ -100,7 +105,7 @@ begin
         en_i    => en_i,
         rld_i   => std_logic_vector(rld_s),
         dir_i   => '0',
-        cnt_o   => open,
+        cnt_o   => cnt_s,
 
         irq_o  => irq_o
     );

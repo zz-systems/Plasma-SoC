@@ -56,8 +56,8 @@ architecture logic of plasmax_if is
     signal mem_pause_in       : std_logic;
     signal clk_in             : std_logic;
     signal reset              : std_logic;
-    signal gpio0_out          : std_logic_vector(31 downto 0);
-    signal gpioA_in           : std_logic_vector(31 downto 0);
+    signal gpio0_out          : std_logic_vector(127 downto 0);
+    signal gpioA_in           : std_logic_vector(127 downto 0);
 
     signal debug_data         : std_logic_vector(15 downto 0);
 
@@ -118,8 +118,8 @@ begin
         data_read         => data_reg,
         mem_pause_in      => mem_pause_in,
 
-        gpio0_out         => gpio0_out,
-        gpioA_in          => gpioA_in,
+        gpio_o            => gpio0_out,
+        gpio_i            => gpioA_in,
 
         MOSI    => mosi,
         MISO    => miso,

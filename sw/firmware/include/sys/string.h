@@ -17,3 +17,7 @@ void itoa(int n, char s[]);
 // strcmp:  compare s1 to s2
 // taken from: https://en.wikibooks.org/wiki/C_Programming/string.h/strcmp
 int strcmp (const char * s1, const char * s2);
+
+// strcopy: copy src to dest
+// taken from: https://en.wikibooks.org/wiki/C_Programming/string.h/strcpy#Usage_and_implementation
+char *strcpy(char *dest, const char *src);

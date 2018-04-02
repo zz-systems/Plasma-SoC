@@ -62,36 +62,36 @@ begin  --architecture
    --uart_read <= '0';
    data_read <= interrupt & ZERO(30 downto 0);
 
-   u1_plasmax: entity plasmax_lib.plasmax
-   generic map 
-   (
-       memory_type => memory_type,
-       log_file    => log_file,
+    u1_plasmax: entity plasmax_lib.plasmax
+    generic map 
+    (
+        memory_type => memory_type,
+        log_file    => log_file,
 
-       spi_slaves  => spi_slaves,
-       sys_clk     => sys_clk,
-       spi_clk     => spi_clk
-   )
-   port map
-   (
-       clk               => clk,
-       reset             => reset,
-       uart_read         => uart_write,
-       uart_write        => uart_write,
+        spi_slaves  => spi_slaves,
+        sys_clk     => sys_clk,
+        spi_clk     => spi_clk
+    )
+    port map
+    (
+        clk               => clk,
+        reset             => reset,
+        uart_read         => uart_write,
+        uart_write        => uart_write,
 
-       address           => mem_address,
-       data_write        => mem_data,
-       data_read         => data_read,
-       write_byte_enable => mem_byte_sel,
-       mem_pause_in      => mem_pause,
+        address           => mem_address,
+        data_write        => mem_data,
+        data_read         => data_read,
+        write_byte_enable => mem_byte_sel,
+        mem_pause_in      => mem_pause,
 
-       gpio0_out         => open,
-       gpioA_in          => data_read,
+        gpio_o            => open,
+        gpio_i            => (127 downto 32 => '0') & data_read,
 
-       MOSI    => mosi,
-       MISO    => miso,
-       SCLK    => sclk,
-       CS      => cs_n
-   );
+        MOSI    => mosi,
+        MISO    => miso,
+        SCLK    => sclk,
+        CS      => cs_n
+    );  
 
 end; --architecture logic

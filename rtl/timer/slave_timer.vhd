@@ -9,6 +9,7 @@
 -- control      | 0x0       | r/w   | control register
 -- status       | 0x4       | r     | status register
 -- data         | 0x8       | r     | current timer value
+-- reload       | 0xC       | r/w   | reload value on overflow
 ----------------|-----------|-------|-------------------------------------------
 -- CONTROL      |           |       | 
 ----------------|-----------|-------|-------------------------------------------
@@ -32,7 +33,7 @@ library plasma_lib;
     
 library plasmax_lib;
 
-entity slave_counter is 
+entity slave_timer is 
 port
 (
     clk_i : in std_logic;
@@ -55,15 +56,16 @@ port
     stall_o : out std_logic;
     err_o   : out std_logic
 );
-end slave_counter;
+end slave_timer;
 
-architecture behavior of slave_counter is 
+architecture behavior of slave_timer is 
     signal ctrl_s  : std_logic_vector(31 downto 0) := (others => '0');
     signal stat_s  : std_logic_vector(31 downto 0) := (others => '0');
 
     signal dat_is  : std_logic_vector(31 downto 0) := (others => '0');
     signal dat_os  : std_logic_vector(31 downto 0) := (others => '0');
     
+    signal rld_s   : std_logic_vector(31 downto 0) := (others => '0');
     signal cnt_s   : std_logic_vector(31 downto 0) := (others => '0');
     
     signal ack_s        : std_logic := '0';
@@ -98,6 +100,8 @@ begin
             dat_is  <= (others => '0');
             dat_os  <= (others => '0');
 
+            rld_s   <= (others => '0');
+
             ack_s   <= '0';
             err_s   <= '0';  
         elsif rising_edge(clk_i) then
@@ -112,11 +116,13 @@ begin
                         when x"0" => dat_os     <= ctrl_s;
                         when x"4" => dat_os     <= stat_s;
                         when x"8" => dat_os     <= cnt_s;
+                        when x"C" => dat_os     <= rld_s;
                         when others => err_v    := '1';
                     end case;
                 else
                     case adr_i(3 downto 0) is
                         when x"0" => ctrl_s     <= dat_i;
+                        when x"C" => rld_s      <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;
@@ -127,13 +133,14 @@ begin
         end if;
     end process;
 
-    counter: entity plasmax_lib.timer
+    timer: entity plasmax_lib.timer
     port map 
     (
         clk_i   => clk_i,
         rst_i   => rst_i or ctrl_rst_a,
 
         en_i    => ctrl_en_a and ((not stat_overflow_a) or ctrl_autoreload_a),
+        rld_i   => rld_s,
         unit_i  => ctrl_unit_a,
         cnt_o   => cnt_s,
 

@@ -50,3 +50,12 @@ int strcmp (const char * s1, const char * s2)
             return 0;
     return *(unsigned char *)s1 < *(unsigned char *)s2 ? -1 : 1;
 }
+
+// strcopy: copy src to dest
+// taken from: https://en.wikibooks.org/wiki/C_Programming/string.h/strcpy#Usage_and_implementation
+char *strcpy(char *dest, const char *src)
+{
+   char *save = dest;
+   while(*dest++ = *src++);
+   return save;
+}

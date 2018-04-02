@@ -34,6 +34,9 @@ FILE* fdopen(device_descriptor_t *device_desc, int mode)
     
     FILE* file = (FILE*)malloc(sizeof(FILE));
 
+    int create_rb = FALSE, 
+        create_wb = FALSE;
+
     if(file != NULL)
     {
         file->device_desc       = device_desc;
@@ -45,35 +48,54 @@ FILE* fdopen(device_descriptor_t *device_desc, int mode)
         {
             file->write_buffer  = (uint8_t*)(&display0->device.data);
             file->write_ptr     = file->write_buffer;
+            file->wb_size       = 64;
+            file->rb_size       = 0;
+
+            create_rb = FALSE;
+            create_wb = FALSE;
+        }
+        else if(device_desc->type == DEVICE_UART)
+        {
+            file->read_buffer  = (uint8_t*)(&uart0->device.data);
+            file->read_ptr     = file->read_buffer;
+            file->rb_size      = 1;
+
+            create_rb = FALSE;
+            create_wb = TRUE;
         }
         else
-        {            
-            if (mode & FILE_READ_MODE)
-            {
-                file->read_buffer = (uint8_t*)malloc(BUF_SIZE);
-
-                if(file->read_buffer == NULL)
-                {
-                    free(file);
-                    return NULL;
-                }
-
-                file->read_ptr = file->read_buffer;
-            }
-
-            if (mode & FILE_WRITE_MODE)
-            {
-                file->write_buffer = (uint8_t*)malloc(BUF_SIZE);
-
-                if(file->write_buffer == NULL)
-                {
-                    free(file);
-                    return NULL;
-                }
-
-                file->write_ptr = file->write_buffer;
-            }
+        {
+            create_rb = TRUE;
+            create_wb = TRUE;
         }
+
+        if ((mode & FILE_READ_MODE) && create_rb)
+        {
+            file->read_buffer = (uint8_t*)malloc(BUF_SIZE);
+
+            if(file->read_buffer == NULL)
+            {
+                free(file);
+                return NULL;
+            }
+
+            file->rb_size  = BUF_SIZE;
+            file->read_ptr = file->read_buffer;
+        }
+
+        if ((mode & FILE_WRITE_MODE) && create_wb)
+        {
+            file->write_buffer = (uint8_t*)malloc(BUF_SIZE);
+
+            if(file->write_buffer == NULL)
+            {
+                free(file);
+                return NULL;
+            }
+                        
+            file->wb_size       = BUF_SIZE;
+            file->write_ptr = file->write_buffer;
+        }        
     }
 
     return file;
@@ -98,7 +120,7 @@ int fwrite(FILE* file, uint8_t data)
 {
     if (file->write_buffer != NULL)
     {
-        if(file->write_ptr < file->write_buffer + BUF_SIZE)
+        if(file->write_ptr < file->write_buffer + file->wb_size)
         {
             *(file->write_ptr++) = data;
             return 1;
@@ -127,8 +149,12 @@ int fprint(FILE* file, const char* string)
 
 uint8_t fread(FILE* file)
 {
-    if (file->write_buffer != NULL)
+    if (file->read_buffer != NULL)
     {
+        if(file->read_ptr < file->read_buffer + file->rb_size)
+        {
+            return *(file->read_ptr++);
+        } 
     }
     else
     {
@@ -170,6 +196,9 @@ void fseek(FILE *file, int offset, int seek_origin)
     }
     else if(seek_origin == SEEK_END)
     {
-        // not implemented
+        if(file->write_buffer)
+            file->write_ptr = file->write_buffer + file->wb_size + offset;
+        if(file->read_buffer)
+            file->read_ptr = file->read_buffer + file->rb_size + offset;
     }
 }

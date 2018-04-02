@@ -237,7 +237,8 @@ begin
 	
 		en_i    => delay_en,
 		unit_i  => unit,
-		rld_i   => delay_ms,
+        rld_i   => delay_ms,
+        cnt_o   => open,
 	
 		irq_o   => delay_done
     );

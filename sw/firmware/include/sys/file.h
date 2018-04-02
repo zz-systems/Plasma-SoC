@@ -17,10 +17,10 @@ typedef struct
 
     uint8_t *read_ptr;
     uint8_t *write_ptr;
+    int rb_size;
+    int wb_size;
     int err;
 } FILE;
-
-
 
 typedef enum
 {

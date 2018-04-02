@@ -26,24 +26,24 @@
 #define RAM_EXTERNAL_SIZE 0x00100000
 #define ETHERNET_RECEIVE  0x13ff0000
 #define ETHERNET_TRANSMIT 0x13fe0000
-#define UART_WRITE        0x20000100
-#define UART_READ         0x20000100
-#define MISC_BASE         0x20000100
+// #define UART_WRITE        0x20000100
+// #define UART_READ         0x20000100
+// #define MISC_BASE         0x20000100
 #define ETHERNET_REG      0x20000270
 #define FLASH_BASE        0x30000000
 
-#define UART0_BASE          0x20000100
+// #define UART0_BASE          0x20000100
 
-#define IRC_BASE            0x20000000
+// #define IRC_BASE            0x20000000
 
-#define COUNTER0_BASE       0x20000200
-#define COUNTER1_BASE       (COUNTER0_BASE + 0x10)
-#define COUNTER2_BASE       (COUNTER0_BASE + 0x20)
-#define COUNTER3_BASE       (COUNTER0_BASE + 0x30)
+// #define COUNTER0_BASE       0x20000200
+// #define COUNTER1_BASE       (COUNTER0_BASE + 0x10)
+// #define COUNTER2_BASE       (COUNTER0_BASE + 0x20)
+// #define COUNTER3_BASE       (COUNTER0_BASE + 0x30)
 
-#define GPIO0_BASE          0x20000300
-#define SPI_BASE            0x20000400
-#define DISPLAY0_BASE	    0x40000000
+// #define GPIO0_BASE          0x20000300
+// #define SPI_BASE            0x20000400
+// #define DISPLAY0_BASE	    0x40000000
 // #define DISPLAY_CONTROL	  (DISPLAY_BASE + 0x00)
 // #define DISPLAY_STATUS	  (DISPLAY_BASE + 0x10)
 // #define DISPLAY_DATA	  (DISPLAY_BASE + 0x20)
@@ -55,18 +55,18 @@
 #define ETHERNET_ENABLE   0x01000000
 
 /*********** Interrupt bits **************/
-#define IRQ_UART_READ_AVAILABLE  0x01
-#define IRQ_UART_WRITE_AVAILABLE 0x02
-#define IRQ_COUNTER0             0x04
-#define IRQ_COUNTER1             0x05
-#define IRQ_COUNTER2             0x06
-#define IRQ_COUNTER3             0x07
-#define IRQ_GPIO0                0x08
+// #define IRQ_UART_READ_AVAILABLE  0x01
+// #define IRQ_UART_WRITE_AVAILABLE 0x02
+// #define IRQ_COUNTER0             0x04
+// #define IRQ_COUNTER1             0x05
+// #define IRQ_COUNTER2             0x06
+// #define IRQ_COUNTER3             0x07
+// #define IRQ_GPIO0                0x08
 
-#define IRQ_ETHERNET_RECEIVE     0x10
-#define IRQ_ETHERNET_TRANSMIT    0x20
-#define IRQ_GPIO31_NOT           0x40
-#define IRQ_GPIO31               0x80
+// #define IRQ_ETHERNET_RECEIVE     0x10
+// #define IRQ_ETHERNET_TRANSMIT    0x20
+// #define IRQ_GPIO31_NOT           0x40
+// #define IRQ_GPIO31               0x80
 
 /************** SPI bits *****************/
 #define SPI_ENABLE               0x01 // control reg
@@ -74,20 +74,20 @@
 #define SPI_HAS_DATA             0x02 // status reg
 
 /************ COUNTER bits ***************/
-#define COUNTER_RESET            0x01 // control reg
-#define COUNTER_ENABLE           0x02 // control reg
-#define COUNTER_AUTORESET        0x04 // control reg
-#define COUNTER_DIRECTION        0x08 // control reg
+// #define COUNTER_RESET            0x01 // control reg
+// #define COUNTER_ENABLE           0x02 // control reg
+// #define COUNTER_AUTORESET        0x04 // control reg
+// #define COUNTER_DIRECTION        0x08 // control reg
 
-#define DISPLAY_READY            0x01 // status reg
+// #define DISPLAY_READY            0x01 // status reg
 
 /************ DISPLAY bits ***************/
-#define DISPLAY_RESET            0x01 // control reg
-#define DISPLAY_IMMEDIATE        0x02 // control reg
-#define DISPLAY_TEXTMODE         0x04 // control reg
-#define DISPLAY_FLUSH            0x08 // control reg
+// #define DISPLAY_RESET            0x01 // control reg
+// #define DISPLAY_IMMEDIATE        0x02 // control reg
+// #define DISPLAY_TEXTMODE         0x04 // control reg
+// #define DISPLAY_FLUSH            0x08 // control reg
 
-#define DISPLAY_READY            0x01 // status reg
+// #define DISPLAY_READY            0x01 // status reg
 
 
 #define MemoryRead(A) (*(volatile unsigned int*)(A))

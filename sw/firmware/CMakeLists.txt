@@ -16,13 +16,14 @@ add_library(stdlib STATIC       src/stdlib/file.c
 target_link_libraries(stdlib PUBLIC linker_cfg kernel)
 
 add_library(drivers STATIC      src/drivers/uart.c
+                                src/drivers/irc.c
                                 src/drivers/counter.c
+                                src/drivers/timer.c
                                 src/drivers/display.c)
 
 target_link_libraries(drivers PUBLIC linker_cfg kernel)
 
 add_library(kernel STATIC       src/vectortable.asm 
-                                src/no_os.c 
                                 src/crt.asm 
                                 src/kernel/io.c
                                 src/kernel/device.c

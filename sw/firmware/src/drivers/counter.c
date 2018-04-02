@@ -8,11 +8,11 @@ void counter_set_reload(counter_t* counter, uint32_t value)
 
 void counter_reset(counter_t* counter, uint32_t flags)
 {
-    dcwrite(counter, COUNTER_RESET | flags);
+    dcwrite(counter, DEVICE_RESET | flags);
     dcwrite(counter, flags);
 }
 
 void counter_enable(counter_t* counter, uint32_t flags)
 {
-    dcwrite(counter, COUNTER_ENABLE | flags);
+    dcwrite(counter, DEVICE_ENABLE | flags);
 }
