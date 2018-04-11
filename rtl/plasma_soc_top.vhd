@@ -4,12 +4,12 @@ use ieee.std_logic_1164.all;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
-library plasmax_lib;
-    use plasmax_lib.wb_pkg.all;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.wb_pkg.all;
+    use zz_systems.util_pkg.all;
 
 
-entity plasmax_if is
+entity plasma_soc_top is
     port
     (
         GCLK        : in    std_logic;
@@ -39,7 +39,7 @@ entity plasmax_if is
     );
 end;
 
-architecture logic of plasmax_if is
+architecture logic of plasma_soc_top is
 
     constant spi_slaves : positive := 1;
     constant sys_clk    : positive := 50000000;
@@ -95,7 +95,7 @@ begin
 
     LD(7 downto 0) <= gpio0_out(7 downto 0) when reset = '0' else x"80";
 
-    u1_plasmax: entity plasmax_lib.plasmax
+    u_soc: entity zz_systems.plasma_soc
     generic map 
     (
         memory_type => "XILINX_16X",

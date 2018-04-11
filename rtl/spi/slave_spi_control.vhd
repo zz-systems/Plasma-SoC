@@ -1,3 +1,26 @@
+--------------------------------------------------------------------------------
+-- TITLE:  SPI Controller Wishbone interface
+-- AUTHOR: Sergej Zuyev (sergej.zuyev - at - zz-systems.net)
+--------------------------------------------------------------------------------
+-- SPI CONTROLLER
+----------------|-----------|-------|-------------------------------------------
+-- REGISTER     | address   | mode  | description
+----------------|-----------|-------|-------------------------------------------
+-- control      | 0x0       | r/w   | control register
+-- status       | 0x4       | r     | status register
+-- data         | 0x8       | r/w   | data
+-- address      | 0xC       | r/w   | SPI slave address
+----------------|-----------|-------|-------------------------------------------
+-- CONTROL      |           |       | 
+----------------|-----------|-------|-------------------------------------------
+-- reset        | 0         | r/w   | user reset
+-- enable       | 1         | r/w   | enable device
+----------------|-----------|-------|-------------------------------------------
+-- STATUS       |           |       | 
+----------------|-----------|-------|-------------------------------------------
+-- ready        | 0         | r     | device ready
+-- davail       | 1         | r     | data available
+----------------|-----------|-------|-------------------------------------------
 library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
@@ -6,23 +29,9 @@ library ieee;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
-library plasmax_lib;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.util_pkg.all;
 
--- wb enabled SPI controller
-----------------|-----------|------------------------------------
--- registers    | address   | description
-----------------|-----------|------------------------------------
--- data         | 0         | data register
--- address      | 1         | slave address
--- control      | 2         | control register
--- status       | 3         | status register
-----------------|-----------|------------------------------------
--- control register:
--- bit 0: (r/w) enable
--- status register:
--- bit 0: (r) busy
--- bit 0: (r) dat_o ready
 entity slave_spic is 
 generic
 (
@@ -71,15 +80,16 @@ architecture behavior of slave_spic is
     signal ack_s   : std_logic := '0';
     signal err_s   : std_logic := '0';
 
-    alias irq_a    : std_logic is stat_s(1);
-    alias ack_a    : std_logic is stat_s(0);
+    alias stat_ready_a      : std_logic is stat_s(0);
+    alias stat_davail_a     : std_logic is stat_s(1);
 
-    alias en_a     : std_logic is ctrl_s(0);
+    alias ctrl_reset_a      : std_logic is ctrl_s(0);
+    alias ctrl_enable_a     : std_logic is ctrl_s(1);
 begin
     ack_o   <= ack_s;
     err_o   <= err_s;  
-    stall_o <= stb_i and not ack_a;
-    irq_o   <= irq_a;
+    stall_o <= stb_i and not stat_ready_a;
+    irq_o   <= stat_davail_a;
     rty_o   <= '0';
  
     process(clk_i, rst_i)
@@ -95,28 +105,28 @@ begin
             if stb_i = '1' then
                 if we_i = '0' then
                     case adr_i(7 downto 4) is
-                        when x"0" => dat_o      <= dat_os;
-                        when x"1" => dat_o      <= adr_is;
-                        when x"2" => dat_o      <= ctrl_s;
-                        when x"3" => dat_o      <= stat_s;
+                        when x"0" => dat_o      <= ctrl_s;
+                        when x"4" => dat_o      <= stat_s;
+                        when x"8" => dat_o      <= dat_os;
+                        when x"C" => dat_o      <= adr_is;
                         when others => err_v    := '1';
                     end case;
                 else
                     case adr_i(7 downto 4) is
-                        when x"0" => dat_is     <= dat_i;
-                        when x"1" => adr_is     <= dat_i;
-                        when x"2" => ctrl_s     <= dat_i;
+                        when x"0" => ctrl_s     <= dat_i;
+                        when x"8" => dat_is     <= dat_i;
+                        when x"C" => adr_is     <= dat_i;
                         when others => err_v    := '1';
                     end case;
                 end if;
             end if;
                 
             err_s <= err_v;
-            ack_s <= stb_i and not err_s and ack_a;
+            ack_s <= stb_i and not err_s and stat_ready_a;
         end if;
     end process;
 
-    spi: entity plasmax_lib.spi_control 
+    spi: entity zz_systems.spi_control 
     generic map
     (
         slaves      => slaves,
@@ -127,9 +137,9 @@ begin
     port map
     (
         clk_i   => clk_i,
-        rst_i   => rst_i,
+        rst_i   => rst_i or ctrl_reset_a,
 
-        en_i    => en_a,
+        en_i    => ctrl_enable_a,
         adr_i   => adr_is(bit_width(slaves) downto 0),
         dat_i   => dat_is(data_w - 1 downto 0),
         dat_o   => dat_os(data_w - 1 downto 0),
@@ -139,8 +149,8 @@ begin
         SCLK    => SCLK,
         CS      => CS,
 
-        ack_o   => ack_a,
-        irq_o   => irq_a
+        ack_o   => stat_ready_a,
+        irq_o   => stat_davail_a
     );
 
 end behavior;

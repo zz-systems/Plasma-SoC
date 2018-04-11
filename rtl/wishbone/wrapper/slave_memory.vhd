@@ -39,12 +39,14 @@ begin
     stall_o <= '0';
     err_o   <= '0';
     rty_o   <= '0';
-    ack_o   <= stb_i;
+    --ack_o   <= stb_i;
 
     process(clk_i, rst_i)
     begin         
-        if rst_i = '1' then         
+        if rst_i = '1' then   
+            ack_o <= '0';      
         elsif rising_edge(clk_i) then
+            ack_o <= stb_i;
         end if;
     end process;
 

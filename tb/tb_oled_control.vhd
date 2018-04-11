@@ -3,8 +3,8 @@ library ieee;
     use ieee.numeric_std.all;
     use ieee.std_logic_misc.all;
   
-library plasmax_lib;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.util_pkg.all;
 
 entity tb_oled_control is
 end; --entity tbench
@@ -32,7 +32,7 @@ architecture sim of tb_oled_control is
 
     signal iadr_s   : integer := 0;
 begin
-    uut: entity plasmax_lib.oled_control
+    uut: entity zz_systems.oled_control
     generic map
     (
         sys_clk         => 50000000, -- 50ns = 20MHz

@@ -39,11 +39,11 @@ library ieee;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
-library plasmax_lib;
-    use plasmax_lib.wb_pkg.all;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.wb_pkg.all;
+    use zz_systems.util_pkg.all;
 
-entity plasmax is
+entity plasma_soc is
     generic
     (
         memory_type : string := "XILINX_16X"; --"DUAL_PORT_" "ALTERA_LPM";   
@@ -86,32 +86,32 @@ entity plasmax is
     );
 end; --entity plasma
 
-architecture logic of plasmax is
+architecture logic of plasma_soc is
     constant masters    : positive := 1;
     constant slaves     : positive := 18;
   
     signal master_select    : std_logic_vector(bit_width(masters) downto 0);    
     signal slave_select     : std_logic_vector(bit_width(slaves) downto 0);
 
-    signal master_ports : wb_master_ports;
-    signal slave_ports  : wb_slave_ports;
+    signal master_ports_aggregate : wb_master_ports;
+    signal slave_ports_aggregate  : wb_slave_ports;
 
 
     type ports is array(natural range<>) of wb_port;
-    signal m_ports : ports(masters - 1 downto 0);
-    signal s_ports : ports(slaves - 1 downto 0);
+    signal master_ports : ports(masters - 1 downto 0);
+    signal slave_ports : ports(slaves - 1 downto 0);
      
-    alias cpu_port      : wb_port is m_ports(0);
+    alias cpu_port      : wb_port is master_ports(0);
 
-    alias mem_port      : wb_port is s_ports(0);
-    alias ext_mem_port  : wb_port is s_ports(1);
-    alias irc_port      : wb_port is s_ports(2);
-    alias uart_port     : wb_port is s_ports(3);
-    alias timer_ports   : ports(3 downto 0) is s_ports(7 downto 4);
-    alias counter_ports : ports(3 downto 0) is s_ports(11 downto 8);
-    alias gpio_ports    : ports(3 downto 0) is s_ports(15 downto 12);
-    alias spic_port     : wb_port is s_ports(16);
-    alias oledc_port    : wb_port is s_ports(17);
+    alias mem_port      : wb_port is slave_ports(0);
+    alias ext_mem_port  : wb_port is slave_ports(1);
+    alias irc_port      : wb_port is slave_ports(2);
+    alias uart_port     : wb_port is slave_ports(3);
+    alias timer_ports   : ports(3 downto 0) is slave_ports(7 downto 4);
+    alias counter_ports : ports(3 downto 0) is slave_ports(11 downto 8);
+    alias gpio_ports    : ports(3 downto 0) is slave_ports(15 downto 12);
+    alias spic_port     : wb_port is slave_ports(16);
+    alias oledc_port    : wb_port is slave_ports(17);
 
     signal irq          : std_logic;
     signal irq_inputs   : std_logic_vector(31 downto 0);
@@ -135,49 +135,49 @@ begin  --architecture
 -- BUS SYSTEM ------------------------------------------------------------------
     -- connect wishbone masters to aggregated ports 
     master_con: for i in 0 to masters - 1 generate
-        master_ports.cyc(i)     <= m_ports(i).cyc;
-        master_ports.stb(i)     <= m_ports(i).stb;
+        master_ports_aggregate.cyc(i)   <= master_ports(i).cyc;
+        master_ports_aggregate.stb(i)   <= master_ports(i).stb;
 
-        master_ports.adr((i + 1) * addr_w - 1 downto i * addr_w)       
-                                <= m_ports(i).adr;
+        master_ports_aggregate.adr((i + 1) * addr_w - 1 downto i * addr_w)       
+                                        <= master_ports(i).adr;
 
-        master_ports.we(i)      <= m_ports(i).we;
-        m_ports(i).dat_i        <= master_ports.dat_i((i + 1) * data_w - 1 downto i * data_w);
+        master_ports_aggregate.we(i)    <= master_ports(i).we;
+        master_ports(i).dat_i           <= master_ports_aggregate.dat_i((i + 1) * data_w - 1 downto i * data_w);
 
-        master_ports.sel((i + 1) * sel_w - 1 downto i * sel_w)          
-                                <= m_ports(i).sel;
+        master_ports_aggregate.sel((i + 1) * sel_w - 1 downto i * sel_w)          
+                                        <= master_ports(i).sel;
 
-        master_ports.dat_o      <= m_ports(i).dat_o;
+        master_ports_aggregate.dat_o    <= master_ports(i).dat_o;
 
-        m_ports(i).ack          <= master_ports.ack;
-        m_ports(i).stall        <= master_ports.stall;
-        m_ports(i).err          <= master_ports.err;   
-        m_ports(i).rty          <= master_ports.rty;
+        master_ports(i).ack             <= master_ports_aggregate.ack;
+        master_ports(i).stall           <= master_ports_aggregate.stall;
+        master_ports(i).err             <= master_ports_aggregate.err;   
+        master_ports(i).rty             <= master_ports_aggregate.rty;
     end generate;    
 
     -- connect wishbone slaves to aggregated ports 
     slave_con: for i in 0 to slaves - 1 generate
-        s_ports(i).cyc          <= slave_ports.cyc(i);
-        s_ports(i).stb          <= slave_ports.stb(i);
+        slave_ports(i).cyc              <= slave_ports_aggregate.cyc(i);
+        slave_ports(i).stb              <= slave_ports_aggregate.stb(i);
 
-        s_ports(i).adr          <= slave_ports.adr;
+        slave_ports(i).adr              <= slave_ports_aggregate.adr;
 
-        s_ports(i).we           <= slave_ports.we;
-        s_ports(i).dat_i        <= slave_ports.dat_i;
+        slave_ports(i).we               <= slave_ports_aggregate.we;
+        slave_ports(i).dat_i            <= slave_ports_aggregate.dat_i;
 
-        s_ports(i).sel          <= slave_ports.sel;
+        slave_ports(i).sel              <= slave_ports_aggregate.sel;
 
-        slave_ports.dat_o((i + 1) * data_w - 1 downto i * data_w)
-                                <= s_ports(i).dat_o;
+        slave_ports_aggregate.dat_o((i + 1) * data_w - 1 downto i * data_w)
+                                        <= slave_ports(i).dat_o;
 
-        slave_ports.ack(i)      <= s_ports(i).ack;
-        slave_ports.stall(i)    <= s_ports(i).stall;
-        slave_ports.err(i)      <= s_ports(i).err;   
-        slave_ports.rty(i)      <= s_ports(i).rty;
+        slave_ports_aggregate.ack(i)    <= slave_ports(i).ack;
+        slave_ports_aggregate.stall(i)  <= slave_ports(i).stall;
+        slave_ports_aggregate.err(i)    <= slave_ports(i).err;   
+        slave_ports_aggregate.rty(i)    <= slave_ports(i).rty;
     end generate;
 
     -- bus arbiter
-    arbiter : entity plasmax_lib.arbiter
+    arbiter : entity zz_systems.arbiter
     generic map(
         channel_descriptors => ( 0 => 16#1# )
     )
@@ -187,13 +187,13 @@ begin  --architecture
         
         interruptible_i => (others => '1'),
 
-        busy_i => or_reduce(master_ports.cyc),
+        busy_i => or_reduce(master_ports_aggregate.cyc),
 
         cs_o => master_select
     );
 
     -- system bus
-    system_bus : entity plasmax_lib.shared_bus
+    system_bus : entity zz_systems.shared_bus
     generic map (
         masters => masters,
         slaves => slaves,
@@ -236,41 +236,41 @@ begin  --architecture
         master_gnt_i => "0",--master_select,
 
         -- master interface
-        master_cyc_i    => master_ports.cyc,
-        master_stb_i    => master_ports.stb,
+        master_cyc_i    => master_ports_aggregate.cyc,
+        master_stb_i    => master_ports_aggregate.stb,
 
-        master_adr_i    => master_ports.adr,
-        master_we_i     => master_ports.we,
-        master_dat_i    => master_ports.dat_o,
-        master_sel_i    => master_ports.sel,
+        master_adr_i    => master_ports_aggregate.adr,
+        master_we_i     => master_ports_aggregate.we,
+        master_dat_i    => master_ports_aggregate.dat_o,
+        master_sel_i    => master_ports_aggregate.sel,
 
-        master_dat_o    => master_ports.dat_i,
+        master_dat_o    => master_ports_aggregate.dat_i,
 
-        master_ack_o    => master_ports.ack,
-        master_stall_o  => master_ports.stall,
-        master_err_o    => master_ports.err,
-        master_rty_o    => master_ports.rty,
+        master_ack_o    => master_ports_aggregate.ack,
+        master_stall_o  => master_ports_aggregate.stall,
+        master_err_o    => master_ports_aggregate.err,
+        master_rty_o    => master_ports_aggregate.rty,
 
         -- slave interface
-        slave_cyc_o     => slave_ports.cyc,
-        slave_stb_o     => slave_ports.stb,
+        slave_cyc_o     => slave_ports_aggregate.cyc,
+        slave_stb_o     => slave_ports_aggregate.stb,
 
-        slave_adr_o     => slave_ports.adr,
-        slave_we_o      => slave_ports.we,
-        slave_dat_o     => slave_ports.dat_i,
-        slave_sel_o     => slave_ports.sel,
+        slave_adr_o     => slave_ports_aggregate.adr,
+        slave_we_o      => slave_ports_aggregate.we,
+        slave_dat_o     => slave_ports_aggregate.dat_i,
+        slave_sel_o     => slave_ports_aggregate.sel,
 
-        slave_dat_i     => slave_ports.dat_o,
+        slave_dat_i     => slave_ports_aggregate.dat_o,
 
-        slave_ack_i     => slave_ports.ack,
-        slave_stall_i   => slave_ports.stall,
-        slave_err_i     => slave_ports.err,
-        slave_rty_i     => slave_ports.rty
+        slave_ack_i     => slave_ports_aggregate.ack,
+        slave_stall_i   => slave_ports_aggregate.stall,
+        slave_err_i     => slave_ports_aggregate.err,
+        slave_rty_i     => slave_ports_aggregate.rty
     );  
 
 -- COMPONENTS ------------------------------------------------------------------
 
-    u_cpu : entity plasmax_lib.master_cpu
+    u_cpu : entity zz_systems.master_cpu
     port map
     (
         clk_i   => clk,
@@ -294,7 +294,7 @@ begin  --architecture
         err_i   => cpu_port.err
     );
 
-    u_irc : entity plasmax_lib.slave_irc
+    u_irc : entity zz_systems.slave_irc
     port map
     (
         clk_i   => clk,
@@ -319,7 +319,7 @@ begin  --architecture
         err_o   => irc_port.err
     );
 
-    u_ram: entity plasmax_lib.slave_memory
+    u_ram: entity zz_systems.slave_memory
     port map
     (
         clk_i   => clk,
@@ -341,7 +341,7 @@ begin  --architecture
         err_o   => mem_port.err
     );
 
-    u_ext_mem: entity plasmax_lib.slave_ext_memory
+    u_ext_mem: entity zz_systems.slave_ext_memory
     port map
     (
         clk_i   => clk,
@@ -368,7 +368,7 @@ begin  --architecture
         err_o   => ext_mem_port.err
     );
 
-    u_uart: entity plasmax_lib.slave_uart
+    u_uart: entity zz_systems.slave_uart
     generic map 
     (
         log_file => log_file
@@ -399,7 +399,7 @@ begin  --architecture
     );
 
     gen_timer: for i in 0 to 3 generate
-        u_timer: entity plasmax_lib.slave_timer
+        u_timer: entity zz_systems.slave_timer
         port map
         (
             clk_i   => clk,
@@ -425,7 +425,7 @@ begin  --architecture
     end generate;
 
     gen_counter: for i in 0 to 3 generate
-        u_counter: entity plasmax_lib.slave_counter 
+        u_counter: entity zz_systems.slave_counter 
         port map
         (
             clk_i   => clk,
@@ -451,7 +451,7 @@ begin  --architecture
     end generate;
 
     gen_gpio: for i in 0 to 3 generate
-        u_gpio: entity plasmax_lib.slave_gpio 
+        u_gpio: entity zz_systems.slave_gpio 
         port map
         (
             clk_i   => clk,
@@ -479,7 +479,7 @@ begin  --architecture
         );
     end generate;
 
-    u_spic: entity plasmax_lib.slave_spic 
+    u_spic: entity zz_systems.slave_spic 
     generic map
     (
         slaves      => spi_slaves,
@@ -513,7 +513,7 @@ begin  --architecture
         err_o   => spic_port.err
     );
 
-    u_oledc: entity plasmax_lib.slave_oledc 
+    u_oledc: entity zz_systems.slave_oledc 
     generic map
     (
         sys_clk     => sys_clk,

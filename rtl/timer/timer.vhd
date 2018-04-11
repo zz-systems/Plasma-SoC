@@ -2,7 +2,7 @@ library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
     
-library plasmax_lib;
+library zz_systems;
 
 package timer_pkg is
     subtype unit_t is std_logic_vector(2 downto 0);
@@ -19,9 +19,9 @@ library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
    
-library plasmax_lib;
-    use plasmax_lib.timer_pkg.all;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.timer_pkg.all;
+    use zz_systems.util_pkg.all;
     
 -- timer
 ----------------|-----------|------------------------------------
@@ -92,7 +92,7 @@ begin
         end if;
     end process;
 
-    counter: entity plasmax_lib.counter
+    counter: entity zz_systems.counter
     generic map
     (
         data_w => data_w + 32

@@ -4,9 +4,9 @@ use ieee.std_logic_1164.all;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
-library plasmax_lib;
-    use plasmax_lib.wb_pkg.all;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.wb_pkg.all;
+    use zz_systems.util_pkg.all;
 
 
 entity oled_if is
@@ -72,7 +72,7 @@ begin
 
     LD(7) <= reset;
     
-    u_oled: entity plasmax_lib.oled_control
+    u_oled: entity zz_systems.oled_control
     generic map
     (
         sys_clk     => sys_clk,

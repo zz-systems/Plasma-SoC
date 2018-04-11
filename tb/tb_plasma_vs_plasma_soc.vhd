@@ -15,12 +15,12 @@ use ieee.std_logic_1164.all;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
 
-library plasmax_lib;
+library zz_systems;
 
-entity tb_plasma_vs_plasmax is
+entity tb_plasma_vs_plasma_soc is
 end; --entity tbench
 
-architecture logic of tb_plasma_vs_plasmax is
+architecture logic of tb_plasma_vs_plasma_soc is
     constant memory_type : string := 
     --   "TRI_PORT_X";   
     --   "DUAL_PORT_";
@@ -92,7 +92,7 @@ begin  --architecture
         --reset <= '0';
     end process;
     
-    u1_plasmax: entity plasmax_lib.plasmax
+    u1_soc: entity zz_systems.plasma_soc
     generic map 
     (
         memory_type => memory_type,

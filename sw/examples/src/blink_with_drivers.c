@@ -21,6 +21,11 @@ int total_sec       = 0;
 FILE *uart_file     = NULL;
 FILE *display_file  = NULL;
 
+char* clock_str = "00:00:00";
+char led_state_str[16] = "";
+char uart_in_str[32] = "",  *uart_in_str_ptr = uart_in_str;
+
+
 void irc_uart_input();
 void irc_flush_io();
 void irc_blink();
@@ -30,13 +35,9 @@ void access_violation_irc();
 
 void irc_clock();
 
-char* clock_str = "00:00:00";
-char led_state_str[16] = "";
-char uart_in_str[32] = "",  *uart_in_str_ptr = uart_in_str;
 int main()
 {
-    // Setup interrupts
-
+    // SETUP interrupts
     kregister_ir_handler(irc_uart_input,        IRQ_UART_READ_AVAILABLE);
     kregister_ir_handler(irc_clock,             IRQ_TIMER0);
 
@@ -48,11 +49,13 @@ int main()
 
     OS_AsmInterruptEnable(1);
 
+    // SETUP UART
     uart_file = fopen("dev/uart0", "rw");
 
     // enable uart
     device_enable(&uart0->device);
 
+    // SETUP display
     display_file    = fopen("dev/display0", "w");
 
     // enable display
@@ -61,6 +64,7 @@ int main()
     display_clear(display0);
     device_await_ready(&display0->device);
 
+    // SETUP counters
     counter_set_reload(counter0, TICKS_PER_MS * 25);
     counter_reset(counter0, COUNTER_COUNT_DOWN);
     counter_enable(counter0, COUNTER_CONTROL_AUTORESET | COUNTER_COUNT_DOWN);
@@ -73,11 +77,11 @@ int main()
     counter_reset(counter2, COUNTER_COUNT_DOWN);
     counter_enable(counter2, COUNTER_CONTROL_AUTORESET | COUNTER_COUNT_DOWN);
 
+    // SETUP timer
     timer_set_unit(timer0, TIMER_UNIT_SEC);
     timer_set_autoreset(timer0, TRUE);
     timer_set_reload(timer0, 1);
     device_enable(&timer0->device);
-
 
     fprint(uart_file, "Hello MAIN\r\n");
 

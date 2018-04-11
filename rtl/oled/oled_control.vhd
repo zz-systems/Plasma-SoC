@@ -10,8 +10,8 @@ library ieee;
     use ieee.std_logic_1164.all;    
     use ieee.numeric_std.all;
 
-library plasmax_lib;
-    use plasmax_lib.timer_pkg.all;
+library zz_systems;
+    use zz_systems.timer_pkg.all;
 
 entity oled_control is
 generic
@@ -199,7 +199,7 @@ architecture behavioral of oled_control is
 begin
 
     -- Instantiate SPI controller									
-	spi: entity plasmax_lib.spi_control 
+	spi: entity zz_systems.spi_control 
 	generic map
 	(
 		slaves      => 1,
@@ -224,7 +224,7 @@ begin
 	);
 
     -- Instantiate delay
-	delay : entity plasmax_lib.timer
+	delay : entity zz_systems.timer
 	generic map
 	(
 		sys_clk => sys_clk,
@@ -244,7 +244,7 @@ begin
     );
 
     -- Instantiate ASCII character library
-    char_lib_comp : entity plasmax_lib.ascii_rom port map (clk => clk_i,
+    char_lib_comp : entity zz_systems.ascii_rom port map (clk => clk_i,
                                         addr => temp_addr,
                                         dout => temp_dout);
 

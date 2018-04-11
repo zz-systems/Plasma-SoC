@@ -3,8 +3,8 @@ library ieee;
     use ieee.numeric_std.all;
     use ieee.std_logic_misc.all;
   
-library plasmax_lib;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.util_pkg.all;
 
 entity tb_spi_control is
 end; --entity tbench
@@ -35,7 +35,7 @@ architecture sim of tb_spi_control is
 
     signal temp_spi_fin : std_logic := '0';
 begin
-    uut: entity plasmax_lib.spi_control 
+    uut: entity zz_systems.spi_control 
     generic map
     (
         slaves      => slaves,

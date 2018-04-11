@@ -11,7 +11,7 @@
 -- data         | 0x08      | r     | interrupt flag state
 -- imm flags    | 0x0C      | r     | immediate interrupt flag state (input passthrough)
 -- clear        | 0x10      | r/w   | clear interrupt flag
--- invert       | 0x14      | r/w   | invert flag
+-- invert       | 0x14      | r/w   | interrupt polarity
 -- mask         | 0x18      | r/w   | interrupt flag enable/disable mask     
 -- edge         | 0x1C      | r/w   | interrupt edge detection
 ----------------|-----------|-------|-------------------------------------------
@@ -33,7 +33,7 @@ library ieee;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
-library plasmax_lib;
+library zz_systems;
 
 entity slave_irc is 
 generic
@@ -140,7 +140,7 @@ begin
         end if;
     end process;
 
-    irc: entity plasmax_lib.ir_control
+    irc: entity zz_systems.ir_control
     generic map 
     (
         channels => channels

@@ -15,8 +15,8 @@ library ieee;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
 
-library plasmax_lib;
-    use plasmax_lib.wb_pkg.all;
+library zz_systems;
+    use zz_systems.wb_pkg.all;
 
 entity tb_mem_init_sections is
 end; --entity tbench
@@ -62,7 +62,7 @@ begin  --architecture
         end loop;
     end process;
     
-    uut: entity plasmax_lib.slave_memory
+    uut: entity zz_systems.slave_memory
     generic map
     (
         memory_type => memory_type

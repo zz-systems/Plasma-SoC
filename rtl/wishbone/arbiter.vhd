@@ -6,9 +6,9 @@ library ieee;
     use ieee.numeric_std.all;
 
 
-library plasmax_lib;
-    use plasmax_lib.wb_pkg.all;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.wb_pkg.all;
+    use zz_systems.util_pkg.all;
 
 entity arbiter is
     generic(

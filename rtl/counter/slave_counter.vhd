@@ -31,7 +31,7 @@ library ieee;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
-library plasmax_lib;
+library zz_systems;
 
 entity slave_counter is 
 port
@@ -133,7 +133,7 @@ begin
         end if;
     end process;
 
-    counter: entity plasmax_lib.counter
+    counter: entity zz_systems.counter
     port map 
     (
         clk_i   => clk_i,

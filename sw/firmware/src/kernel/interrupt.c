@@ -1,4 +1,3 @@
-
 #include "kernel/interrupt.h"
 #include "kernel/devicemap.h"
 #include "kernel/io.h"
@@ -6,34 +5,6 @@
 
 // IR table
 ir_handler ir_handlers[32] = { 0 };
-
-// void kregister_ir_handler(ir_handler handler, unsigned ir_flag)
-// {
-//     if(ir_flag == 0)
-//     {
-//         ir_handlers[0] = handler;
-//     }
-//     else 
-//     {
-//         int flag = 0;
-
-//         while (ir_flag >>= 1) {
-//             flag++;
-//         }
-
-//         ir_handlers[flag] = handler;
-//     }
-// }
-
-// void kir_handler(int interrupt)
-// {
-//     if(ir_handlers[interrupt] != NULL)
-//         ir_handlers[interrupt]();
-//     //else if(ir_handlers[32] != NULL)
-//     //    ir_handlers[32]();
-//     else 
-//         gpio0->device.data = 0xDEADBEEF;
-// }
 
 void kir_handler()
 {  

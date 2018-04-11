@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+// -- TITLE:  device address map
+// -- AUTHOR: Sergej Zuyev (sergej.zuyev - at - zz-systems.net)
+// -----------------------------------------------------------------------------
+
 #pragma once 
 
 #include "kernel/device.h"

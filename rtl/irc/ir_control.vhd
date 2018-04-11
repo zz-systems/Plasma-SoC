@@ -2,7 +2,7 @@ library ieee;
     use ieee.std_logic_1164.all;
     use ieee.std_logic_misc.all;
 
-library plasmax_lib;
+library zz_systems;
 
 entity ir_control is 
 generic
@@ -29,7 +29,7 @@ architecture behavior of ir_control is
     signal state_s  : std_logic_vector(channels - 1 downto 0) := (others => '0');
 begin
     ir_channels: for i in 0 to channels - 1 generate
-        channel: entity plasmax_lib.ir_channel
+        channel: entity zz_systems.ir_channel
         port map
         (
             clk_i   => clk_i,

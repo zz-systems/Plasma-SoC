@@ -4,22 +4,22 @@ library ieee;
     use ieee.math_real.all;
     use ieee.std_logic_misc.all;
 
-library plasmax_lib;    
-    use plasmax_lib.wb_pkg.all;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;    
+    use zz_systems.wb_pkg.all;
+    use zz_systems.util_pkg.all;
 
 
 entity shared_bus is    
     generic 
     (
-        constant masters : natural := 1;
-        constant slaves : natural := 2;
-        constant addr_w : natural := 32;
-        constant data_w : natural := 32;
-        constant sel_w : natural := 4;
+        constant masters    : natural := 1;
+        constant slaves     : natural := 2;
+        constant addr_w     : natural := 32;
+        constant data_w     : natural := 32;
+        constant sel_w      : natural := 4;
 
         constant addr_dec_w : natural := 32;
-        constant memmap : memmap_t := 
+        constant memmap     : memmap_t := 
         (
             ( x"00000000", x"0FFFFFFE" ),
             ( x"10000000", x"0FFFFFFF" )
@@ -50,8 +50,8 @@ entity shared_bus is
         master_rty_o    : out std_logic;
 
         -- slave interface
-        slave_cyc_o      : out std_logic_vector(slaves - 1 downto 0);
-        slave_stb_o      : out std_logic_vector(slaves - 1 downto 0);
+        slave_cyc_o     : out std_logic_vector(slaves - 1 downto 0);
+        slave_stb_o     : out std_logic_vector(slaves - 1 downto 0);
 
         slave_adr_o     : out std_logic_vector(addr_w - 1 downto 0);
         slave_we_o      : out std_logic;
@@ -137,4 +137,3 @@ begin
         end if;
     end process;
 end behavior;
-

@@ -3,8 +3,8 @@ library ieee;
     use ieee.numeric_std.all;
     use ieee.std_logic_misc.all;
 
-library plasmax_lib;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.util_pkg.all;
 
 entity spi_control is 
 generic
@@ -66,7 +66,7 @@ begin
             if rising_edge(clk_i) then
                 adr_s <= adr_i;
                 case state_s is 
-                    when idle => --Wait for SPI_EN to go high
+                    when idle => --Wait for en_i to go high
 						if(en_i = '1') then
 							state_s <= send;
 						end if;
@@ -82,7 +82,7 @@ begin
                         state_s <= hold4;
 					when hold4 => --Hold CS low for a bit
                         state_s <= done;
-					when done => --Finish SPI transimission wait for SPI_EN to go low
+					when done => --Finish SPI transimission wait for en_i to go low
 						if(en_i = '0') then
 							state_s <= idle;
 						end if;
@@ -107,7 +107,7 @@ begin
     spi_clk_en_s    <= '1' when state_s = send else 
                        '0';
 
-    spi_clk_cnt : entity plasmax_lib.counter 
+    spi_clk_cnt : entity zz_systems.counter 
     port map
     (
         clk_i => clk_i,
@@ -138,7 +138,7 @@ begin
     spi_bit_cnt_en_s  <= '1' when state_s = send and spi_clk_s = '0' and spi_clk_falling = '0' else
                          '0';
 
-    spi_bit_cnt : entity plasmax_lib.counter 
+    spi_bit_cnt : entity zz_systems.counter 
     generic map
     (
         data_w => data_bw

@@ -3,8 +3,8 @@ library ieee;
     use ieee.numeric_std.all;
     use ieee.math_real.all;
 
-library plasmax_lib;
-    use plasmax_lib.util_pkg.all;
+library zz_systems;
+    use zz_systems.util_pkg.all;
 
 entity fifo is
 generic

@@ -1,7 +1,7 @@
 library ieee;
     use ieee.std_logic_1164.all;
 
-library plasmax_lib;
+library zz_systems;
 
 entity ir_channel is 
 port

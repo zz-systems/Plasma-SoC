@@ -8,16 +8,16 @@
 ----------------|-----------|-------|-------------------------------------------
 -- control      | 0x0       | r/w   | control register
 -- status       | 0x4       | r     | status register
--- data         | 0x8       | w     | vram data start
+-- data         | 0x8-0x208 | w     | vram data
 ----------------|-----------|-------|-------------------------------------------
 -- CONTROL      |           |       | 
 ----------------|-----------|-------|-------------------------------------------
 -- reset        | 0         | r/w   | reset device
 -- enable       | 1         | r/w   | enable device
 -- immediate    | 2         | r/w   | immediate mode (immediate SPI commands)
--- textmode     | 3         | r/w   | text mode (interpret vram as ASCII)
+-- textmode     | 3         | r/w   | text mode (interpret vram as ASCII chars)
 -- flush        | 4         | r/w   | flush vram to screen
--- clear        | 6         | r/w   | clear screen
+-- clear        | 5         | r/w   | clear screen
 ----------------|-----------|-------|-------------------------------------------
 -- STATUS       |           |       | 
 ----------------|-----------|-------|-------------------------------------------
@@ -31,7 +31,7 @@ library ieee;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
-library plasmax_lib;
+library zz_systems;
 
 entity slave_oledc is 
 generic
@@ -162,7 +162,7 @@ begin
         end if;
     end process;
 
-    u_oled: entity plasmax_lib.oled_control
+    u_oled: entity zz_systems.oled_control
     generic map
     (
         sys_clk     => sys_clk,

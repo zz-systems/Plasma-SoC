@@ -31,7 +31,7 @@ library ieee;
 library plasma_lib;
     use plasma_lib.mlite_pack.all;
     
-library plasmax_lib;
+library zz_systems;
 
 entity slave_timer is 
 port
@@ -133,7 +133,7 @@ begin
         end if;
     end process;
 
-    timer: entity plasmax_lib.timer
+    timer: entity zz_systems.timer
     port map 
     (
         clk_i   => clk_i,
