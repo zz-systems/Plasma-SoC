@@ -9,7 +9,7 @@
 !*/
 !.gitignore
 !dependencies/*
-
+.DS_Store
 #########
 #Exclude CMake
 #########
