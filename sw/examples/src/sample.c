@@ -36,6 +36,8 @@ void access_violation_irc();
 
 void irc_clock();
 
+void ito2chars(char* dst, int num);
+
 int main()
 {
     // SETUP interrupts
@@ -122,52 +124,72 @@ void irc_clock()
     int min = (total_sec / 60) % 60;
     int hr  = total_sec / 3600;
 
-    char buf[8];
-
-    itoa(sec, buf);
+    ito2chars(&clock_str[6], sec);
+    ito2chars(&clock_str[3], min);
+    ito2chars(&clock_str[0], hr);
     
-    if(sec < 10)
+    // char buf[8];
+
+    // itoa(sec, buf);
+    
+    // if(sec < 10)
+    // {
+    //     clock_str[7] = buf[0];
+    //     clock_str[6] = '0';
+    // } 
+    // else 
+    // {
+    //     clock_str[7] = buf[1];
+    //     clock_str[6] = buf[0];
+    // }
+
+    // itoa(min, buf);
+
+    // if(min < 10)
+    // {
+    //     clock_str[4] = buf[0];
+    //     clock_str[3] = '0';
+    // } 
+    // else 
+    // {
+    //     clock_str[4] = buf[1];
+    //     clock_str[3] = buf[0];
+    // }
+
+    // itoa(hr,  buf);    
+
+    // if(hr < 10)
+    // {
+    //     clock_str[1] = buf[0];
+    //     clock_str[0] = '0';
+    // } 
+    // else 
+    // {
+    //     clock_str[1] = buf[1];
+    //     clock_str[0] = buf[0];
+    // }
+}
+
+void ito2chars(char* dst, int num)
+{
+    char buf[2]; 
+
+    itoa(num, buf);
+    
+    if(num < 10)
     {
-        clock_str[7] = buf[0];
-        clock_str[6] = '0';
+        dst[1] = buf[0];
+        dst[0] = '0';
     } 
     else 
     {
-        clock_str[7] = buf[1];
-        clock_str[6] = buf[0];
-    }
-
-    itoa(min, buf);
-
-    if(min < 10)
-    {
-        clock_str[4] = buf[0];
-        clock_str[3] = '0';
-    } 
-    else 
-    {
-        clock_str[4] = buf[1];
-        clock_str[3] = buf[0];
-    }
-
-    itoa(hr,  buf);    
-
-    if(hr < 10)
-    {
-        clock_str[1] = buf[0];
-        clock_str[0] = '0';
-    } 
-    else 
-    {
-        clock_str[1] = buf[1];
-        clock_str[0] = buf[0];
+        dst[1] = buf[1];
+        dst[0] = buf[0];
     }
 }
 
 void irc_display()
 {
-    //display_reset(display0);    
-
     if(kds_test(display0, DEVICE_READY))
     {
         fprint(display_file, "Time: ");
@@ -189,14 +211,13 @@ void irc_flush_io()
     fflush(uart_file);
 }
 
-
 void irc_blink()
 {
     led_on = !led_on;
 
     if(led_on)
     {
-        gpio0->device.data = 1 << current_pos++;
+        kdd_write(gpio0, 1 << current_pos++);
         strcpy(led_state_str, "IRC LED ON ");
 
         if(current_pos > 7)
@@ -204,7 +225,7 @@ void irc_blink()
     }
     else
     {
-        gpio0->device.data = 0x00000000;
+        kdd_write(gpio0, 0);
         strcpy(led_state_str, "IRC LED OFF");
     }
 }
