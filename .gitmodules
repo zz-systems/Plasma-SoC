@@ -1,3 +1,6 @@
 [submodule "dependencies/PlasmaConvert"]
 	path = dependencies/PlasmaConvert
 	url = https://github.com/zz-systems/PlasmaConvert.git
+[submodule "dependencies/KebabOS"]
+	path = dependencies/KebabOS
+	url = https://github.com/zz-systems/KebabOS.git

@@ -1,18 +1,19 @@
-#include "plasma.h"
-#include "no_os.h"
-#include "kernel/device.h"
-#include "dev/counter.h"
-#include "dev/irc.h"
-#include "dev/gpio.h"
-#include "dev/display.h"
-#include "dev/timer.h"
+#include <plasma_soc.h>
 
-#include "kernel/devicemap.h"
-#include "kernel/interrupt.h"
-#include "kernel/io.h"
+#include <kernel/device.h>
+#include <dev/counter.h>
+#include <dev/irc.h>
+#include <dev/gpio.h>
+#include <dev/display.h>
+#include <dev/timer.h>
 
-#include "sys/file.h"
-#include "sys/string.h"
+#include <kernel/kernel.h>
+#include <kernel/interrupt.h>
+#include <kernel/io.h>
+#include <kernel/clock.h>
+
+#include <sys/file.h>
+#include <sys/string.h>
 
 int current_pos     = 0;
 int led_on          = 0;
@@ -38,31 +39,31 @@ void irc_clock();
 int main()
 {
     // SETUP interrupts
-    kregister_ir_handler(irc_uart_input,        IRQ_UART_READ_AVAILABLE);
-    kregister_ir_handler(irc_clock,             IRQ_TIMER0);
+    kir_register_handler(irc_uart_input,        IRQ_UART_READ_AVAILABLE);
+    kir_register_handler(irc_clock,             IRQ_TIMER0);
 
-    kregister_ir_handler(irc_display,           IRQ_COUNTER0);
-    kregister_ir_handler(irc_blink,             IRQ_COUNTER1);
-    kregister_ir_handler(irc_flush_io,          IRQ_COUNTER2);
+    kir_register_handler(irc_display,           IRQ_COUNTER0);
+    kir_register_handler(irc_blink,             IRQ_COUNTER1);
+    kir_register_handler(irc_flush_io,          IRQ_COUNTER2);
 
-    kregister_ir_handler(access_violation_irc,  IRQ_BUS_ERR);
+    kir_register_handler(access_violation_irc,  IRQ_BUS_ERR);
 
-    OS_AsmInterruptEnable(1);
+    kir_enable(1);
 
     // SETUP UART
     uart_file = fopen("dev/uart0", "rw");
 
     // enable uart
-    device_enable(&uart0->device);
+    kd_enable(&uart0->device);
 
     // SETUP display
     display_file    = fopen("dev/display0", "w");
 
     // enable display
-    device_enable(&display0->device);
+    kd_enable(&display0->device);
     display_set_textmode(display0);
     display_clear(display0);
-    device_await_ready(&display0->device);
+    kd_await_ready(&display0->device);
 
     // SETUP counters
     counter_set_reload(counter0, TICKS_PER_MS * 25);
@@ -81,32 +82,37 @@ int main()
     timer_set_unit(timer0, TIMER_UNIT_SEC);
     timer_set_autoreset(timer0, TRUE);
     timer_set_reload(timer0, 1);
-    device_enable(&timer0->device);
+    kd_enable(&timer0->device);
 
-    fprint(uart_file, "Hello MAIN\r\n");
+    fprint(uart_file, "\r\nHello MAIN\r\n");
 
-	while(1);
+    strcpy(clock_str, "00:00:00");
+    strcpy(uart_in_str, "");
+
+    return 0;
 }
 
 void irc_uart_input()
 {
-    char c = (char) ddread(uart0);
-    fwrite(uart_file, c);
-    
-    if(uart_in_str_ptr >= uart_in_str && uart_in_str_ptr < uart_in_str + 32)
+    char c = (char) kdd_read(uart0);
+
+    if(uart_in_str_ptr >= uart_in_str && uart_in_str_ptr <= uart_in_str + 32)
     {
+        fwrite(uart_file, c);
+
         switch(c)
         {
             case 0x08:  // BS
             case 0x7F:  // DEL
-                *(uart_in_str_ptr--) = ' ';
+                if(uart_in_str_ptr > uart_in_str)
+                    *(--uart_in_str_ptr) = ' ';
                 break;
             default:
-                *(uart_in_str_ptr++) = c;
+                if(uart_in_str_ptr < uart_in_str + 32)
+                    *(uart_in_str_ptr++) = c;
                 break;
         }
     }
-    //fprint(uart_file, "UART HAS DATA\r\n");
 }
 
 void irc_clock()
@@ -162,7 +168,7 @@ void irc_display()
 {
     //display_reset(display0);    
 
-    if(dsread(display0) & DEVICE_READY)
+    if(kds_test(display0, DEVICE_READY))
     {
         fprint(display_file, "Time: ");
         fprint(display_file, clock_str);

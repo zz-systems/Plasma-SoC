@@ -13,4 +13,5 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
 add_subdirectory(dependencies/PlasmaConvert)
+add_subdirectory(dependencies/KebabOS)
 add_subdirectory(sw)
