@@ -98,7 +98,12 @@ void irc_uart_input()
 {
     char c = (char) kdd_read(uart0);
 
-    if(uart_in_str_ptr >= uart_in_str && uart_in_str_ptr <= uart_in_str + 32)
+    if(uart_in_str_ptr < uart_in_str)
+        return;
+    if(uart_in_str_ptr > uart_in_str + 32)
+        return;
+
+    //if(uart_in_str_ptr >= uart_in_str && uart_in_str_ptr <= uart_in_str + 32)
     {
         fwrite(uart_file, c);
 
@@ -119,55 +124,15 @@ void irc_uart_input()
 
 void irc_clock()
 {  
-    total_sec++;
     int sec = total_sec % 60;
     int min = (total_sec / 60) % 60;
     int hr  = total_sec / 3600;
+    
+    total_sec++;
 
     ito2chars(&clock_str[6], sec);
     ito2chars(&clock_str[3], min);
     ito2chars(&clock_str[0], hr);
-    
-    // char buf[8];
-
-    // itoa(sec, buf);
-    
-    // if(sec < 10)
-    // {
-    //     clock_str[7] = buf[0];
-    //     clock_str[6] = '0';
-    // } 
-    // else 
-    // {
-    //     clock_str[7] = buf[1];
-    //     clock_str[6] = buf[0];
-    // }
-
-    // itoa(min, buf);
-
-    // if(min < 10)
-    // {
-    //     clock_str[4] = buf[0];
-    //     clock_str[3] = '0';
-    // } 
-    // else 
-    // {
-    //     clock_str[4] = buf[1];
-    //     clock_str[3] = buf[0];
-    // }
-
-    // itoa(hr,  buf);    
-
-    // if(hr < 10)
-    // {
-    //     clock_str[1] = buf[0];
-    //     clock_str[0] = '0';
-    // } 
-    // else 
-    // {
-    //     clock_str[1] = buf[1];
-    //     clock_str[0] = buf[0];
-    // }
 }
 
 void ito2chars(char* dst, int num)
