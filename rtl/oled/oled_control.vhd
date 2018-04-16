@@ -281,7 +281,9 @@ begin
             spi_en          <= '0';
             delay_en        <= '0';
 
-            current_state   <= Init;
+            vram            <= (others => '0');
+
+            current_state   <= Reset;
         elsif rising_edge(clk_i) then
             case current_state is               
                 when Reset => 
