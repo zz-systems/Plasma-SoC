@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_oled_control_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="tb_oled_control" />
+            <top_module name="timer_pkg" />
+            <top_module name="util_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="206127422626263fs"></ZoomStartTime>
+      <ZoomEndTime time="206129507474748fs"></ZoomEndTime>
+      <Cursor1Time time="206129040000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="162"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="16" />
+   <wvobject fp_name="/tb_oled_control/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/temp_spi_fin" type="logic">
+      <obj_property name="ElementShortName">temp_spi_fin</obj_property>
+      <obj_property name="ObjectShortName">temp_spi_fin</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/dat_is" type="array">
+      <obj_property name="ElementShortName">dat_is[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dat_is[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/adr_s" type="array">
+      <obj_property name="ElementShortName">adr_s[9:0]</obj_property>
+      <obj_property name="ObjectShortName">adr_s[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/we_s" type="logic">
+      <obj_property name="ElementShortName">we_s</obj_property>
+      <obj_property name="ObjectShortName">we_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/sdin" type="logic">
+      <obj_property name="ElementShortName">sdin</obj_property>
+      <obj_property name="ObjectShortName">sdin</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/sclk" type="logic">
+      <obj_property name="ElementShortName">sclk</obj_property>
+      <obj_property name="ObjectShortName">sclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/dc" type="logic">
+      <obj_property name="ElementShortName">dc</obj_property>
+      <obj_property name="ObjectShortName">dc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/res" type="logic">
+      <obj_property name="ElementShortName">res</obj_property>
+      <obj_property name="ObjectShortName">res</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/vbat" type="logic">
+      <obj_property name="ElementShortName">vbat</obj_property>
+      <obj_property name="ObjectShortName">vbat</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/vdd" type="logic">
+      <obj_property name="ElementShortName">vdd</obj_property>
+      <obj_property name="ObjectShortName">vdd</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/ready" type="logic">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/flush_s" type="logic">
+      <obj_property name="ElementShortName">flush_s</obj_property>
+      <obj_property name="ObjectShortName">flush_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/iadr_s" type="other">
+      <obj_property name="ElementShortName">iadr_s</obj_property>
+      <obj_property name="ObjectShortName">iadr_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_oled_control/uut/vram" type="array">
+      <obj_property name="ElementShortName">vram[0:511]</obj_property>
+      <obj_property name="ObjectShortName">vram[0:511]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+</wave_config>

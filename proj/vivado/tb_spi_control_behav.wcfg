@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_spi_control_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="tb_spi_control" />
+            <top_module name="util_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="23345479251fs"></ZoomStartTime>
+      <ZoomEndTime time="25450904150fs"></ZoomEndTime>
+      <Cursor1Time time="25100000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="170"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="24" />
+   <wvobject fp_name="/tb_spi_control/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/en" type="logic">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/adr" type="array">
+      <obj_property name="ElementShortName">adr[0:0]</obj_property>
+      <obj_property name="ObjectShortName">adr[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/dat_i" type="array">
+      <obj_property name="ElementShortName">dat_i[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dat_i[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/dat_o" type="array">
+      <obj_property name="ElementShortName">dat_o[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dat_o[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/sclk" type="logic">
+      <obj_property name="ElementShortName">sclk</obj_property>
+      <obj_property name="ObjectShortName">sclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/cs_n" type="array">
+      <obj_property name="ElementShortName">cs_n[0:0]</obj_property>
+      <obj_property name="ObjectShortName">cs_n[0:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/miso" type="logic">
+      <obj_property name="ElementShortName">miso</obj_property>
+      <obj_property name="ObjectShortName">miso</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/mosi" type="logic">
+      <obj_property name="ElementShortName">mosi</obj_property>
+      <obj_property name="ObjectShortName">mosi</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/busy" type="logic">
+      <obj_property name="ElementShortName">busy</obj_property>
+      <obj_property name="ObjectShortName">busy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/irq" type="logic">
+      <obj_property name="ElementShortName">irq</obj_property>
+      <obj_property name="ObjectShortName">irq</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/slaves" type="other">
+      <obj_property name="ElementShortName">slaves</obj_property>
+      <obj_property name="ObjectShortName">slaves</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider560">
+   </wvobject>
+   <wvobject fp_name="group588" type="group">
+      <obj_property name="label">spi_control</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_spi_control/uut/clk_i" type="logic">
+         <obj_property name="ElementShortName">clk_i</obj_property>
+         <obj_property name="ObjectShortName">clk_i</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/rst_i" type="logic">
+         <obj_property name="ElementShortName">rst_i</obj_property>
+         <obj_property name="ObjectShortName">rst_i</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/en_i" type="logic">
+         <obj_property name="ElementShortName">en_i</obj_property>
+         <obj_property name="ObjectShortName">en_i</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/adr_i" type="array">
+         <obj_property name="ElementShortName">adr_i[0:0]</obj_property>
+         <obj_property name="ObjectShortName">adr_i[0:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/dat_i" type="array">
+         <obj_property name="ElementShortName">dat_i[7:0]</obj_property>
+         <obj_property name="ObjectShortName">dat_i[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/dat_o" type="array">
+         <obj_property name="ElementShortName">dat_o[7:0]</obj_property>
+         <obj_property name="ObjectShortName">dat_o[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/MISO" type="logic">
+         <obj_property name="ElementShortName">MISO</obj_property>
+         <obj_property name="ObjectShortName">MISO</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/MOSI" type="logic">
+         <obj_property name="ElementShortName">MOSI</obj_property>
+         <obj_property name="ObjectShortName">MOSI</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/SCLK" type="logic">
+         <obj_property name="ElementShortName">SCLK</obj_property>
+         <obj_property name="ObjectShortName">SCLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/busy_o" type="logic">
+         <obj_property name="ElementShortName">busy_o</obj_property>
+         <obj_property name="ObjectShortName">busy_o</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/irq_o" type="logic">
+         <obj_property name="ElementShortName">irq_o</obj_property>
+         <obj_property name="ObjectShortName">irq_o</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/state_s" type="other">
+         <obj_property name="ElementShortName">state_s</obj_property>
+         <obj_property name="ObjectShortName">state_s</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/adr_s" type="array">
+         <obj_property name="ElementShortName">adr_s[0:0]</obj_property>
+         <obj_property name="ObjectShortName">adr_s[0:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/spi_clk_s" type="logic">
+         <obj_property name="ElementShortName">spi_clk_s</obj_property>
+         <obj_property name="ObjectShortName">spi_clk_s</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/spi_stb_s" type="logic">
+         <obj_property name="ElementShortName">spi_stb_s</obj_property>
+         <obj_property name="ObjectShortName">spi_stb_s</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/spi_ack_s" type="logic">
+         <obj_property name="ElementShortName">spi_ack_s</obj_property>
+         <obj_property name="ObjectShortName">spi_ack_s</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/spi_clk_en_s" type="logic">
+         <obj_property name="ElementShortName">spi_clk_en_s</obj_property>
+         <obj_property name="ObjectShortName">spi_clk_en_s</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/rst_spi_bit_cnt_s" type="logic">
+         <obj_property name="ElementShortName">rst_spi_bit_cnt_s</obj_property>
+         <obj_property name="ObjectShortName">rst_spi_bit_cnt_s</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/miso_s" type="logic">
+         <obj_property name="ElementShortName">miso_s</obj_property>
+         <obj_property name="ObjectShortName">miso_s</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/fifo_s" type="array">
+         <obj_property name="ElementShortName">fifo_s[7:0]</obj_property>
+         <obj_property name="ObjectShortName">fifo_s[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/slaves" type="other">
+         <obj_property name="ElementShortName">slaves</obj_property>
+         <obj_property name="ObjectShortName">slaves</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/data_w" type="other">
+         <obj_property name="ElementShortName">data_w</obj_property>
+         <obj_property name="ObjectShortName">data_w</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/sys_clk" type="other">
+         <obj_property name="ElementShortName">sys_clk</obj_property>
+         <obj_property name="ObjectShortName">sys_clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/spi_clk" type="other">
+         <obj_property name="ElementShortName">spi_clk</obj_property>
+         <obj_property name="ObjectShortName">spi_clk</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/divisor" type="other">
+         <obj_property name="ElementShortName">divisor</obj_property>
+         <obj_property name="ObjectShortName">divisor</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/uut/data_bw" type="other">
+         <obj_property name="ElementShortName">data_bw</obj_property>
+         <obj_property name="ObjectShortName">data_bw</obj_property>
+      </wvobject>
+      <wvobject fp_name="group609" type="group">
+         <obj_property name="label">clk_cnt</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/clk_i" type="logic">
+            <obj_property name="ElementShortName">clk_i</obj_property>
+            <obj_property name="ObjectShortName">clk_i</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/rst_i" type="logic">
+            <obj_property name="ElementShortName">rst_i</obj_property>
+            <obj_property name="ObjectShortName">rst_i</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/en_i" type="logic">
+            <obj_property name="ElementShortName">en_i</obj_property>
+            <obj_property name="ObjectShortName">en_i</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/rld_i" type="array">
+            <obj_property name="ElementShortName">rld_i[31:0]</obj_property>
+            <obj_property name="ObjectShortName">rld_i[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/dir_i" type="logic">
+            <obj_property name="ElementShortName">dir_i</obj_property>
+            <obj_property name="ObjectShortName">dir_i</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/cnt_o" type="array">
+            <obj_property name="ElementShortName">cnt_o[31:0]</obj_property>
+            <obj_property name="ObjectShortName">cnt_o[31:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/irq_o" type="logic">
+            <obj_property name="ElementShortName">irq_o</obj_property>
+            <obj_property name="ObjectShortName">irq_o</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/cnt_s" type="other">
+            <obj_property name="ElementShortName">cnt_s</obj_property>
+            <obj_property name="ObjectShortName">cnt_s</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/rld_s" type="other">
+            <obj_property name="ElementShortName">rld_s</obj_property>
+            <obj_property name="ObjectShortName">rld_s</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_clk_cnt/data_w" type="other">
+            <obj_property name="ElementShortName">data_w</obj_property>
+            <obj_property name="ObjectShortName">data_w</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="group610" type="group">
+         <obj_property name="label">bit_cnt</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/clk_i" type="logic">
+            <obj_property name="ElementShortName">clk_i</obj_property>
+            <obj_property name="ObjectShortName">clk_i</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/rst_i" type="logic">
+            <obj_property name="ElementShortName">rst_i</obj_property>
+            <obj_property name="ObjectShortName">rst_i</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/en_i" type="logic">
+            <obj_property name="ElementShortName">en_i</obj_property>
+            <obj_property name="ObjectShortName">en_i</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/rld_i" type="array">
+            <obj_property name="ElementShortName">rld_i[3:0]</obj_property>
+            <obj_property name="ObjectShortName">rld_i[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/dir_i" type="logic">
+            <obj_property name="ElementShortName">dir_i</obj_property>
+            <obj_property name="ObjectShortName">dir_i</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/cnt_o" type="array">
+            <obj_property name="ElementShortName">cnt_o[3:0]</obj_property>
+            <obj_property name="ObjectShortName">cnt_o[3:0]</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/irq_o" type="logic">
+            <obj_property name="ElementShortName">irq_o</obj_property>
+            <obj_property name="ObjectShortName">irq_o</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/cnt_s" type="other">
+            <obj_property name="ElementShortName">cnt_s</obj_property>
+            <obj_property name="ObjectShortName">cnt_s</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/rld_s" type="other">
+            <obj_property name="ElementShortName">rld_s</obj_property>
+            <obj_property name="ObjectShortName">rld_s</obj_property>
+         </wvobject>
+         <wvobject fp_name="/tb_spi_control/uut/spi_bit_cnt/data_w" type="other">
+            <obj_property name="ElementShortName">data_w</obj_property>
+            <obj_property name="ObjectShortName">data_w</obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group318" type="group">
+      <obj_property name="label">SPI COMP</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/CLK" type="logic">
+         <obj_property name="ElementShortName">CLK</obj_property>
+         <obj_property name="ObjectShortName">CLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/RST" type="logic">
+         <obj_property name="ElementShortName">RST</obj_property>
+         <obj_property name="ObjectShortName">RST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/SPI_EN" type="logic">
+         <obj_property name="ElementShortName">SPI_EN</obj_property>
+         <obj_property name="ObjectShortName">SPI_EN</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/SPI_DATA" type="array">
+         <obj_property name="ElementShortName">SPI_DATA[7:0]</obj_property>
+         <obj_property name="ObjectShortName">SPI_DATA[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/SDO" type="logic">
+         <obj_property name="ElementShortName">SDO</obj_property>
+         <obj_property name="ObjectShortName">SDO</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/SCLK" type="logic">
+         <obj_property name="ElementShortName">SCLK</obj_property>
+         <obj_property name="ObjectShortName">SCLK</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/SPI_FIN" type="logic">
+         <obj_property name="ElementShortName">SPI_FIN</obj_property>
+         <obj_property name="ObjectShortName">SPI_FIN</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/current_state" type="other">
+         <obj_property name="ElementShortName">current_state</obj_property>
+         <obj_property name="ObjectShortName">current_state</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/shift_register" type="array">
+         <obj_property name="ElementShortName">shift_register[7:0]</obj_property>
+         <obj_property name="ObjectShortName">shift_register[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/shift_counter" type="array">
+         <obj_property name="ElementShortName">shift_counter[3:0]</obj_property>
+         <obj_property name="ObjectShortName">shift_counter[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/clk_divided" type="logic">
+         <obj_property name="ElementShortName">clk_divided</obj_property>
+         <obj_property name="ObjectShortName">clk_divided</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/counter" type="array">
+         <obj_property name="ElementShortName">counter[4:0]</obj_property>
+         <obj_property name="ObjectShortName">counter[4:0]</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/temp_sdo" type="logic">
+         <obj_property name="ElementShortName">temp_sdo</obj_property>
+         <obj_property name="ObjectShortName">temp_sdo</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_spi_control/SPI_COMP/falling" type="logic">
+         <obj_property name="ElementShortName">falling</obj_property>
+         <obj_property name="ObjectShortName">falling</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/uut/state_s" type="other">
+      <obj_property name="ElementShortName">state_s</obj_property>
+      <obj_property name="ObjectShortName">state_s</obj_property>
+      <obj_property name="CustomSignalColor">#FF0080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/SPI_COMP/current_state" type="other">
+      <obj_property name="ElementShortName">current_state</obj_property>
+      <obj_property name="ObjectShortName">current_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/uut/MOSI" type="logic">
+      <obj_property name="ElementShortName">MOSI</obj_property>
+      <obj_property name="ObjectShortName">MOSI</obj_property>
+      <obj_property name="CustomSignalColor">#FF0080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/uut/SCLK" type="logic">
+      <obj_property name="ElementShortName">SCLK</obj_property>
+      <obj_property name="ObjectShortName">SCLK</obj_property>
+      <obj_property name="CustomSignalColor">#FF0080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/uut/CS" type="array">
+      <obj_property name="ElementShortName">CS[0:0]</obj_property>
+      <obj_property name="ObjectShortName">CS[0:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/SPI_COMP/SDO" type="logic">
+      <obj_property name="ElementShortName">SDO</obj_property>
+      <obj_property name="ObjectShortName">SDO</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/SPI_COMP/SCLK" type="logic">
+      <obj_property name="ElementShortName">SCLK</obj_property>
+      <obj_property name="ObjectShortName">SCLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_spi_control/SPI_COMP/CS" type="logic">
+      <obj_property name="ElementShortName">CS</obj_property>
+      <obj_property name="ObjectShortName">CS</obj_property>
+   </wvobject>
+</wave_config>
