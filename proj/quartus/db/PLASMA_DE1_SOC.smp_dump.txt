@@ -1,0 +1,24 @@
+
+State Machine - |PLASMA_DE1_SOC|plasma_de1_soc:plasma_de1_soc|plasma_de1_soc_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:plasma_soc_0_avalon_slave_0_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
+state.ST_IDLE 0 0 0 0 
+state.ST_COMP_TRANS 1 0 0 1 
+state.ST_UNCOMP_TRANS 1 0 1 0 
+state.ST_UNCOMP_WR_SUBBURST 1 1 0 0 
+
+State Machine - |PLASMA_DE1_SOC|plasma_de1_soc:plasma_de1_soc|plasma_soc_top:plasma_soc_0|plasma_soc:u_soc|slave_spic:u_spic|spi_control:spi|state_s
+Name state_s.done state_s.hold4 state_s.hold3 state_s.hold2 state_s.hold1 state_s.send state_s.idle 
+state_s.idle 0 0 0 0 0 0 0 
+state_s.send 0 0 0 0 0 1 1 
+state_s.hold1 0 0 0 0 1 0 1 
+state_s.hold2 0 0 0 1 0 0 1 
+state_s.hold3 0 0 1 0 0 0 1 
+state_s.hold4 0 1 0 0 0 0 1 
+state_s.done 1 0 0 0 0 0 1 
+
+State Machine - |PLASMA_DE1_SOC|plasma_de1_soc:plasma_de1_soc|plasma_soc_top:plasma_soc_0|plasma_soc:u_soc|arbiter:arbiter|state
+Name state.reschedule state.await_uninterruptible state.await_interruptible state.evaluate 
+state.evaluate 0 0 0 0 
+state.await_interruptible 0 0 1 1 
+state.await_uninterruptible 0 1 0 1 
+state.reschedule 1 0 0 1 

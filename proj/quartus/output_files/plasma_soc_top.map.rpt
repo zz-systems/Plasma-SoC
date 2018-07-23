@@ -1,0 +1,314 @@
+Analysis & Synthesis report for plasma_soc_top
+Sat Jul 07 13:15:15 2018
+Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++---------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                              ;
++-----------------------------+---------------------------------------------+
+; Analysis & Synthesis Status ; Failed - Sat Jul 07 13:15:15 2018           ;
+; Quartus Prime Version       ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
+; Revision Name               ; plasma_soc_top                              ;
+; Top-level Entity Name       ; plasma_soc_top                              ;
+; Family                      ; Cyclone V                                   ;
+; Logic utilization (in ALMs) ; N/A until Partition Merge                   ;
+; Total registers             ; N/A until Partition Merge                   ;
+; Total pins                  ; N/A until Partition Merge                   ;
+; Total virtual pins          ; N/A until Partition Merge                   ;
+; Total block memory bits     ; N/A until Partition Merge                   ;
+; Total PLLs                  ; N/A until Partition Merge                   ;
+; Total DLLs                  ; N/A until Partition Merge                   ;
++-----------------------------+---------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                             ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                          ; Setting            ; Default Value      ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                          ; 5CSEMA5F31C6       ;                    ;
+; Top-level entity name                                                           ; plasma_soc_top     ; plasma_soc_top     ;
+; Family name                                                                     ; Cyclone V          ; Cyclone V          ;
+; Use smart compilation                                                           ; Off                ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation                ; On                 ; On                 ;
+; Enable compact report table                                                     ; Off                ; Off                ;
+; Restructure Multiplexers                                                        ; Auto               ; Auto               ;
+; MLAB Add Timing Constraints For Mixed-Port Feed-Through Mode Setting Don't Care ; Off                ; Off                ;
+; Create Debugging Nodes for IP Cores                                             ; Off                ; Off                ;
+; Preserve fewer node names                                                       ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                                   ; Enable             ; Enable             ;
+; Verilog Version                                                                 ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                                    ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                        ; Auto               ; Auto               ;
+; Safe State Machine                                                              ; Off                ; Off                ;
+; Extract Verilog State Machines                                                  ; On                 ; On                 ;
+; Extract VHDL State Machines                                                     ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                               ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                      ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                                  ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                         ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                       ; On                 ; On                 ;
+; Parallel Synthesis                                                              ; On                 ; On                 ;
+; DSP Block Balancing                                                             ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                              ; On                 ; On                 ;
+; Power-Up Don't Care                                                             ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                                    ; Off                ; Off                ;
+; Remove Duplicate Registers                                                      ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                            ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                          ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                           ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                       ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                            ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                             ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                                  ; Off                ; Off                ;
+; Optimization Technique                                                          ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                              ; 70                 ; 70                 ;
+; Auto Carry Chains                                                               ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                            ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                           ; Off                ; Off                ;
+; Auto ROM Replacement                                                            ; On                 ; On                 ;
+; Auto RAM Replacement                                                            ; On                 ; On                 ;
+; Auto DSP Block Replacement                                                      ; On                 ; On                 ;
+; Auto Shift Register Replacement                                                 ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                                 ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                                   ; On                 ; On                 ;
+; Strict RAM Replacement                                                          ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                               ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                          ; Off                ; Off                ;
+; Auto Resource Sharing                                                           ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                                   ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                             ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                               ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                         ; On                 ; On                 ;
+; Report Parameter Settings                                                       ; On                 ; On                 ;
+; Report Source Assignments                                                       ; On                 ; On                 ;
+; Report Connectivity Checks                                                      ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                              ; Off                ; Off                ;
+; Synchronization Register Chain Length                                           ; 3                  ; 3                  ;
+; Power Optimization During Synthesis                                             ; Normal compilation ; Normal compilation ;
+; HDL message level                                                               ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                                 ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                        ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                              ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                       ; 100                ; 100                ;
+; Clock MUX Protection                                                            ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                     ; Off                ; Off                ;
+; Block Design Naming                                                             ; Auto               ; Auto               ;
+; SDC constraint protection                                                       ; Off                ; Off                ;
+; Synthesis Effort                                                                ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal                    ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                            ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                              ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                     ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                          ; On                 ; On                 ;
+; Automatic Parallel Synthesis                                                    ; On                 ; On                 ;
+; Partial Reconfiguration Bitstream ID                                            ; Off                ; Off                ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 4           ;
+; Maximum allowed            ; 4           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 1           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
++----------------------------+-------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
+    Info: Processing started: Sat Jul 07 13:14:57 2018
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off plasma-soc -c plasma_soc_top
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (12021): Found 2 design units, including 0 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/wishbone/wb_pkg.vhd
+    Info (12022): Found design unit 1: wb_pkg (zz_systems) File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wb_pkg.vhd Line: 5
+    Info (12022): Found design unit 2: wb_pkg-body File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wb_pkg.vhd Line: 102
+Info (12021): Found 2 design units, including 0 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/util/util_pkg.vhd
+    Info (12022): Found design unit 1: util_pkg (zz_systems) File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/util/util_pkg.vhd Line: 8
+    Info (12022): Found design unit 2: util_pkg-body File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/util/util_pkg.vhd Line: 35
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/uart.vhd
+    Info (12022): Found design unit 1: uart-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/uart.vhd Line: 35
+    Info (12023): Found entity 1: uart File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/uart.vhd Line: 21
+Info (12021): Found 3 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/timer/timer.vhd
+    Info (12022): Found design unit 1: timer_pkg (zz_systems) File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/timer/timer.vhd Line: 7
+    Info (12022): Found design unit 2: timer-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/timer/timer.vhd Line: 56
+    Info (12023): Found entity 1: timer File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/timer/timer.vhd Line: 36
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/spi/spi_control.vhd
+    Info (12022): Found design unit 1: spi_control-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/spi/spi_control.vhd Line: 38
+    Info (12023): Found entity 1: spi_control File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/spi/spi_control.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/wishbone/wrapper/slave_uart.vhd
+    Info (12022): Found design unit 1: slave_uart-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_uart.vhd Line: 63
+    Info (12023): Found entity 1: slave_uart File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_uart.vhd Line: 32
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/timer/slave_timer.vhd
+    Info (12022): Found design unit 1: slave_timer-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/timer/slave_timer.vhd Line: 61
+    Info (12023): Found entity 1: slave_timer File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/timer/slave_timer.vhd Line: 36
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/spi/slave_spi_control.vhd
+    Info (12022): Found design unit 1: slave_spic-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/spi/slave_spi_control.vhd Line: 73
+    Info (12023): Found entity 1: slave_spic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/spi/slave_spi_control.vhd Line: 35
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/oled/slave_oledc.vhd
+    Info (12022): Found design unit 1: slave_oledc-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/oled/slave_oledc.vhd Line: 75
+    Info (12023): Found entity 1: slave_oledc File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/oled/slave_oledc.vhd Line: 36
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/wishbone/wrapper/slave_memory.vhd
+    Info (12022): Found design unit 1: slave_memory-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 36
+    Info (12023): Found entity 1: slave_memory File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/irc/slave_irc.vhd
+    Info (12022): Found design unit 1: slave_irc-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/irc/slave_irc.vhd Line: 68
+    Info (12023): Found entity 1: slave_irc File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/irc/slave_irc.vhd Line: 38
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/gpio/slave_gpio.vhd
+    Info (12022): Found design unit 1: slave_gpio-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/gpio/slave_gpio.vhd Line: 67
+    Info (12023): Found entity 1: slave_gpio File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/gpio/slave_gpio.vhd Line: 36
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/wishbone/wrapper/slave_ext_memory.vhd
+    Info (12022): Found design unit 1: slave_ext_memory-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_ext_memory.vhd Line: 37
+    Info (12023): Found entity 1: slave_ext_memory File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_ext_memory.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/counter/slave_counter.vhd
+    Info (12022): Found design unit 1: slave_counter-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/counter/slave_counter.vhd Line: 61
+    Info (12023): Found entity 1: slave_counter File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/counter/slave_counter.vhd Line: 36
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/shifter.vhd
+    Info (12022): Found design unit 1: shifter-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/shifter.vhd Line: 27
+    Info (12023): Found entity 1: shifter File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/shifter.vhd Line: 19
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/wishbone/shared_bus.vhd
+    Info (12022): Found design unit 1: shared_bus-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/shared_bus.vhd Line: 70
+    Info (12023): Found entity 1: shared_bus File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/shared_bus.vhd Line: 12
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/reg_bank.vhd
+    Info (12022): Found design unit 1: reg_bank-ram_block File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/reg_bank.vhd Line: 45
+    Info (12023): Found entity 1: reg_bank File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/reg_bank.vhd Line: 24
+Info (12021): Found 0 design units, including 0 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/ram.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma_soc_top.vhd
+    Info (12022): Found design unit 1: plasma_soc_top-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma_soc_top.vhd Line: 42
+    Info (12023): Found entity 1: plasma_soc_top File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma_soc_top.vhd Line: 12
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/plasma_if.vhd
+    Info (12022): Found design unit 1: plasma_if-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/plasma_if.vhd Line: 42
+    Info (12023): Found entity 1: plasma_if File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/plasma_if.vhd Line: 20
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/plasma.vhd
+    Info (12022): Found design unit 1: plasma-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/plasma.vhd Line: 58
+    Info (12023): Found entity 1: plasma File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/plasma.vhd Line: 39
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/pipeline.vhd
+    Info (12022): Found design unit 1: pipeline-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/pipeline.vhd Line: 50
+    Info (12023): Found entity 1: pipeline File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/pipeline.vhd Line: 20
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/pc_next.vhd
+    Info (12022): Found design unit 1: pc_next-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/pc_next.vhd Line: 31
+    Info (12023): Found entity 1: pc_next File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/pc_next.vhd Line: 18
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/oled/oled_if.vhd
+    Info (12022): Found design unit 1: oled_if-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/oled/oled_if.vhd Line: 32
+    Info (12023): Found entity 1: oled_if File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/oled/oled_if.vhd Line: 12
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/mult.vhd
+    Info (12022): Found design unit 1: mult-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/mult.vhd Line: 53
+    Info (12023): Found entity 1: mult File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/mult.vhd Line: 43
+Info (12021): Found 2 design units, including 0 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/mlite_pack.vhd
+    Info (12022): Found design unit 1: mlite_pack (plasma_lib) File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/mlite_pack.vhd Line: 15
+    Info (12022): Found design unit 2: mlite_pack-body File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/mlite_pack.vhd Line: 417
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/mlite_cpu.vhd
+    Info (12022): Found design unit 1: mlite_cpu-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/mlite_cpu.vhd Line: 94
+    Info (12023): Found entity 1: mlite_cpu File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/mlite_cpu.vhd Line: 77
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/mem_ctrl.vhd
+    Info (12022): Found design unit 1: mem_ctrl-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/mem_ctrl.vhd Line: 39
+    Info (12023): Found entity 1: mem_ctrl File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/mem_ctrl.vhd Line: 19
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/wishbone/wrapper/master_cpu.vhd
+    Info (12022): Found design unit 1: master_cpu-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/master_cpu.vhd Line: 41
+    Info (12023): Found entity 1: master_cpu File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/master_cpu.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/irc/ir_control.vhd
+    Info (12022): Found design unit 1: ir_control-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/irc/ir_control.vhd Line: 28
+    Info (12023): Found entity 1: ir_control File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/irc/ir_control.vhd Line: 7
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/irc/ir_channel.vhd
+    Info (12022): Found design unit 1: ir_channel-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/irc/ir_channel.vhd Line: 21
+    Info (12023): Found entity 1: ir_channel File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/irc/ir_channel.vhd Line: 6
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/gpio/gpio.vhd
+    Info (12022): Found design unit 1: gpio-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/gpio/gpio.vhd Line: 24
+    Info (12023): Found entity 1: gpio File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/gpio/gpio.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/util/fifo.vhd
+    Info (12022): Found design unit 1: fifo-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/util/fifo.vhd Line: 31
+    Info (12023): Found entity 1: fifo File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/util/fifo.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/counter/counter.vhd
+    Info (12022): Found design unit 1: counter-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/counter/counter.vhd Line: 28
+    Info (12023): Found entity 1: counter File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/counter/counter.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/control.vhd
+    Info (12022): Found design unit 1: control-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/control.vhd Line: 47
+    Info (12023): Found entity 1: control File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/control.vhd Line: 29
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/bus_mux.vhd
+    Info (12022): Found design unit 1: bus_mux-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/bus_mux.vhd Line: 45
+    Info (12023): Found entity 1: bus_mux File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/bus_mux.vhd Line: 24
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/oled/ascii_rom.vhd
+    Info (12022): Found design unit 1: ascii_rom-behavioral File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/oled/ascii_rom.vhd Line: 18
+    Info (12023): Found entity 1: ascii_rom File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/oled/ascii_rom.vhd Line: 12
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/wishbone/arbiter.vhd
+    Info (12022): Found design unit 1: arbiter-behavior File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/arbiter.vhd Line: 33
+    Info (12023): Found entity 1: arbiter File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/arbiter.vhd Line: 13
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/alu.vhd
+    Info (12022): Found design unit 1: alu-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/alu.vhd Line: 26
+    Info (12023): Found entity 1: alu File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/alu.vhd Line: 18
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/oled/oled_control.vhd
+    Info (12022): Found design unit 1: oled_control-behavioral File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/oled/oled_control.vhd Line: 48
+    Info (12023): Found entity 1: oled_control File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/oled/oled_control.vhd Line: 16
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma/ram_xilinx.vhd
+    Info (12022): Found design unit 1: ram-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 39
+    Info (12023): Found entity 1: ram File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 29
+Info (12021): Found 2 design units, including 1 entities, in source file //vmware-host/shared folders/documents/dev/plasmax/rtl/plasma_soc.vhd
+    Info (12022): Found design unit 1: plasma_soc-logic File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma_soc.vhd Line: 89
+    Info (12023): Found entity 1: plasma_soc File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma_soc.vhd Line: 46
+Error (10481): VHDL Use Clause error at ram_xilinx.vhd(27): design library "UNISIM" does not contain primary unit "vcomponents". Verify that the primary unit exists in the library and has been successfully compiled. File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 27
+Error (10800): VHDL error at ram_xilinx.vhd(27): selected name in use clause is not an expanded name File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 27
+Error (10349): VHDL Association List error at slave_memory.vhd(54): formal "memory_type" does not exist File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 54
+Error (10349): VHDL Association List error at slave_memory.vhd(57): formal "clk" does not exist File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 57
+Error (10346): VHDL error at slave_memory.vhd(53): formal port or parameter "clk" must have actual or default value File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 53
+Error (10784): HDL error at ram_xilinx.vhd(31): see declaration for object "clk" File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 31
+Error (10346): VHDL error at slave_memory.vhd(53): formal port or parameter "enable" must have actual or default value File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 53
+Error (10784): HDL error at ram_xilinx.vhd(32): see declaration for object "enable" File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 32
+Error (10346): VHDL error at slave_memory.vhd(53): formal port or parameter "write_byte_enable" must have actual or default value File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 53
+Error (10784): HDL error at ram_xilinx.vhd(33): see declaration for object "write_byte_enable" File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 33
+Error (10346): VHDL error at slave_memory.vhd(53): formal port or parameter "address" must have actual or default value File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 53
+Error (10784): HDL error at ram_xilinx.vhd(34): see declaration for object "address" File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 34
+Error (10346): VHDL error at slave_memory.vhd(53): formal port or parameter "data_write" must have actual or default value File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 53
+Error (10784): HDL error at ram_xilinx.vhd(35): see declaration for object "data_write" File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 35
+Error (10346): VHDL error at slave_memory.vhd(53): formal port or parameter "data_read" must have actual or default value File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/wishbone/wrapper/slave_memory.vhd Line: 53
+Error (10784): HDL error at ram_xilinx.vhd(36): see declaration for object "data_read" File: //vmware-host/Shared Folders/Documents/DEV/plasmax/rtl/plasma/ram_xilinx.vhd Line: 36
+Error: Quartus Prime Analysis & Synthesis was unsuccessful. 16 errors, 1 warning
+    Error: Peak virtual memory: 4865 megabytes
+    Error: Processing ended: Sat Jul 07 13:15:16 2018
+    Error: Elapsed time: 00:00:19
+    Error: Total CPU time (on all processors): 00:00:29
+
+
