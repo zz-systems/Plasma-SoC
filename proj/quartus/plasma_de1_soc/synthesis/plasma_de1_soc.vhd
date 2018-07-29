@@ -9,30 +9,30 @@ use IEEE.numeric_std.all;
 entity plasma_de1_soc is
 	port (
 		clk_clk                          : in    std_logic                     := '0';             --                   clk.clk
-		memory_mem_a                     : out   std_logic_vector(12 downto 0);                    --                memory.mem_a
-		memory_mem_ba                    : out   std_logic_vector(2 downto 0);                     --                      .mem_ba
-		memory_mem_ck                    : out   std_logic;                                        --                      .mem_ck
-		memory_mem_ck_n                  : out   std_logic;                                        --                      .mem_ck_n
-		memory_mem_cke                   : out   std_logic;                                        --                      .mem_cke
-		memory_mem_cs_n                  : out   std_logic;                                        --                      .mem_cs_n
-		memory_mem_ras_n                 : out   std_logic;                                        --                      .mem_ras_n
-		memory_mem_cas_n                 : out   std_logic;                                        --                      .mem_cas_n
-		memory_mem_we_n                  : out   std_logic;                                        --                      .mem_we_n
-		memory_mem_reset_n               : out   std_logic;                                        --                      .mem_reset_n
-		memory_mem_dq                    : inout std_logic_vector(7 downto 0)  := (others => '0'); --                      .mem_dq
-		memory_mem_dqs                   : inout std_logic                     := '0';             --                      .mem_dqs
-		memory_mem_dqs_n                 : inout std_logic                     := '0';             --                      .mem_dqs_n
-		memory_mem_odt                   : out   std_logic;                                        --                      .mem_odt
-		memory_mem_dm                    : out   std_logic;                                        --                      .mem_dm
-		memory_oct_rzqin                 : in    std_logic                     := '0';             --                      .oct_rzqin
-		plasma_soc_0_leds_ld             : out   std_logic_vector(7 downto 0);                     --     plasma_soc_0_leds.ld
+		hps_0_ddr_mem_a                  : out   std_logic_vector(14 downto 0);                    --             hps_0_ddr.mem_a
+		hps_0_ddr_mem_ba                 : out   std_logic_vector(2 downto 0);                     --                      .mem_ba
+		hps_0_ddr_mem_ck                 : out   std_logic;                                        --                      .mem_ck
+		hps_0_ddr_mem_ck_n               : out   std_logic;                                        --                      .mem_ck_n
+		hps_0_ddr_mem_cke                : out   std_logic;                                        --                      .mem_cke
+		hps_0_ddr_mem_cs_n               : out   std_logic;                                        --                      .mem_cs_n
+		hps_0_ddr_mem_ras_n              : out   std_logic;                                        --                      .mem_ras_n
+		hps_0_ddr_mem_cas_n              : out   std_logic;                                        --                      .mem_cas_n
+		hps_0_ddr_mem_we_n               : out   std_logic;                                        --                      .mem_we_n
+		hps_0_ddr_mem_reset_n            : out   std_logic;                                        --                      .mem_reset_n
+		hps_0_ddr_mem_dq                 : inout std_logic_vector(31 downto 0) := (others => '0'); --                      .mem_dq
+		hps_0_ddr_mem_dqs                : inout std_logic_vector(3 downto 0)  := (others => '0'); --                      .mem_dqs
+		hps_0_ddr_mem_dqs_n              : inout std_logic_vector(3 downto 0)  := (others => '0'); --                      .mem_dqs_n
+		hps_0_ddr_mem_odt                : out   std_logic;                                        --                      .mem_odt
+		hps_0_ddr_mem_dm                 : out   std_logic_vector(3 downto 0);                     --                      .mem_dm
+		hps_0_ddr_oct_rzqin              : in    std_logic                     := '0';             --                      .oct_rzqin
+		plasma_soc_0_leds_ld             : out   std_logic_vector(9 downto 0);                     --     plasma_soc_0_leds.ld
 		plasma_soc_0_sd_card_sd_cd       : in    std_logic                     := '0';             --  plasma_soc_0_sd_card.sd_cd
 		plasma_soc_0_sd_card_sd_spi_cs   : out   std_logic;                                        --                      .sd_spi_cs
 		plasma_soc_0_sd_card_sd_spi_miso : in    std_logic                     := '0';             --                      .sd_spi_miso
 		plasma_soc_0_sd_card_sd_spi_mosi : out   std_logic;                                        --                      .sd_spi_mosi
 		plasma_soc_0_sd_card_sd_spi_sclk : out   std_logic;                                        --                      .sd_spi_sclk
 		plasma_soc_0_sd_card_sd_wp       : in    std_logic                     := '0';             --                      .sd_wp
-		plasma_soc_0_switches_sw         : in    std_logic_vector(7 downto 0)  := (others => '0'); -- plasma_soc_0_switches.sw
+		plasma_soc_0_switches_sw         : in    std_logic_vector(9 downto 0)  := (others => '0'); -- plasma_soc_0_switches.sw
 		plasma_soc_0_uart_uart_rx        : in    std_logic                     := '0';             --     plasma_soc_0_uart.uart_rx
 		plasma_soc_0_uart_uart_tx        : out   std_logic                                         --                      .uart_tx
 	);
@@ -45,131 +45,99 @@ architecture rtl of plasma_de1_soc is
 			S2F_Width : integer := 2
 		);
 		port (
-			sdmmc_vs_o        : out   std_logic;                                         -- vs_o
-			sdmmc_pwr_ena_o   : out   std_logic;                                         -- pwr_ena_o
-			sdmmc_wp_i        : in    std_logic                      := 'X';             -- wp_i
-			sdmmc_cdn_i       : in    std_logic                      := 'X';             -- cdn_i
-			sdmmc_card_intn_i : in    std_logic                      := 'X';             -- card_intn_i
-			sdmmc_cmd_i       : in    std_logic                      := 'X';             -- cmd_i
-			sdmmc_cmd_o       : out   std_logic;                                         -- cmd_o
-			sdmmc_cmd_en      : out   std_logic;                                         -- cmd_en
-			sdmmc_data_i      : in    std_logic_vector(7 downto 0)   := (others => 'X'); -- data_i
-			sdmmc_data_o      : out   std_logic_vector(7 downto 0);                      -- data_o
-			sdmmc_data_en     : out   std_logic_vector(7 downto 0);                      -- data_en
-			sdmmc_rstn_o      : out   std_logic;                                         -- reset
-			sdmmc_cclk_out    : out   std_logic;                                         -- clk
-			spim0_txd         : out   std_logic;                                         -- txd
-			spim0_rxd         : in    std_logic                      := 'X';             -- rxd
-			spim0_ss_in_n     : in    std_logic                      := 'X';             -- ss_in_n
-			spim0_ssi_oe_n    : out   std_logic;                                         -- ssi_oe_n
-			spim0_ss_0_n      : out   std_logic;                                         -- ss_0_n
-			spim0_ss_1_n      : out   std_logic;                                         -- ss_1_n
-			spim0_ss_2_n      : out   std_logic;                                         -- ss_2_n
-			spim0_ss_3_n      : out   std_logic;                                         -- ss_3_n
-			spim0_sclk_out    : out   std_logic;                                         -- clk
-			uart0_cts         : in    std_logic                      := 'X';             -- cts
-			uart0_dsr         : in    std_logic                      := 'X';             -- dsr
-			uart0_dcd         : in    std_logic                      := 'X';             -- dcd
-			uart0_ri          : in    std_logic                      := 'X';             -- ri
-			uart0_dtr         : out   std_logic;                                         -- dtr
-			uart0_rts         : out   std_logic;                                         -- rts
-			uart0_out1_n      : out   std_logic;                                         -- out1_n
-			uart0_out2_n      : out   std_logic;                                         -- out2_n
-			uart0_rxd         : in    std_logic                      := 'X';             -- rxd
-			uart0_txd         : out   std_logic;                                         -- txd
-			mem_a             : out   std_logic_vector(12 downto 0);                     -- mem_a
-			mem_ba            : out   std_logic_vector(2 downto 0);                      -- mem_ba
-			mem_ck            : out   std_logic;                                         -- mem_ck
-			mem_ck_n          : out   std_logic;                                         -- mem_ck_n
-			mem_cke           : out   std_logic;                                         -- mem_cke
-			mem_cs_n          : out   std_logic;                                         -- mem_cs_n
-			mem_ras_n         : out   std_logic;                                         -- mem_ras_n
-			mem_cas_n         : out   std_logic;                                         -- mem_cas_n
-			mem_we_n          : out   std_logic;                                         -- mem_we_n
-			mem_reset_n       : out   std_logic;                                         -- mem_reset_n
-			mem_dq            : inout std_logic_vector(7 downto 0)   := (others => 'X'); -- mem_dq
-			mem_dqs           : inout std_logic                      := 'X';             -- mem_dqs
-			mem_dqs_n         : inout std_logic                      := 'X';             -- mem_dqs_n
-			mem_odt           : out   std_logic;                                         -- mem_odt
-			mem_dm            : out   std_logic;                                         -- mem_dm
-			oct_rzqin         : in    std_logic                      := 'X';             -- oct_rzqin
-			h2f_rst_n         : out   std_logic;                                         -- reset_n
-			h2f_axi_clk       : in    std_logic                      := 'X';             -- clk
-			h2f_AWID          : out   std_logic_vector(11 downto 0);                     -- awid
-			h2f_AWADDR        : out   std_logic_vector(29 downto 0);                     -- awaddr
-			h2f_AWLEN         : out   std_logic_vector(3 downto 0);                      -- awlen
-			h2f_AWSIZE        : out   std_logic_vector(2 downto 0);                      -- awsize
-			h2f_AWBURST       : out   std_logic_vector(1 downto 0);                      -- awburst
-			h2f_AWLOCK        : out   std_logic_vector(1 downto 0);                      -- awlock
-			h2f_AWCACHE       : out   std_logic_vector(3 downto 0);                      -- awcache
-			h2f_AWPROT        : out   std_logic_vector(2 downto 0);                      -- awprot
-			h2f_AWVALID       : out   std_logic;                                         -- awvalid
-			h2f_AWREADY       : in    std_logic                      := 'X';             -- awready
-			h2f_WID           : out   std_logic_vector(11 downto 0);                     -- wid
-			h2f_WDATA         : out   std_logic_vector(127 downto 0);                    -- wdata
-			h2f_WSTRB         : out   std_logic_vector(15 downto 0);                     -- wstrb
-			h2f_WLAST         : out   std_logic;                                         -- wlast
-			h2f_WVALID        : out   std_logic;                                         -- wvalid
-			h2f_WREADY        : in    std_logic                      := 'X';             -- wready
-			h2f_BID           : in    std_logic_vector(11 downto 0)  := (others => 'X'); -- bid
-			h2f_BRESP         : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- bresp
-			h2f_BVALID        : in    std_logic                      := 'X';             -- bvalid
-			h2f_BREADY        : out   std_logic;                                         -- bready
-			h2f_ARID          : out   std_logic_vector(11 downto 0);                     -- arid
-			h2f_ARADDR        : out   std_logic_vector(29 downto 0);                     -- araddr
-			h2f_ARLEN         : out   std_logic_vector(3 downto 0);                      -- arlen
-			h2f_ARSIZE        : out   std_logic_vector(2 downto 0);                      -- arsize
-			h2f_ARBURST       : out   std_logic_vector(1 downto 0);                      -- arburst
-			h2f_ARLOCK        : out   std_logic_vector(1 downto 0);                      -- arlock
-			h2f_ARCACHE       : out   std_logic_vector(3 downto 0);                      -- arcache
-			h2f_ARPROT        : out   std_logic_vector(2 downto 0);                      -- arprot
-			h2f_ARVALID       : out   std_logic;                                         -- arvalid
-			h2f_ARREADY       : in    std_logic                      := 'X';             -- arready
-			h2f_RID           : in    std_logic_vector(11 downto 0)  := (others => 'X'); -- rid
-			h2f_RDATA         : in    std_logic_vector(127 downto 0) := (others => 'X'); -- rdata
-			h2f_RRESP         : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- rresp
-			h2f_RLAST         : in    std_logic                      := 'X';             -- rlast
-			h2f_RVALID        : in    std_logic                      := 'X';             -- rvalid
-			h2f_RREADY        : out   std_logic;                                         -- rready
-			f2h_axi_clk       : in    std_logic                      := 'X';             -- clk
-			f2h_AWID          : in    std_logic_vector(7 downto 0)   := (others => 'X'); -- awid
-			f2h_AWADDR        : in    std_logic_vector(31 downto 0)  := (others => 'X'); -- awaddr
-			f2h_AWLEN         : in    std_logic_vector(3 downto 0)   := (others => 'X'); -- awlen
-			f2h_AWSIZE        : in    std_logic_vector(2 downto 0)   := (others => 'X'); -- awsize
-			f2h_AWBURST       : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- awburst
-			f2h_AWLOCK        : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- awlock
-			f2h_AWCACHE       : in    std_logic_vector(3 downto 0)   := (others => 'X'); -- awcache
-			f2h_AWPROT        : in    std_logic_vector(2 downto 0)   := (others => 'X'); -- awprot
-			f2h_AWVALID       : in    std_logic                      := 'X';             -- awvalid
-			f2h_AWREADY       : out   std_logic;                                         -- awready
-			f2h_AWUSER        : in    std_logic_vector(4 downto 0)   := (others => 'X'); -- awuser
-			f2h_WID           : in    std_logic_vector(7 downto 0)   := (others => 'X'); -- wid
-			f2h_WDATA         : in    std_logic_vector(127 downto 0) := (others => 'X'); -- wdata
-			f2h_WSTRB         : in    std_logic_vector(15 downto 0)  := (others => 'X'); -- wstrb
-			f2h_WLAST         : in    std_logic                      := 'X';             -- wlast
-			f2h_WVALID        : in    std_logic                      := 'X';             -- wvalid
-			f2h_WREADY        : out   std_logic;                                         -- wready
-			f2h_BID           : out   std_logic_vector(7 downto 0);                      -- bid
-			f2h_BRESP         : out   std_logic_vector(1 downto 0);                      -- bresp
-			f2h_BVALID        : out   std_logic;                                         -- bvalid
-			f2h_BREADY        : in    std_logic                      := 'X';             -- bready
-			f2h_ARID          : in    std_logic_vector(7 downto 0)   := (others => 'X'); -- arid
-			f2h_ARADDR        : in    std_logic_vector(31 downto 0)  := (others => 'X'); -- araddr
-			f2h_ARLEN         : in    std_logic_vector(3 downto 0)   := (others => 'X'); -- arlen
-			f2h_ARSIZE        : in    std_logic_vector(2 downto 0)   := (others => 'X'); -- arsize
-			f2h_ARBURST       : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- arburst
-			f2h_ARLOCK        : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- arlock
-			f2h_ARCACHE       : in    std_logic_vector(3 downto 0)   := (others => 'X'); -- arcache
-			f2h_ARPROT        : in    std_logic_vector(2 downto 0)   := (others => 'X'); -- arprot
-			f2h_ARVALID       : in    std_logic                      := 'X';             -- arvalid
-			f2h_ARREADY       : out   std_logic;                                         -- arready
-			f2h_ARUSER        : in    std_logic_vector(4 downto 0)   := (others => 'X'); -- aruser
-			f2h_RID           : out   std_logic_vector(7 downto 0);                      -- rid
-			f2h_RDATA         : out   std_logic_vector(127 downto 0);                    -- rdata
-			f2h_RRESP         : out   std_logic_vector(1 downto 0);                      -- rresp
-			f2h_RLAST         : out   std_logic;                                         -- rlast
-			f2h_RVALID        : out   std_logic;                                         -- rvalid
-			f2h_RREADY        : in    std_logic                      := 'X'              -- rready
+			mem_a       : out   std_logic_vector(14 downto 0);                     -- mem_a
+			mem_ba      : out   std_logic_vector(2 downto 0);                      -- mem_ba
+			mem_ck      : out   std_logic;                                         -- mem_ck
+			mem_ck_n    : out   std_logic;                                         -- mem_ck_n
+			mem_cke     : out   std_logic;                                         -- mem_cke
+			mem_cs_n    : out   std_logic;                                         -- mem_cs_n
+			mem_ras_n   : out   std_logic;                                         -- mem_ras_n
+			mem_cas_n   : out   std_logic;                                         -- mem_cas_n
+			mem_we_n    : out   std_logic;                                         -- mem_we_n
+			mem_reset_n : out   std_logic;                                         -- mem_reset_n
+			mem_dq      : inout std_logic_vector(31 downto 0)  := (others => 'X'); -- mem_dq
+			mem_dqs     : inout std_logic_vector(3 downto 0)   := (others => 'X'); -- mem_dqs
+			mem_dqs_n   : inout std_logic_vector(3 downto 0)   := (others => 'X'); -- mem_dqs_n
+			mem_odt     : out   std_logic;                                         -- mem_odt
+			mem_dm      : out   std_logic_vector(3 downto 0);                      -- mem_dm
+			oct_rzqin   : in    std_logic                      := 'X';             -- oct_rzqin
+			h2f_rst_n   : out   std_logic;                                         -- reset_n
+			h2f_axi_clk : in    std_logic                      := 'X';             -- clk
+			h2f_AWID    : out   std_logic_vector(11 downto 0);                     -- awid
+			h2f_AWADDR  : out   std_logic_vector(29 downto 0);                     -- awaddr
+			h2f_AWLEN   : out   std_logic_vector(3 downto 0);                      -- awlen
+			h2f_AWSIZE  : out   std_logic_vector(2 downto 0);                      -- awsize
+			h2f_AWBURST : out   std_logic_vector(1 downto 0);                      -- awburst
+			h2f_AWLOCK  : out   std_logic_vector(1 downto 0);                      -- awlock
+			h2f_AWCACHE : out   std_logic_vector(3 downto 0);                      -- awcache
+			h2f_AWPROT  : out   std_logic_vector(2 downto 0);                      -- awprot
+			h2f_AWVALID : out   std_logic;                                         -- awvalid
+			h2f_AWREADY : in    std_logic                      := 'X';             -- awready
+			h2f_WID     : out   std_logic_vector(11 downto 0);                     -- wid
+			h2f_WDATA   : out   std_logic_vector(127 downto 0);                    -- wdata
+			h2f_WSTRB   : out   std_logic_vector(15 downto 0);                     -- wstrb
+			h2f_WLAST   : out   std_logic;                                         -- wlast
+			h2f_WVALID  : out   std_logic;                                         -- wvalid
+			h2f_WREADY  : in    std_logic                      := 'X';             -- wready
+			h2f_BID     : in    std_logic_vector(11 downto 0)  := (others => 'X'); -- bid
+			h2f_BRESP   : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- bresp
+			h2f_BVALID  : in    std_logic                      := 'X';             -- bvalid
+			h2f_BREADY  : out   std_logic;                                         -- bready
+			h2f_ARID    : out   std_logic_vector(11 downto 0);                     -- arid
+			h2f_ARADDR  : out   std_logic_vector(29 downto 0);                     -- araddr
+			h2f_ARLEN   : out   std_logic_vector(3 downto 0);                      -- arlen
+			h2f_ARSIZE  : out   std_logic_vector(2 downto 0);                      -- arsize
+			h2f_ARBURST : out   std_logic_vector(1 downto 0);                      -- arburst
+			h2f_ARLOCK  : out   std_logic_vector(1 downto 0);                      -- arlock
+			h2f_ARCACHE : out   std_logic_vector(3 downto 0);                      -- arcache
+			h2f_ARPROT  : out   std_logic_vector(2 downto 0);                      -- arprot
+			h2f_ARVALID : out   std_logic;                                         -- arvalid
+			h2f_ARREADY : in    std_logic                      := 'X';             -- arready
+			h2f_RID     : in    std_logic_vector(11 downto 0)  := (others => 'X'); -- rid
+			h2f_RDATA   : in    std_logic_vector(127 downto 0) := (others => 'X'); -- rdata
+			h2f_RRESP   : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- rresp
+			h2f_RLAST   : in    std_logic                      := 'X';             -- rlast
+			h2f_RVALID  : in    std_logic                      := 'X';             -- rvalid
+			h2f_RREADY  : out   std_logic;                                         -- rready
+			f2h_axi_clk : in    std_logic                      := 'X';             -- clk
+			f2h_AWID    : in    std_logic_vector(7 downto 0)   := (others => 'X'); -- awid
+			f2h_AWADDR  : in    std_logic_vector(31 downto 0)  := (others => 'X'); -- awaddr
+			f2h_AWLEN   : in    std_logic_vector(3 downto 0)   := (others => 'X'); -- awlen
+			f2h_AWSIZE  : in    std_logic_vector(2 downto 0)   := (others => 'X'); -- awsize
+			f2h_AWBURST : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- awburst
+			f2h_AWLOCK  : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- awlock
+			f2h_AWCACHE : in    std_logic_vector(3 downto 0)   := (others => 'X'); -- awcache
+			f2h_AWPROT  : in    std_logic_vector(2 downto 0)   := (others => 'X'); -- awprot
+			f2h_AWVALID : in    std_logic                      := 'X';             -- awvalid
+			f2h_AWREADY : out   std_logic;                                         -- awready
+			f2h_AWUSER  : in    std_logic_vector(4 downto 0)   := (others => 'X'); -- awuser
+			f2h_WID     : in    std_logic_vector(7 downto 0)   := (others => 'X'); -- wid
+			f2h_WDATA   : in    std_logic_vector(127 downto 0) := (others => 'X'); -- wdata
+			f2h_WSTRB   : in    std_logic_vector(15 downto 0)  := (others => 'X'); -- wstrb
+			f2h_WLAST   : in    std_logic                      := 'X';             -- wlast
+			f2h_WVALID  : in    std_logic                      := 'X';             -- wvalid
+			f2h_WREADY  : out   std_logic;                                         -- wready
+			f2h_BID     : out   std_logic_vector(7 downto 0);                      -- bid
+			f2h_BRESP   : out   std_logic_vector(1 downto 0);                      -- bresp
+			f2h_BVALID  : out   std_logic;                                         -- bvalid
+			f2h_BREADY  : in    std_logic                      := 'X';             -- bready
+			f2h_ARID    : in    std_logic_vector(7 downto 0)   := (others => 'X'); -- arid
+			f2h_ARADDR  : in    std_logic_vector(31 downto 0)  := (others => 'X'); -- araddr
+			f2h_ARLEN   : in    std_logic_vector(3 downto 0)   := (others => 'X'); -- arlen
+			f2h_ARSIZE  : in    std_logic_vector(2 downto 0)   := (others => 'X'); -- arsize
+			f2h_ARBURST : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- arburst
+			f2h_ARLOCK  : in    std_logic_vector(1 downto 0)   := (others => 'X'); -- arlock
+			f2h_ARCACHE : in    std_logic_vector(3 downto 0)   := (others => 'X'); -- arcache
+			f2h_ARPROT  : in    std_logic_vector(2 downto 0)   := (others => 'X'); -- arprot
+			f2h_ARVALID : in    std_logic                      := 'X';             -- arvalid
+			f2h_ARREADY : out   std_logic;                                         -- arready
+			f2h_ARUSER  : in    std_logic_vector(4 downto 0)   := (others => 'X'); -- aruser
+			f2h_RID     : out   std_logic_vector(7 downto 0);                      -- rid
+			f2h_RDATA   : out   std_logic_vector(127 downto 0);                    -- rdata
+			f2h_RRESP   : out   std_logic_vector(1 downto 0);                      -- rresp
+			f2h_RLAST   : out   std_logic;                                         -- rlast
+			f2h_RVALID  : out   std_logic;                                         -- rvalid
+			f2h_RREADY  : in    std_logic                      := 'X'              -- rready
 		);
 	end component plasma_de1_soc_hps_0;
 
@@ -185,14 +153,14 @@ architecture rtl of plasma_de1_soc is
 			avs_response    : out std_logic_vector(1 downto 0);                     -- response
 			RST             : in  std_logic                     := 'X';             -- reset
 			GCLK            : in  std_logic                     := 'X';             -- clk
-			LD              : out std_logic_vector(7 downto 0);                     -- ld
+			LD              : out std_logic_vector(9 downto 0);                     -- ld
 			SD_CD           : in  std_logic                     := 'X';             -- sd_cd
 			SD_SPI_CS       : out std_logic;                                        -- sd_spi_cs
 			SD_SPI_MISO     : in  std_logic                     := 'X';             -- sd_spi_miso
 			SD_SPI_MOSI     : out std_logic;                                        -- sd_spi_mosi
 			SD_SPI_SCLK     : out std_logic;                                        -- sd_spi_sclk
 			SD_WP           : in  std_logic                     := 'X';             -- sd_wp
-			SW              : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- sw
+			SW              : in  std_logic_vector(9 downto 0)  := (others => 'X'); -- sw
 			UART_RX         : in  std_logic                     := 'X';             -- uart_rx
 			UART_TX         : out std_logic                                         -- uart_tx
 		);
@@ -375,131 +343,99 @@ begin
 			S2F_Width => 3
 		)
 		port map (
-			sdmmc_vs_o        => open,                         --           sdio.vs_o
-			sdmmc_pwr_ena_o   => open,                         --               .pwr_ena_o
-			sdmmc_wp_i        => open,                         --               .wp_i
-			sdmmc_cdn_i       => open,                         --               .cdn_i
-			sdmmc_card_intn_i => open,                         --               .card_intn_i
-			sdmmc_cmd_i       => open,                         --               .cmd_i
-			sdmmc_cmd_o       => open,                         --               .cmd_o
-			sdmmc_cmd_en      => open,                         --               .cmd_en
-			sdmmc_data_i      => open,                         --               .data_i
-			sdmmc_data_o      => open,                         --               .data_o
-			sdmmc_data_en     => open,                         --               .data_en
-			sdmmc_rstn_o      => open,                         --     sdio_reset.reset
-			sdmmc_cclk_out    => open,                         --      sdio_cclk.clk
-			spim0_txd         => open,                         --          spim0.txd
-			spim0_rxd         => open,                         --               .rxd
-			spim0_ss_in_n     => open,                         --               .ss_in_n
-			spim0_ssi_oe_n    => open,                         --               .ssi_oe_n
-			spim0_ss_0_n      => open,                         --               .ss_0_n
-			spim0_ss_1_n      => open,                         --               .ss_1_n
-			spim0_ss_2_n      => open,                         --               .ss_2_n
-			spim0_ss_3_n      => open,                         --               .ss_3_n
-			spim0_sclk_out    => open,                         -- spim0_sclk_out.clk
-			uart0_cts         => open,                         --          uart0.cts
-			uart0_dsr         => open,                         --               .dsr
-			uart0_dcd         => open,                         --               .dcd
-			uart0_ri          => open,                         --               .ri
-			uart0_dtr         => open,                         --               .dtr
-			uart0_rts         => open,                         --               .rts
-			uart0_out1_n      => open,                         --               .out1_n
-			uart0_out2_n      => open,                         --               .out2_n
-			uart0_rxd         => open,                         --               .rxd
-			uart0_txd         => open,                         --               .txd
-			mem_a             => memory_mem_a,                 --         memory.mem_a
-			mem_ba            => memory_mem_ba,                --               .mem_ba
-			mem_ck            => memory_mem_ck,                --               .mem_ck
-			mem_ck_n          => memory_mem_ck_n,              --               .mem_ck_n
-			mem_cke           => memory_mem_cke,               --               .mem_cke
-			mem_cs_n          => memory_mem_cs_n,              --               .mem_cs_n
-			mem_ras_n         => memory_mem_ras_n,             --               .mem_ras_n
-			mem_cas_n         => memory_mem_cas_n,             --               .mem_cas_n
-			mem_we_n          => memory_mem_we_n,              --               .mem_we_n
-			mem_reset_n       => memory_mem_reset_n,           --               .mem_reset_n
-			mem_dq            => memory_mem_dq,                --               .mem_dq
-			mem_dqs           => memory_mem_dqs,               --               .mem_dqs
-			mem_dqs_n         => memory_mem_dqs_n,             --               .mem_dqs_n
-			mem_odt           => memory_mem_odt,               --               .mem_odt
-			mem_dm            => memory_mem_dm,                --               .mem_dm
-			oct_rzqin         => memory_oct_rzqin,             --               .oct_rzqin
-			h2f_rst_n         => hps_0_h2f_reset_reset,        --      h2f_reset.reset_n
-			h2f_axi_clk       => clk_clk,                      --  h2f_axi_clock.clk
-			h2f_AWID          => hps_0_h2f_axi_master_awid,    -- h2f_axi_master.awid
-			h2f_AWADDR        => hps_0_h2f_axi_master_awaddr,  --               .awaddr
-			h2f_AWLEN         => hps_0_h2f_axi_master_awlen,   --               .awlen
-			h2f_AWSIZE        => hps_0_h2f_axi_master_awsize,  --               .awsize
-			h2f_AWBURST       => hps_0_h2f_axi_master_awburst, --               .awburst
-			h2f_AWLOCK        => hps_0_h2f_axi_master_awlock,  --               .awlock
-			h2f_AWCACHE       => hps_0_h2f_axi_master_awcache, --               .awcache
-			h2f_AWPROT        => hps_0_h2f_axi_master_awprot,  --               .awprot
-			h2f_AWVALID       => hps_0_h2f_axi_master_awvalid, --               .awvalid
-			h2f_AWREADY       => hps_0_h2f_axi_master_awready, --               .awready
-			h2f_WID           => hps_0_h2f_axi_master_wid,     --               .wid
-			h2f_WDATA         => hps_0_h2f_axi_master_wdata,   --               .wdata
-			h2f_WSTRB         => hps_0_h2f_axi_master_wstrb,   --               .wstrb
-			h2f_WLAST         => hps_0_h2f_axi_master_wlast,   --               .wlast
-			h2f_WVALID        => hps_0_h2f_axi_master_wvalid,  --               .wvalid
-			h2f_WREADY        => hps_0_h2f_axi_master_wready,  --               .wready
-			h2f_BID           => hps_0_h2f_axi_master_bid,     --               .bid
-			h2f_BRESP         => hps_0_h2f_axi_master_bresp,   --               .bresp
-			h2f_BVALID        => hps_0_h2f_axi_master_bvalid,  --               .bvalid
-			h2f_BREADY        => hps_0_h2f_axi_master_bready,  --               .bready
-			h2f_ARID          => hps_0_h2f_axi_master_arid,    --               .arid
-			h2f_ARADDR        => hps_0_h2f_axi_master_araddr,  --               .araddr
-			h2f_ARLEN         => hps_0_h2f_axi_master_arlen,   --               .arlen
-			h2f_ARSIZE        => hps_0_h2f_axi_master_arsize,  --               .arsize
-			h2f_ARBURST       => hps_0_h2f_axi_master_arburst, --               .arburst
-			h2f_ARLOCK        => hps_0_h2f_axi_master_arlock,  --               .arlock
-			h2f_ARCACHE       => hps_0_h2f_axi_master_arcache, --               .arcache
-			h2f_ARPROT        => hps_0_h2f_axi_master_arprot,  --               .arprot
-			h2f_ARVALID       => hps_0_h2f_axi_master_arvalid, --               .arvalid
-			h2f_ARREADY       => hps_0_h2f_axi_master_arready, --               .arready
-			h2f_RID           => hps_0_h2f_axi_master_rid,     --               .rid
-			h2f_RDATA         => hps_0_h2f_axi_master_rdata,   --               .rdata
-			h2f_RRESP         => hps_0_h2f_axi_master_rresp,   --               .rresp
-			h2f_RLAST         => hps_0_h2f_axi_master_rlast,   --               .rlast
-			h2f_RVALID        => hps_0_h2f_axi_master_rvalid,  --               .rvalid
-			h2f_RREADY        => hps_0_h2f_axi_master_rready,  --               .rready
-			f2h_axi_clk       => clk_clk,                      --  f2h_axi_clock.clk
-			f2h_AWID          => open,                         --  f2h_axi_slave.awid
-			f2h_AWADDR        => open,                         --               .awaddr
-			f2h_AWLEN         => open,                         --               .awlen
-			f2h_AWSIZE        => open,                         --               .awsize
-			f2h_AWBURST       => open,                         --               .awburst
-			f2h_AWLOCK        => open,                         --               .awlock
-			f2h_AWCACHE       => open,                         --               .awcache
-			f2h_AWPROT        => open,                         --               .awprot
-			f2h_AWVALID       => open,                         --               .awvalid
-			f2h_AWREADY       => open,                         --               .awready
-			f2h_AWUSER        => open,                         --               .awuser
-			f2h_WID           => open,                         --               .wid
-			f2h_WDATA         => open,                         --               .wdata
-			f2h_WSTRB         => open,                         --               .wstrb
-			f2h_WLAST         => open,                         --               .wlast
-			f2h_WVALID        => open,                         --               .wvalid
-			f2h_WREADY        => open,                         --               .wready
-			f2h_BID           => open,                         --               .bid
-			f2h_BRESP         => open,                         --               .bresp
-			f2h_BVALID        => open,                         --               .bvalid
-			f2h_BREADY        => open,                         --               .bready
-			f2h_ARID          => open,                         --               .arid
-			f2h_ARADDR        => open,                         --               .araddr
-			f2h_ARLEN         => open,                         --               .arlen
-			f2h_ARSIZE        => open,                         --               .arsize
-			f2h_ARBURST       => open,                         --               .arburst
-			f2h_ARLOCK        => open,                         --               .arlock
-			f2h_ARCACHE       => open,                         --               .arcache
-			f2h_ARPROT        => open,                         --               .arprot
-			f2h_ARVALID       => open,                         --               .arvalid
-			f2h_ARREADY       => open,                         --               .arready
-			f2h_ARUSER        => open,                         --               .aruser
-			f2h_RID           => open,                         --               .rid
-			f2h_RDATA         => open,                         --               .rdata
-			f2h_RRESP         => open,                         --               .rresp
-			f2h_RLAST         => open,                         --               .rlast
-			f2h_RVALID        => open,                         --               .rvalid
-			f2h_RREADY        => open                          --               .rready
+			mem_a       => hps_0_ddr_mem_a,              --         memory.mem_a
+			mem_ba      => hps_0_ddr_mem_ba,             --               .mem_ba
+			mem_ck      => hps_0_ddr_mem_ck,             --               .mem_ck
+			mem_ck_n    => hps_0_ddr_mem_ck_n,           --               .mem_ck_n
+			mem_cke     => hps_0_ddr_mem_cke,            --               .mem_cke
+			mem_cs_n    => hps_0_ddr_mem_cs_n,           --               .mem_cs_n
+			mem_ras_n   => hps_0_ddr_mem_ras_n,          --               .mem_ras_n
+			mem_cas_n   => hps_0_ddr_mem_cas_n,          --               .mem_cas_n
+			mem_we_n    => hps_0_ddr_mem_we_n,           --               .mem_we_n
+			mem_reset_n => hps_0_ddr_mem_reset_n,        --               .mem_reset_n
+			mem_dq      => hps_0_ddr_mem_dq,             --               .mem_dq
+			mem_dqs     => hps_0_ddr_mem_dqs,            --               .mem_dqs
+			mem_dqs_n   => hps_0_ddr_mem_dqs_n,          --               .mem_dqs_n
+			mem_odt     => hps_0_ddr_mem_odt,            --               .mem_odt
+			mem_dm      => hps_0_ddr_mem_dm,             --               .mem_dm
+			oct_rzqin   => hps_0_ddr_oct_rzqin,          --               .oct_rzqin
+			h2f_rst_n   => hps_0_h2f_reset_reset,        --      h2f_reset.reset_n
+			h2f_axi_clk => clk_clk,                      --  h2f_axi_clock.clk
+			h2f_AWID    => hps_0_h2f_axi_master_awid,    -- h2f_axi_master.awid
+			h2f_AWADDR  => hps_0_h2f_axi_master_awaddr,  --               .awaddr
+			h2f_AWLEN   => hps_0_h2f_axi_master_awlen,   --               .awlen
+			h2f_AWSIZE  => hps_0_h2f_axi_master_awsize,  --               .awsize
+			h2f_AWBURST => hps_0_h2f_axi_master_awburst, --               .awburst
+			h2f_AWLOCK  => hps_0_h2f_axi_master_awlock,  --               .awlock
+			h2f_AWCACHE => hps_0_h2f_axi_master_awcache, --               .awcache
+			h2f_AWPROT  => hps_0_h2f_axi_master_awprot,  --               .awprot
+			h2f_AWVALID => hps_0_h2f_axi_master_awvalid, --               .awvalid
+			h2f_AWREADY => hps_0_h2f_axi_master_awready, --               .awready
+			h2f_WID     => hps_0_h2f_axi_master_wid,     --               .wid
+			h2f_WDATA   => hps_0_h2f_axi_master_wdata,   --               .wdata
+			h2f_WSTRB   => hps_0_h2f_axi_master_wstrb,   --               .wstrb
+			h2f_WLAST   => hps_0_h2f_axi_master_wlast,   --               .wlast
+			h2f_WVALID  => hps_0_h2f_axi_master_wvalid,  --               .wvalid
+			h2f_WREADY  => hps_0_h2f_axi_master_wready,  --               .wready
+			h2f_BID     => hps_0_h2f_axi_master_bid,     --               .bid
+			h2f_BRESP   => hps_0_h2f_axi_master_bresp,   --               .bresp
+			h2f_BVALID  => hps_0_h2f_axi_master_bvalid,  --               .bvalid
+			h2f_BREADY  => hps_0_h2f_axi_master_bready,  --               .bready
+			h2f_ARID    => hps_0_h2f_axi_master_arid,    --               .arid
+			h2f_ARADDR  => hps_0_h2f_axi_master_araddr,  --               .araddr
+			h2f_ARLEN   => hps_0_h2f_axi_master_arlen,   --               .arlen
+			h2f_ARSIZE  => hps_0_h2f_axi_master_arsize,  --               .arsize
+			h2f_ARBURST => hps_0_h2f_axi_master_arburst, --               .arburst
+			h2f_ARLOCK  => hps_0_h2f_axi_master_arlock,  --               .arlock
+			h2f_ARCACHE => hps_0_h2f_axi_master_arcache, --               .arcache
+			h2f_ARPROT  => hps_0_h2f_axi_master_arprot,  --               .arprot
+			h2f_ARVALID => hps_0_h2f_axi_master_arvalid, --               .arvalid
+			h2f_ARREADY => hps_0_h2f_axi_master_arready, --               .arready
+			h2f_RID     => hps_0_h2f_axi_master_rid,     --               .rid
+			h2f_RDATA   => hps_0_h2f_axi_master_rdata,   --               .rdata
+			h2f_RRESP   => hps_0_h2f_axi_master_rresp,   --               .rresp
+			h2f_RLAST   => hps_0_h2f_axi_master_rlast,   --               .rlast
+			h2f_RVALID  => hps_0_h2f_axi_master_rvalid,  --               .rvalid
+			h2f_RREADY  => hps_0_h2f_axi_master_rready,  --               .rready
+			f2h_axi_clk => clk_clk,                      --  f2h_axi_clock.clk
+			f2h_AWID    => open,                         --  f2h_axi_slave.awid
+			f2h_AWADDR  => open,                         --               .awaddr
+			f2h_AWLEN   => open,                         --               .awlen
+			f2h_AWSIZE  => open,                         --               .awsize
+			f2h_AWBURST => open,                         --               .awburst
+			f2h_AWLOCK  => open,                         --               .awlock
+			f2h_AWCACHE => open,                         --               .awcache
+			f2h_AWPROT  => open,                         --               .awprot
+			f2h_AWVALID => open,                         --               .awvalid
+			f2h_AWREADY => open,                         --               .awready
+			f2h_AWUSER  => open,                         --               .awuser
+			f2h_WID     => open,                         --               .wid
+			f2h_WDATA   => open,                         --               .wdata
+			f2h_WSTRB   => open,                         --               .wstrb
+			f2h_WLAST   => open,                         --               .wlast
+			f2h_WVALID  => open,                         --               .wvalid
+			f2h_WREADY  => open,                         --               .wready
+			f2h_BID     => open,                         --               .bid
+			f2h_BRESP   => open,                         --               .bresp
+			f2h_BVALID  => open,                         --               .bvalid
+			f2h_BREADY  => open,                         --               .bready
+			f2h_ARID    => open,                         --               .arid
+			f2h_ARADDR  => open,                         --               .araddr
+			f2h_ARLEN   => open,                         --               .arlen
+			f2h_ARSIZE  => open,                         --               .arsize
+			f2h_ARBURST => open,                         --               .arburst
+			f2h_ARLOCK  => open,                         --               .arlock
+			f2h_ARCACHE => open,                         --               .arcache
+			f2h_ARPROT  => open,                         --               .arprot
+			f2h_ARVALID => open,                         --               .arvalid
+			f2h_ARREADY => open,                         --               .arready
+			f2h_ARUSER  => open,                         --               .aruser
+			f2h_RID     => open,                         --               .rid
+			f2h_RDATA   => open,                         --               .rdata
+			f2h_RRESP   => open,                         --               .rresp
+			f2h_RLAST   => open,                         --               .rlast
+			f2h_RVALID  => open,                         --               .rvalid
+			f2h_RREADY  => open                          --               .rready
 		);
 
 	plasma_soc_0 : component plasma_soc_top

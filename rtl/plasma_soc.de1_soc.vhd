@@ -132,9 +132,9 @@ begin  --architecture
                 & ZERO(30 downto 14)
                 & irq_gpios
                 & irq_counters
-                & irq_timers
-                & not uart_port.stall   -- uart write available
-                & irq_uart;             -- uart read available
+                & irq_timers & "00";
+                --& not uart_port.stall   -- uart write available
+                --& irq_uart;             -- uart read available
 -- BUS SYSTEM ------------------------------------------------------------------
     -- connect wishbone masters to aggregated ports 
     master_con: for i in 0 to masters - 1 generate
@@ -276,6 +276,10 @@ begin  --architecture
 -- COMPONENTS ------------------------------------------------------------------
 
     u_cpu : entity zz_systems.master_cpu
+    generic map
+	(
+		memory_type => "DUAL_PORT_X"
+	)
     port map
     (
         clk_i   => clk,

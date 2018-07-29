@@ -67,7 +67,7 @@ module PLASMA_DE1_SOC(
 	// inout 		          		PS2_DAT2,
 
 	//////////// SW //////////
-	input 		     [9:0]		SW,
+	input 		     [9:0]		SW
 
 	//////////// Video-In //////////
 	// input 		          		TD_CLK27,
@@ -88,22 +88,22 @@ module PLASMA_DE1_SOC(
 
 	//////////// HPS //////////
 	// inout 		          		HPS_CONV_USB_N,
-	output		    [14:0]		HPS_DDR3_ADDR,
-	output		     [2:0]		HPS_DDR3_BA,
-	output		          		HPS_DDR3_CAS_N,
-	output		          		HPS_DDR3_CKE,
-	output		          		HPS_DDR3_CK_N,
-	output		          		HPS_DDR3_CK_P,
-	output		          		HPS_DDR3_CS_N,
-	output		     [3:0]		HPS_DDR3_DM,
-	inout 		    [31:0]		HPS_DDR3_DQ,
-	inout 		     [3:0]		HPS_DDR3_DQS_N,
-	inout 		     [3:0]		HPS_DDR3_DQS_P,
-	output		          		HPS_DDR3_ODT,
-	output		          		HPS_DDR3_RAS_N,
-	output		          		HPS_DDR3_RESET_N,
-	input 		          		HPS_DDR3_RZQ,
-	output		          		HPS_DDR3_WE_N,
+//	output		    [14:0]		HPS_DDR3_ADDR,
+//	output		     [2:0]		HPS_DDR3_BA,
+//	output		          		HPS_DDR3_CAS_N,
+//	output		          		HPS_DDR3_CKE,
+//	output		          		HPS_DDR3_CK_N,
+//	output		          		HPS_DDR3_CK_P,
+//	output		          		HPS_DDR3_CS_N,
+//	output		     [3:0]		HPS_DDR3_DM,
+//	inout 		    [31:0]		HPS_DDR3_DQ,
+//	inout 		     [3:0]		HPS_DDR3_DQS_N,
+//	inout 		     [3:0]		HPS_DDR3_DQS_P,
+//	output		          		HPS_DDR3_ODT,
+//	output		          		HPS_DDR3_RAS_N,
+//	output		          		HPS_DDR3_RESET_N,
+//	input 		          		HPS_DDR3_RZQ,
+//	output		          		HPS_DDR3_WE_N,
 	// output		          		HPS_ENET_GTX_CLK,
 	// inout 		          		HPS_ENET_INT_N,
 	// output		          		HPS_ENET_MDC,
@@ -132,8 +132,8 @@ module PLASMA_DE1_SOC(
 	// input 		          		HPS_SPIM_MISO,
 	// output		          		HPS_SPIM_MOSI,
 	// inout 		          		HPS_SPIM_SS,
-	input 		          		HPS_UART_RX,
-	output		          		HPS_UART_TX,
+//	input 		          		HPS_UART_RX,
+//	output		          		HPS_UART_TX,
 	// input 		          		HPS_USB_CLKOUT,
 	// inout 		     [7:0]		HPS_USB_DATA,
 	// input 		          		HPS_USB_DIR,
@@ -141,10 +141,10 @@ module PLASMA_DE1_SOC(
 	// output		          		HPS_USB_STP,
 
 	//////////// GPIO_0, GPIO_0 connect to GPIO Default //////////
-	inout 		    [35:0]		GPIO_0,
+	//inout 		    [35:0]		GPIO_0,
 
 	//////////// GPIO_1, GPIO_1 connect to GPIO Default //////////
-	inout 		    [35:0]		GPIO_1
+	//inout 		    [35:0]		GPIO_1
 );
 
 
@@ -161,39 +161,31 @@ module PLASMA_DE1_SOC(
 //=======================================================
 
 
-plasma_de1_soc plasma_de1_soc(
-	.clk_clk(CLOCK_50),
+plasma_soc_top plasma_soc_top(
+	.GCLK(CLOCK_50),
+	.RST(!KEY[0]),
 	
-	.hps_0_ddr_mem_a(HPS_DDR3_ADDR),
-	.hps_0_ddr_mem_ba(HPS_DDR3_BA),
-	.hps_0_ddr_mem_ck(HPS_DDR3_CK_P),
-	.hps_0_ddr_mem_ck_n(HPS_DDR3_CK_N),
-	.hps_0_ddr_mem_cke(HPS_DDR3_CKE),
-	.hps_0_ddr_mem_cs_n(HPS_DDR3_CS_N),
-	.hps_0_ddr_mem_ras_n(HPS_DDR3_RAS_N),
-	.hps_0_ddr_mem_cas_n(HPS_DDR3_CAS_N),
-	.hps_0_ddr_mem_we_n(HPS_DDR3_WE_N),
-	.hps_0_ddr_mem_reset_n(HPS_DDR3_RESET_N),
-	.hps_0_ddr_mem_dq(HPS_DDR3_DQ),
-	.hps_0_ddr_mem_dqs(HPS_DDR3_DQS_P), 
-	.hps_0_ddr_mem_dqs_n(HPS_DDR3_DQS_N),
-	.hps_0_ddr_mem_odt(HPS_DDR3_ODT),
-	.hps_0_ddr_mem_dm(HPS_DDR3_DM),
-	.hps_0_ddr_oct_rzqin(HPS_DDR3_RZQ),
+	.SW(SW),
+	.LD(LEDR),
 	
+	.UART_TX(),
+	.UART_RX(),
 	
-	.plasma_soc_0_leds_ld(LEDR),//(LEDR),
+	.SD_SPI_CS(),
+	.SD_SPI_MOSI(),
+	.SD_SPI_MISO(),
+	.SD_SPI_SCLK(),
+
+	.SD_CD(),
+	.SD_WP(),
 	
-	.plasma_soc_0_sd_card_sd_cd(),
-	.plasma_soc_0_sd_card_sd_spi_cs(),
-	.plasma_soc_0_sd_card_sd_spi_miso(),
-	.plasma_soc_0_sd_card_sd_spi_mosi(),
-	.plasma_soc_0_sd_card_sd_spi_sclk(),
-	.plasma_soc_0_sd_card_sd_wp(),
-	
-	.plasma_soc_0_switches_sw(SW),//(KEY),
-	
-	.plasma_soc_0_uart_uart_rx(HPS_UART_RX),
-	.plasma_soc_0_uart_uart_tx(HPS_UART_TX)
+	.avs_address(),
+	.avs_byteenable (),
+	.avs_write_n(),
+	.avs_read_n(),
+	.avs_readdata(),
+	.avs_writedata(),
+	.avs_waitrequest(),
+	.avs_response()	
 );
 endmodule

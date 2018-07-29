@@ -124,16 +124,21 @@ begin
     master_rty_o    <= or_reduce(slave_rty_i);
     master_stall_o  <= or_reduce(slave_stall_i);
 
-    process(slave_dat_i, cs_s)
+    process(clk_i, rst_i, slave_dat_i, cs_s)
         variable dat : std_logic_vector(data_w - 1 downto 0);
     begin 
-        if unsigned(cs_s) /= 0 then
-            dat := (others => '0');
-            
-            for i in 0 to slaves - 1 loop
-                dat := dat or (slave_dat_i((i + 1) * data_w - 1  downto i * data_w) and (dat'range => cs_s(i)));
-            end loop;
-            master_dat_o <= dat;
+        if rst_i = '1' then
+            dat := (others => '0');       
+            master_dat_o <= (others => '0');
+        else
+            if rising_edge(clk_i) and unsigned(cs_s) /= 0 then
+                dat := (others => '0');
+
+                for i in 0 to slaves - 1 loop
+                    dat := dat or (slave_dat_i((i + 1) * data_w - 1  downto i * data_w) and (dat'range => cs_s(i)));
+                end loop;
+                master_dat_o <= dat;				
+            end if;
         end if;
     end process;
 end behavior;

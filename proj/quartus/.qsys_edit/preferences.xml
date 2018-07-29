@@ -3,11 +3,15 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="143" />
+   <connections preferredWidth="95" />
    <irq preferredWidth="34" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library/Tri-State Components,Library" />
- <window width="1936" height="1992" x="-8" y="-8" />
- <generation synthesis="VHDL" path="_PROJECT_NAME_" />
+ <library expandedCategories="Project,Library" />
+ <window width="1920" height="1976" x="0" y="0" />
+ <generation
+   synthesis="VHDL"
+   path="_PROJECT_NAME_"
+   block_symbol_file="0"
+   simulation="VHDL" />
 </preferences>

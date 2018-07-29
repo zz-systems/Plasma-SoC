@@ -1,22 +1,22 @@
 
 module plasma_de1_soc (
 	clk_clk,
-	memory_mem_a,
-	memory_mem_ba,
-	memory_mem_ck,
-	memory_mem_ck_n,
-	memory_mem_cke,
-	memory_mem_cs_n,
-	memory_mem_ras_n,
-	memory_mem_cas_n,
-	memory_mem_we_n,
-	memory_mem_reset_n,
-	memory_mem_dq,
-	memory_mem_dqs,
-	memory_mem_dqs_n,
-	memory_mem_odt,
-	memory_mem_dm,
-	memory_oct_rzqin,
+	hps_0_ddr_mem_a,
+	hps_0_ddr_mem_ba,
+	hps_0_ddr_mem_ck,
+	hps_0_ddr_mem_ck_n,
+	hps_0_ddr_mem_cke,
+	hps_0_ddr_mem_cs_n,
+	hps_0_ddr_mem_ras_n,
+	hps_0_ddr_mem_cas_n,
+	hps_0_ddr_mem_we_n,
+	hps_0_ddr_mem_reset_n,
+	hps_0_ddr_mem_dq,
+	hps_0_ddr_mem_dqs,
+	hps_0_ddr_mem_dqs_n,
+	hps_0_ddr_mem_odt,
+	hps_0_ddr_mem_dm,
+	hps_0_ddr_oct_rzqin,
 	plasma_soc_0_leds_ld,
 	plasma_soc_0_sd_card_sd_cd,
 	plasma_soc_0_sd_card_sd_spi_cs,
@@ -29,30 +29,30 @@ module plasma_de1_soc (
 	plasma_soc_0_uart_uart_tx);	
 
 	input		clk_clk;
-	output	[12:0]	memory_mem_a;
-	output	[2:0]	memory_mem_ba;
-	output		memory_mem_ck;
-	output		memory_mem_ck_n;
-	output		memory_mem_cke;
-	output		memory_mem_cs_n;
-	output		memory_mem_ras_n;
-	output		memory_mem_cas_n;
-	output		memory_mem_we_n;
-	output		memory_mem_reset_n;
-	inout	[7:0]	memory_mem_dq;
-	inout		memory_mem_dqs;
-	inout		memory_mem_dqs_n;
-	output		memory_mem_odt;
-	output		memory_mem_dm;
-	input		memory_oct_rzqin;
-	output	[7:0]	plasma_soc_0_leds_ld;
+	output	[14:0]	hps_0_ddr_mem_a;
+	output	[2:0]	hps_0_ddr_mem_ba;
+	output		hps_0_ddr_mem_ck;
+	output		hps_0_ddr_mem_ck_n;
+	output		hps_0_ddr_mem_cke;
+	output		hps_0_ddr_mem_cs_n;
+	output		hps_0_ddr_mem_ras_n;
+	output		hps_0_ddr_mem_cas_n;
+	output		hps_0_ddr_mem_we_n;
+	output		hps_0_ddr_mem_reset_n;
+	inout	[31:0]	hps_0_ddr_mem_dq;
+	inout	[3:0]	hps_0_ddr_mem_dqs;
+	inout	[3:0]	hps_0_ddr_mem_dqs_n;
+	output		hps_0_ddr_mem_odt;
+	output	[3:0]	hps_0_ddr_mem_dm;
+	input		hps_0_ddr_oct_rzqin;
+	output	[9:0]	plasma_soc_0_leds_ld;
 	input		plasma_soc_0_sd_card_sd_cd;
 	output		plasma_soc_0_sd_card_sd_spi_cs;
 	input		plasma_soc_0_sd_card_sd_spi_miso;
 	output		plasma_soc_0_sd_card_sd_spi_mosi;
 	output		plasma_soc_0_sd_card_sd_spi_sclk;
 	input		plasma_soc_0_sd_card_sd_wp;
-	input	[7:0]	plasma_soc_0_switches_sw;
+	input	[9:0]	plasma_soc_0_switches_sw;
 	input		plasma_soc_0_uart_uart_rx;
 	output		plasma_soc_0_uart_uart_tx;
 endmodule

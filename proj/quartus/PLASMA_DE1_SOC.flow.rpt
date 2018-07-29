@@ -1,5 +1,5 @@
 Flow report for PLASMA_DE1_SOC
-Mon Jul 23 18:23:26 2018
+Fri Jul 27 10:49:16 2018
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -40,7 +40,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------------------------------------+
 ; Flow Summary                                                              ;
 +-----------------------------+---------------------------------------------+
-; Flow Status                 ; Flow Failed - Mon Jul 23 18:23:26 2018      ;
+; Flow Status                 ; Successful - Fri Jul 27 10:49:16 2018       ;
 ; Quartus Prime Version       ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
 ; Revision Name               ; PLASMA_DE1_SOC                              ;
 ; Top-level Entity Name       ; PLASMA_DE1_SOC                              ;
@@ -62,86 +62,92 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 07/23/2018 18:22:58 ;
+; Start date & time ; 07/27/2018 10:46:51 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; PLASMA_DE1_SOC      ;
 +-------------------+---------------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Flow Non-Default Global Settings                                                                                                                                                     ;
-+-------------------------------------+------------------------------------------------------------------------------+---------------+------------------------------------+------------+
-; Assignment Name                     ; Value                                                                        ; Default Value ; Entity Name                        ; Section Id ;
-+-------------------------------------+------------------------------------------------------------------------------+---------------+------------------------------------+------------+
-; COMPILER_SIGNATURE_ID               ; 246927996115660.153236297609544                                              ; --            ; --                                 ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/alt_types.pre.h                ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/sdram_io.pre.h                 ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer.pre.c                ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer.pre.h                ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto.pre.h           ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto_ac_init.pre.c   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_defines.pre.h        ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/system.pre.h                   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/tclrpt.pre.c                   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/sequencer/tclrpt.pre.h                   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_ISW_FILE                        ; plasma_de1_soc/synthesis/submodules/hps.pre.xml                              ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; HPS_PARTITION                       ; On                                                                           ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --         ;
-; MAX_CORE_JUNCTION_TEMP              ; 85                                                                           ; --            ; --                                 ; --         ;
-; MIN_CORE_JUNCTION_TEMP              ; 0                                                                            ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/../plasma_de1_soc.cmp                               ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/plasma_de1_soc_hps_0_hps.svd                        ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/../../plasma_de1_soc.qsys                           ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/alt_types.pre.h                ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/sdram_io.pre.h                 ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer.pre.c                ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer.pre.h                ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto.pre.h           ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto_ac_init.pre.c   ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_defines.pre.h        ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/system.pre.h                   ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/tclrpt.pre.c                   ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/sequencer/tclrpt.pre.h                   ; --            ; --                                 ; --         ;
-; MISC_FILE                           ; plasma_de1_soc/synthesis/submodules/hps.pre.xml                              ; --            ; --                                 ; --         ;
-; PARTITION_COLOR                     ; -- (Not supported for targeted family)                                       ; --            ; --                                 ; Top        ;
-; PARTITION_FITTER_PRESERVATION_LEVEL ; -- (Not supported for targeted family)                                       ; --            ; --                                 ; Top        ;
-; PARTITION_NETLIST_TYPE              ; -- (Not supported for targeted family)                                       ; --            ; --                                 ; Top        ;
-; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                                                          ; --            ; --                                 ; --         ;
-; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW                                        ; --            ; --                                 ; --         ;
-; SLD_FILE                            ; plasma_de1_soc/synthesis/plasma_de1_soc.regmap                               ; --            ; --                                 ; --         ;
-; SLD_FILE                            ; plasma_de1_soc/synthesis/plasma_de1_soc.debuginfo                            ; --            ; --                                 ; --         ;
-; SLD_INFO                            ; QSYS_NAME plasma_de1_soc HAS_SOPCINFO 1 GENERATION_ID 1532362883             ; --            ; --                                 ; --         ;
-; SOPCINFO_FILE                       ; plasma_de1_soc/synthesis/../../plasma_de1_soc.sopcinfo                       ; --            ; --                                 ; --         ;
-; SYNTHESIS_ONLY_QIP                  ; On                                                                           ; --            ; --                                 ; --         ;
-+-------------------------------------+------------------------------------------------------------------------------+---------------+------------------------------------+------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                                                           ;
++---------------------------------------+------------------------------------------------------------------------------+---------------+------------------------------------+----------------+
+; Assignment Name                       ; Value                                                                        ; Default Value ; Entity Name                        ; Section Id     ;
++---------------------------------------+------------------------------------------------------------------------------+---------------+------------------------------------+----------------+
+; COMPILER_SIGNATURE_ID                 ; 246927996115660.153268120507408                                              ; --            ; --                                 ; --             ;
+; ECO_REGENERATE_REPORT                 ; On                                                                           ; Off           ; --                                 ; --             ;
+; EDA_OUTPUT_DATA_FORMAT                ; Vhdl                                                                         ; --            ; --                                 ; eda_simulation ;
+; EDA_SIMULATION_TOOL                   ; ModelSim-Altera (VHDL)                                                       ; <None>        ; --                                 ; --             ;
+; ENABLE_SIGNALTAP                      ; Off                                                                          ; --            ; --                                 ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/alt_types.pre.h                ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/sdram_io.pre.h                 ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer.pre.c                ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer.pre.h                ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto.pre.h           ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto_ac_init.pre.c   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_defines.pre.h        ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/system.pre.h                   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/tclrpt.pre.c                   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/sequencer/tclrpt.pre.h                   ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_ISW_FILE                          ; plasma_de1_soc/synthesis/submodules/hps.pre.xml                              ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; HPS_PARTITION                         ; On                                                                           ; --            ; plasma_de1_soc_hps_0_hps_io_border ; --             ;
+; MAX_CORE_JUNCTION_TEMP                ; 85                                                                           ; --            ; --                                 ; --             ;
+; MIN_CORE_JUNCTION_TEMP                ; 0                                                                            ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/../plasma_de1_soc.cmp                               ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/plasma_de1_soc_hps_0_hps.svd                        ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/../../plasma_de1_soc.qsys                           ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/alt_types.pre.h                ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/sdram_io.pre.h                 ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer.pre.c                ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer.pre.h                ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto.pre.h           ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto_ac_init.pre.c   ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_auto_inst_init.pre.c ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/sequencer_defines.pre.h        ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/system.pre.h                   ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/tclrpt.pre.c                   ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/sequencer/tclrpt.pre.h                   ; --            ; --                                 ; --             ;
+; MISC_FILE                             ; plasma_de1_soc/synthesis/submodules/hps.pre.xml                              ; --            ; --                                 ; --             ;
+; PARTITION_COLOR                       ; -- (Not supported for targeted family)                                       ; --            ; --                                 ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL   ; -- (Not supported for targeted family)                                       ; --            ; --                                 ; Top            ;
+; PARTITION_NETLIST_TYPE                ; -- (Not supported for targeted family)                                       ; --            ; --                                 ; Top            ;
+; POWER_BOARD_THERMAL_MODEL             ; None (CONSERVATIVE)                                                          ; --            ; --                                 ; --             ;
+; POWER_PRESET_COOLING_SOLUTION         ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW                                        ; --            ; --                                 ; --             ;
+; SLD_FILE                              ; plasma_de1_soc/synthesis/plasma_de1_soc.regmap                               ; --            ; --                                 ; --             ;
+; SLD_FILE                              ; plasma_de1_soc/synthesis/plasma_de1_soc.debuginfo                            ; --            ; --                                 ; --             ;
+; SLD_INFO                              ; QSYS_NAME plasma_de1_soc HAS_SOPCINFO 1 GENERATION_ID 1532680563             ; --            ; --                                 ; --             ;
+; SOPCINFO_FILE                         ; plasma_de1_soc/synthesis/../../plasma_de1_soc.sopcinfo                       ; --            ; --                                 ; --             ;
+; SYNTHESIS_ONLY_QIP                    ; On                                                                           ; --            ; --                                 ; --             ;
+; USE_DLL_FREQUENCY_FOR_DQS_DELAY_CHAIN ; On                                                                           ; Off           ; --                                 ; --             ;
+; USE_SIGNALTAP_FILE                    ; stp1.stp                                                                     ; --            ; --                                 ; --             ;
++---------------------------------------+------------------------------------------------------------------------------+---------------+------------------------------------+----------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------+
-; Flow Elapsed Time                                                                                                        ;
-+----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
-+----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:01:04     ; 1.0                     ; 4908 MB             ; 00:01:11                           ;
-; Total                ; 00:01:04     ; --                      ; --                  ; 00:01:11                           ;
-+----------------------+--------------+-------------------------+---------------------+------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                          ;
++------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name            ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Elaboration ; 00:03:15     ; 1.0                     ; 5178 MB             ; 00:03:13                           ;
+; Total                  ; 00:03:15     ; --                      ; --                  ; 00:03:13                           ;
++------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
-+------------------------------------------------------------------------------------+
-; Flow OS Summary                                                                    ;
-+----------------------+------------------+------------+------------+----------------+
-; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
-+----------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis ; SZ-W-M           ; Windows 10 ; 10.0       ; x86_64         ;
-+----------------------+------------------+------------+------------+----------------+
++--------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                      ;
++------------------------+------------------+------------+------------+----------------+
+; Module Name            ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
++------------------------+------------------+------------+------------+----------------+
+; Analysis & Elaboration ; SZ-W-M           ; Windows 10 ; 10.0       ; x86_64         ;
++------------------------+------------------+------------+------------+----------------+
 
 
 ------------
 ; Flow Log ;
 ------------
-quartus_map --read_settings_files=on --write_settings_files=off PLASMA_DE1_SOC -c PLASMA_DE1_SOC
+quartus_map --read_settings_files=on --write_settings_files=off PLASMA_DE1_SOC -c PLASMA_DE1_SOC --analysis_and_elaboration
 
 
 

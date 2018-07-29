@@ -276,6 +276,10 @@ begin  --architecture
 -- COMPONENTS ------------------------------------------------------------------
 
     u_cpu : entity zz_systems.master_cpu
+    generic map
+	(
+		memory_type => "TRI_PORT_X"
+	)
     port map
     (
         clk_i   => clk,

@@ -7,7 +7,7 @@
 
 `timescale 1 ps / 1 ps
 module plasma_de1_soc_hps_0_hps_io (
-		output wire [12:0] mem_a,       // memory.mem_a
+		output wire [14:0] mem_a,       // memory.mem_a
 		output wire [2:0]  mem_ba,      //       .mem_ba
 		output wire        mem_ck,      //       .mem_ck
 		output wire        mem_ck_n,    //       .mem_ck_n
@@ -17,11 +17,11 @@ module plasma_de1_soc_hps_0_hps_io (
 		output wire        mem_cas_n,   //       .mem_cas_n
 		output wire        mem_we_n,    //       .mem_we_n
 		output wire        mem_reset_n, //       .mem_reset_n
-		inout  wire [7:0]  mem_dq,      //       .mem_dq
-		inout  wire        mem_dqs,     //       .mem_dqs
-		inout  wire        mem_dqs_n,   //       .mem_dqs_n
+		inout  wire [31:0] mem_dq,      //       .mem_dq
+		inout  wire [3:0]  mem_dqs,     //       .mem_dqs
+		inout  wire [3:0]  mem_dqs_n,   //       .mem_dqs_n
 		output wire        mem_odt,     //       .mem_odt
-		output wire        mem_dm,      //       .mem_dm
+		output wire [3:0]  mem_dm,      //       .mem_dm
 		input  wire        oct_rzqin    //       .oct_rzqin
 	);
 

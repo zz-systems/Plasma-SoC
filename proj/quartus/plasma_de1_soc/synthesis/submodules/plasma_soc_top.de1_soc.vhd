@@ -14,8 +14,8 @@ entity plasma_soc_top is
     (
         GCLK        : in    std_logic;
         RST         : in    std_logic;
-        SW          : in    std_logic_vector(7 downto 0);
-        LD          : out   std_logic_vector(7 downto 0);
+        SW          : in    std_logic_vector(9 downto 0);
+        LD          : out   std_logic_vector(9 downto 0);
     
         UART_TX     : out   std_logic;
         UART_RX     : in   std_logic;
@@ -83,19 +83,19 @@ begin
     mem_pause_in <= '0';
 
     --Divide 50 MHz clock by two
-    clk_div: process(reset, clk_in, clk_reg)
-    begin
-    if reset = '1' then
-        clk_reg <= '0';
-    elsif rising_edge(clk_in) then
-        clk_reg <= not clk_reg;
-    end if;
-    end process; --clk_div
+    -- clk_div: process(reset, clk_in, clk_reg)
+    -- begin
+    -- if reset = '1' then
+    --     clk_reg <= '0';
+    -- elsif rising_edge(clk_in) then
+    --     clk_reg <= not clk_reg;
+    -- end if;
+    -- end process; --clk_div
 
     mem_pause_in <= '0';
 
 
-    LD(7 downto 0) <= gpio0_out(7 downto 0) when reset = '0' else x"80";
+    LD(9 downto 0) <= gpio0_out(9 downto 0) when reset = '0' else "1111100000";
 
     u_soc: entity zz_systems.plasma_soc
     generic map 
@@ -109,7 +109,7 @@ begin
     )
     port map
     (
-        clk               => clk_reg,
+        clk               => GCLK,
         reset             => reset,
         uart_write        => uart_write,
         uart_read         => uart_read,

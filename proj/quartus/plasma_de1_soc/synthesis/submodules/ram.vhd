@@ -38,6 +38,8 @@ end; --entity ram
 
 architecture logic of ram is
    constant ADDRESS_WIDTH   : natural := 13;
+   constant MEM_SIZE : natural := 2 ** ADDRESS_WIDTH;
+   constant BANK_SIZE : natural := 2 ** (ADDRESS_WIDTH - 2);
 begin
 
    generic_ram:
@@ -103,12 +105,14 @@ begin
             intended_device_family => "UNUSED",
             lpm_width => 8,
             lpm_widthad => ADDRESS_WIDTH-2,
+            lpm_numwords => BANK_SIZE,
             lpm_indata => "REGISTERED",
             lpm_address_control => "REGISTERED",
             lpm_outdata => "UNREGISTERED",
-            lpm_file => "../../build/sw/examples/sample_ram_image.vhd_block_0.mif",
+            lpm_file => "../../build/sw/examples/sample.de1_soc_ram_image.vhd_block_0.mif",
             use_eab => "ON",
-            lpm_type => "LPM_RAM_DQ")
+            lpm_type => "LPM_RAM_DQ",
+            lpm_hint => "ENABLE_RUNTIME_MOD = YES, INSTANCE_NAME = RAM0")
          PORT MAP (
             data    => data_write(31 downto 24),
             address => address(ADDRESS_WIDTH-1 downto 2),
@@ -121,12 +125,14 @@ begin
             intended_device_family => "UNUSED",
             lpm_width => 8,
             lpm_widthad => ADDRESS_WIDTH-2,
+            lpm_numwords => BANK_SIZE,
             lpm_indata => "REGISTERED",
             lpm_address_control => "REGISTERED",
             lpm_outdata => "UNREGISTERED",
-            lpm_file => "../../build/sw/examples/sample_ram_image.vhd_block_1.mif",
+            lpm_file => "../../build/sw/examples/sample.de1_soc_ram_image.vhd_block_1.mif",
             use_eab => "ON",
-            lpm_type => "LPM_RAM_DQ")
+            lpm_type => "LPM_RAM_DQ",
+            lpm_hint => "ENABLE_RUNTIME_MOD = YES, INSTANCE_NAME = RAM1")
          PORT MAP (
             data    => data_write(23 downto 16),
             address => address(ADDRESS_WIDTH-1 downto 2),
@@ -139,12 +145,14 @@ begin
             intended_device_family => "UNUSED",
             lpm_width => 8,
             lpm_widthad => ADDRESS_WIDTH-2,
+            lpm_numwords => BANK_SIZE,
             lpm_indata => "REGISTERED",
             lpm_address_control => "REGISTERED",
             lpm_outdata => "UNREGISTERED",
-            lpm_file => "../../build/sw/examples/sample_ram_image.vhd_block_2.mif",
+            lpm_file => "../../build/sw/examples/sample.de1_soc_ram_image.vhd_block_2.mif",
             use_eab => "ON",
-            lpm_type => "LPM_RAM_DQ")
+            lpm_type => "LPM_RAM_DQ",
+            lpm_hint => "ENABLE_RUNTIME_MOD = YES, INSTANCE_NAME = RAM2")
          PORT MAP (
             data    => data_write(15 downto 8),
             address => address(ADDRESS_WIDTH-1 downto 2),
@@ -157,12 +165,14 @@ begin
             intended_device_family => "UNUSED",
             lpm_width => 8,
             lpm_widthad => ADDRESS_WIDTH-2,
+            lpm_numwords => BANK_SIZE,
             lpm_indata => "REGISTERED",
             lpm_address_control => "REGISTERED",
             lpm_outdata => "UNREGISTERED",
-            lpm_file => "../../build/sw/examples/sample_ram_image.vhd_block_3.mif",
+            lpm_file => "../../build/sw/examples/sample.de1_soc_ram_image.vhd_block_3.mif",
             use_eab => "ON",
-            lpm_type => "LPM_RAM_DQ")
+            lpm_type => "LPM_RAM_DQ",
+            lpm_hint => "ENABLE_RUNTIME_MOD = YES, INSTANCE_NAME = RAM3")
          PORT MAP (
             data    => data_write(7 downto 0),
             address => address(ADDRESS_WIDTH-1 downto 2),

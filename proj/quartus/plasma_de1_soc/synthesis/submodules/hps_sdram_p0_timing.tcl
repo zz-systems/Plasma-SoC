@@ -33,28 +33,28 @@ package require ::quartus::ddr_timing_model
 ###################
 
 # Interface Clock Period
-set t(CK) 3.333
+set t(CK) 2.5
 
 # Reference Clock Period
-set t(refCK) 8.0
+set t(refCK) 20.0
 
 # Minimum Clock Period
-set t(min_CK) 2.5
+set t(min_CK) 1.25
 
 ##########################
 # Memory timing parameters
 ##########################
 
 # A/C Setup/Hold
-set t(IS) 0.35
-set t(IH) 0.35
+set t(IS) 0.33
+set t(IH) 0.24
 
 # Data Setup/Hold
-set t(DS) 0.225
-set t(DH) 0.225
+set t(DS) 0.18
+set t(DH) 0.165
 
 # DQS clock edge to DQ data edge (in same group)
-set t(DQSQ) [expr { 120 / 1000.0 }]
+set t(DQSQ) [expr { 125 / 1000.0 }]
 set t(QH) 0.38
 set t(QH) [expr (0.5*$t(CK)-(0.5-$t(QH))*$t(min_CK))/$t(CK)]
 
@@ -70,14 +70,14 @@ set t(DSH) [expr $t(DSH)*$t(min_CK)/$t(CK)]
 set t(DQSS) [expr 0.5 - $t(DQSS)*$t(min_CK)/$t(CK)]
 
 # DQS Width
-set t(QSH) 0.38
+set t(QSH) 0.4
 
 # Write Levelling parameters
 set t(WLS) [ expr 0.13 * $t(min_CK) ]
 set t(WLH) [ expr 0.13 * $t(min_CK) ]
 
 # DQS to CK timing on reads
-set t(DQSCK) [expr { 400 / 1000.0 }]
+set t(DQSCK) [expr { 255 / 1000.0 }]
 
 # FPGA Duty Cycle Distortion
 set t(DCD) 0.0
@@ -86,8 +86,8 @@ set t(DCD) 0.0
 # Controller parameters
 #######################
 
-set t(RL) 7
-set t(WL) 6
+set t(RL) 11
+set t(WL) 8
 set t(DWIDTH_RATIO) [expr { 1 * 2 }]
 set t(rd_to_wr_turnaround_oct) 2
 
@@ -137,14 +137,14 @@ set ISI(READ_DQ) 0.0
 set ISI(READ_DQS) 0.0
 
 # Board skews
-set board(abs_max_CK_delay) 0.6
-set board(abs_max_DQS_delay) 0.6
-set board(minCK_DQS_skew) -0.01
-set board(maxCK_DQS_skew) 0.01
+set board(abs_max_CK_delay) 0.03
+set board(abs_max_DQS_delay) 0.02
+set board(minCK_DQS_skew) 0.06
+set board(maxCK_DQS_skew) 0.12
 set board(tpd_inter_DIMM) 0.0
-set board(intra_DQS_group_skew) 0.02
-set board(inter_DQS_group_skew) 0.02
-set board(DQ_DQS_skew) 0.0
+set board(intra_DQS_group_skew) 0.01
+set board(inter_DQS_group_skew) 0.06
+set board(DQ_DQS_skew) 0.05
 set board(intra_addr_ctrl_skew) 0.02
-set board(addresscmd_CK_skew) 0.0
+set board(addresscmd_CK_skew) 0.01
 
