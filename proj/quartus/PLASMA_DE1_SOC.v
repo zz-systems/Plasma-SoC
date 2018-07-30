@@ -26,17 +26,17 @@ module PLASMA_DE1_SOC(
 	input 		          		CLOCK_50,
 
 	//////////// SDRAM //////////
-	// output		    [12:0]		DRAM_ADDR,
-	// output		     [1:0]		DRAM_BA,
-	// output		          		DRAM_CAS_N,
-	// output		          		DRAM_CKE,
-	// output		          		DRAM_CLK,
-	// output		          		DRAM_CS_N,
-	// inout 		    [15:0]		DRAM_DQ,
-	// output		          		DRAM_LDQM,
-	// output		          		DRAM_RAS_N,
-	// output		          		DRAM_UDQM,
-	// output		          		DRAM_WE_N,
+	output		    [12:0]		DRAM_ADDR,
+	output		     [1:0]		DRAM_BA,
+	output		          		DRAM_CAS_N,
+	output		          		DRAM_CKE,
+	output		          		DRAM_CLK,
+	output		          		DRAM_CS_N,
+	inout 		    [15:0]		DRAM_DQ,
+	output		          		DRAM_LDQM,
+	output		          		DRAM_RAS_N,
+	output		          		DRAM_UDQM,
+	output		          		DRAM_WE_N,
 
 	//////////// I2C for Audio and Video-In //////////
 	// output		          		FPGA_I2C_SCLK,
@@ -160,10 +160,10 @@ module PLASMA_DE1_SOC(
 //  Structural coding
 //=======================================================
 
-
 plasma_de1_soc plasma_de1_soc(
 	.clk_clk(CLOCK_50),
 	
+	// DDR3 RAM --------------------------------
 	.hps_0_ddr_mem_a(HPS_DDR3_ADDR),
 	.hps_0_ddr_mem_ba(HPS_DDR3_BA),
 	.hps_0_ddr_mem_ck(HPS_DDR3_CK_P),
@@ -181,8 +181,7 @@ plasma_de1_soc plasma_de1_soc(
 	.hps_0_ddr_mem_dm(HPS_DDR3_DM),
 	.hps_0_ddr_oct_rzqin(HPS_DDR3_RZQ),
 	
-	
-	.plasma_soc_0_leds_ld(LEDR),//(LEDR),
+	// SD CARD ---------------------------------
 	
 	.plasma_soc_0_sd_card_sd_cd(),
 	.plasma_soc_0_sd_card_sd_spi_cs(),
@@ -190,10 +189,26 @@ plasma_de1_soc plasma_de1_soc(
 	.plasma_soc_0_sd_card_sd_spi_mosi(),
 	.plasma_soc_0_sd_card_sd_spi_sclk(),
 	.plasma_soc_0_sd_card_sd_wp(),
-	
+
+	// BASIC I/O -------------------------------
+	.plasma_soc_0_leds_ld(LEDR),//(LEDR),
 	.plasma_soc_0_switches_sw(SW),//(KEY),
 	
+	// UART ------------------------------------
 	.plasma_soc_0_uart_uart_rx(HPS_UART_RX),
-	.plasma_soc_0_uart_uart_tx(HPS_UART_TX)
+	.plasma_soc_0_uart_uart_tx(HPS_UART_TX),
+
+	// SDRAM -----------------------------------
+	.sdram_controller_0_wire_addr(DRAM_ADDR),
+	.sdram_controller_0_wire_ba(DRAM_BA),
+	.sdram_controller_0_wire_cas_n(DRAM_CAS_N),
+	.sdram_controller_0_wire_cke(DRAM_CKE),
+	.sdram_controller_0_wire_cs_n(DRAM_CS_N),
+	.sdram_controller_0_wire_dq(DRAM_DQ),
+	.sdram_controller_0_wire_dqm({DRAM_UDQM, DRAM_LDQM}),
+	.sdram_controller_0_wire_ras_n(DRAM_RAS_N),
+	.sdram_controller_0_wire_we_n(DRAM_WE_N),
+
+	.sys_sdram_pll_0_sdram_clk_clk(DRAM_CLK)
 );
 endmodule

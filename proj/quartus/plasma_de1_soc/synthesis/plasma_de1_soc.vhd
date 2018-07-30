@@ -8,33 +8,43 @@ use IEEE.numeric_std.all;
 
 entity plasma_de1_soc is
 	port (
-		clk_clk                          : in    std_logic                     := '0';             --                   clk.clk
-		hps_0_ddr_mem_a                  : out   std_logic_vector(14 downto 0);                    --             hps_0_ddr.mem_a
-		hps_0_ddr_mem_ba                 : out   std_logic_vector(2 downto 0);                     --                      .mem_ba
-		hps_0_ddr_mem_ck                 : out   std_logic;                                        --                      .mem_ck
-		hps_0_ddr_mem_ck_n               : out   std_logic;                                        --                      .mem_ck_n
-		hps_0_ddr_mem_cke                : out   std_logic;                                        --                      .mem_cke
-		hps_0_ddr_mem_cs_n               : out   std_logic;                                        --                      .mem_cs_n
-		hps_0_ddr_mem_ras_n              : out   std_logic;                                        --                      .mem_ras_n
-		hps_0_ddr_mem_cas_n              : out   std_logic;                                        --                      .mem_cas_n
-		hps_0_ddr_mem_we_n               : out   std_logic;                                        --                      .mem_we_n
-		hps_0_ddr_mem_reset_n            : out   std_logic;                                        --                      .mem_reset_n
-		hps_0_ddr_mem_dq                 : inout std_logic_vector(31 downto 0) := (others => '0'); --                      .mem_dq
-		hps_0_ddr_mem_dqs                : inout std_logic_vector(3 downto 0)  := (others => '0'); --                      .mem_dqs
-		hps_0_ddr_mem_dqs_n              : inout std_logic_vector(3 downto 0)  := (others => '0'); --                      .mem_dqs_n
-		hps_0_ddr_mem_odt                : out   std_logic;                                        --                      .mem_odt
-		hps_0_ddr_mem_dm                 : out   std_logic_vector(3 downto 0);                     --                      .mem_dm
-		hps_0_ddr_oct_rzqin              : in    std_logic                     := '0';             --                      .oct_rzqin
-		plasma_soc_0_leds_ld             : out   std_logic_vector(9 downto 0);                     --     plasma_soc_0_leds.ld
-		plasma_soc_0_sd_card_sd_cd       : in    std_logic                     := '0';             --  plasma_soc_0_sd_card.sd_cd
-		plasma_soc_0_sd_card_sd_spi_cs   : out   std_logic;                                        --                      .sd_spi_cs
-		plasma_soc_0_sd_card_sd_spi_miso : in    std_logic                     := '0';             --                      .sd_spi_miso
-		plasma_soc_0_sd_card_sd_spi_mosi : out   std_logic;                                        --                      .sd_spi_mosi
-		plasma_soc_0_sd_card_sd_spi_sclk : out   std_logic;                                        --                      .sd_spi_sclk
-		plasma_soc_0_sd_card_sd_wp       : in    std_logic                     := '0';             --                      .sd_wp
-		plasma_soc_0_switches_sw         : in    std_logic_vector(9 downto 0)  := (others => '0'); -- plasma_soc_0_switches.sw
-		plasma_soc_0_uart_uart_rx        : in    std_logic                     := '0';             --     plasma_soc_0_uart.uart_rx
-		plasma_soc_0_uart_uart_tx        : out   std_logic                                         --                      .uart_tx
+		clk_clk                          : in    std_logic                     := '0';             --                       clk.clk
+		hps_0_ddr_mem_a                  : out   std_logic_vector(14 downto 0);                    --                 hps_0_ddr.mem_a
+		hps_0_ddr_mem_ba                 : out   std_logic_vector(2 downto 0);                     --                          .mem_ba
+		hps_0_ddr_mem_ck                 : out   std_logic;                                        --                          .mem_ck
+		hps_0_ddr_mem_ck_n               : out   std_logic;                                        --                          .mem_ck_n
+		hps_0_ddr_mem_cke                : out   std_logic;                                        --                          .mem_cke
+		hps_0_ddr_mem_cs_n               : out   std_logic;                                        --                          .mem_cs_n
+		hps_0_ddr_mem_ras_n              : out   std_logic;                                        --                          .mem_ras_n
+		hps_0_ddr_mem_cas_n              : out   std_logic;                                        --                          .mem_cas_n
+		hps_0_ddr_mem_we_n               : out   std_logic;                                        --                          .mem_we_n
+		hps_0_ddr_mem_reset_n            : out   std_logic;                                        --                          .mem_reset_n
+		hps_0_ddr_mem_dq                 : inout std_logic_vector(31 downto 0) := (others => '0'); --                          .mem_dq
+		hps_0_ddr_mem_dqs                : inout std_logic_vector(3 downto 0)  := (others => '0'); --                          .mem_dqs
+		hps_0_ddr_mem_dqs_n              : inout std_logic_vector(3 downto 0)  := (others => '0'); --                          .mem_dqs_n
+		hps_0_ddr_mem_odt                : out   std_logic;                                        --                          .mem_odt
+		hps_0_ddr_mem_dm                 : out   std_logic_vector(3 downto 0);                     --                          .mem_dm
+		hps_0_ddr_oct_rzqin              : in    std_logic                     := '0';             --                          .oct_rzqin
+		plasma_soc_0_leds_ld             : out   std_logic_vector(9 downto 0);                     --         plasma_soc_0_leds.ld
+		plasma_soc_0_sd_card_sd_cd       : in    std_logic                     := '0';             --      plasma_soc_0_sd_card.sd_cd
+		plasma_soc_0_sd_card_sd_spi_cs   : out   std_logic;                                        --                          .sd_spi_cs
+		plasma_soc_0_sd_card_sd_spi_miso : in    std_logic                     := '0';             --                          .sd_spi_miso
+		plasma_soc_0_sd_card_sd_spi_mosi : out   std_logic;                                        --                          .sd_spi_mosi
+		plasma_soc_0_sd_card_sd_spi_sclk : out   std_logic;                                        --                          .sd_spi_sclk
+		plasma_soc_0_sd_card_sd_wp       : in    std_logic                     := '0';             --                          .sd_wp
+		plasma_soc_0_switches_sw         : in    std_logic_vector(9 downto 0)  := (others => '0'); --     plasma_soc_0_switches.sw
+		plasma_soc_0_uart_uart_rx        : in    std_logic                     := '0';             --         plasma_soc_0_uart.uart_rx
+		plasma_soc_0_uart_uart_tx        : out   std_logic;                                        --                          .uart_tx
+		sdram_controller_0_wire_addr     : out   std_logic_vector(12 downto 0);                    --   sdram_controller_0_wire.addr
+		sdram_controller_0_wire_ba       : out   std_logic_vector(1 downto 0);                     --                          .ba
+		sdram_controller_0_wire_cas_n    : out   std_logic;                                        --                          .cas_n
+		sdram_controller_0_wire_cke      : out   std_logic;                                        --                          .cke
+		sdram_controller_0_wire_cs_n     : out   std_logic;                                        --                          .cs_n
+		sdram_controller_0_wire_dq       : inout std_logic_vector(15 downto 0) := (others => '0'); --                          .dq
+		sdram_controller_0_wire_dqm      : out   std_logic_vector(1 downto 0);                     --                          .dqm
+		sdram_controller_0_wire_ras_n    : out   std_logic;                                        --                          .ras_n
+		sdram_controller_0_wire_we_n     : out   std_logic;                                        --                          .we_n
+		sys_sdram_pll_0_sdram_clk_clk    : out   std_logic                                         -- sys_sdram_pll_0_sdram_clk.clk
 	);
 end entity plasma_de1_soc;
 
@@ -162,11 +172,78 @@ architecture rtl of plasma_de1_soc is
 			SD_WP           : in  std_logic                     := 'X';             -- sd_wp
 			SW              : in  std_logic_vector(9 downto 0)  := (others => 'X'); -- sw
 			UART_RX         : in  std_logic                     := 'X';             -- uart_rx
-			UART_TX         : out std_logic                                         -- uart_tx
+			UART_TX         : out std_logic;                                        -- uart_tx
+			avm_address     : out std_logic_vector(31 downto 0);                    -- address
+			avm_byteenable  : out std_logic_vector(3 downto 0);                     -- byteenable
+			avm_write_n     : out std_logic;                                        -- write_n
+			avm_read_n      : out std_logic;                                        -- read_n
+			avm_readdata    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			avm_writedata   : out std_logic_vector(31 downto 0);                    -- writedata
+			avm_waitrequest : in  std_logic                     := 'X';             -- waitrequest
+			avm_response    : in  std_logic_vector(1 downto 0)  := (others => 'X')  -- response
 		);
 	end component plasma_soc_top;
 
+	component plasma_de1_soc_sdram_controller_0 is
+		port (
+			clk            : in    std_logic                     := 'X';             -- clk
+			reset_n        : in    std_logic                     := 'X';             -- reset_n
+			az_addr        : in    std_logic_vector(24 downto 0) := (others => 'X'); -- address
+			az_be_n        : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- byteenable_n
+			az_cs          : in    std_logic                     := 'X';             -- chipselect
+			az_data        : in    std_logic_vector(15 downto 0) := (others => 'X'); -- writedata
+			az_rd_n        : in    std_logic                     := 'X';             -- read_n
+			az_wr_n        : in    std_logic                     := 'X';             -- write_n
+			za_data        : out   std_logic_vector(15 downto 0);                    -- readdata
+			za_valid       : out   std_logic;                                        -- readdatavalid
+			za_waitrequest : out   std_logic;                                        -- waitrequest
+			zs_addr        : out   std_logic_vector(12 downto 0);                    -- export
+			zs_ba          : out   std_logic_vector(1 downto 0);                     -- export
+			zs_cas_n       : out   std_logic;                                        -- export
+			zs_cke         : out   std_logic;                                        -- export
+			zs_cs_n        : out   std_logic;                                        -- export
+			zs_dq          : inout std_logic_vector(15 downto 0) := (others => 'X'); -- export
+			zs_dqm         : out   std_logic_vector(1 downto 0);                     -- export
+			zs_ras_n       : out   std_logic;                                        -- export
+			zs_we_n        : out   std_logic                                         -- export
+		);
+	end component plasma_de1_soc_sdram_controller_0;
+
+	component plasma_de1_soc_sys_sdram_pll_0 is
+		port (
+			ref_clk_clk        : in  std_logic := 'X'; -- clk
+			ref_reset_reset    : in  std_logic := 'X'; -- reset
+			sys_clk_clk        : out std_logic;        -- clk
+			sdram_clk_clk      : out std_logic;        -- clk
+			reset_source_reset : out std_logic         -- reset
+		);
+	end component plasma_de1_soc_sys_sdram_pll_0;
+
 	component plasma_de1_soc_mm_interconnect_0 is
+		port (
+			sys_sdram_pll_0_sys_clk_clk                         : in  std_logic                     := 'X';             -- clk
+			plasma_soc_0_reset_sink_reset_bridge_in_reset_reset : in  std_logic                     := 'X';             -- reset
+			plasma_soc_0_avalon_master_0_address                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- address
+			plasma_soc_0_avalon_master_0_waitrequest            : out std_logic;                                        -- waitrequest
+			plasma_soc_0_avalon_master_0_byteenable             : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			plasma_soc_0_avalon_master_0_read                   : in  std_logic                     := 'X';             -- read
+			plasma_soc_0_avalon_master_0_readdata               : out std_logic_vector(31 downto 0);                    -- readdata
+			plasma_soc_0_avalon_master_0_write                  : in  std_logic                     := 'X';             -- write
+			plasma_soc_0_avalon_master_0_writedata              : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			plasma_soc_0_avalon_master_0_response               : out std_logic_vector(1 downto 0);                     -- response
+			sdram_controller_0_s1_address                       : out std_logic_vector(24 downto 0);                    -- address
+			sdram_controller_0_s1_write                         : out std_logic;                                        -- write
+			sdram_controller_0_s1_read                          : out std_logic;                                        -- read
+			sdram_controller_0_s1_readdata                      : in  std_logic_vector(15 downto 0) := (others => 'X'); -- readdata
+			sdram_controller_0_s1_writedata                     : out std_logic_vector(15 downto 0);                    -- writedata
+			sdram_controller_0_s1_byteenable                    : out std_logic_vector(1 downto 0);                     -- byteenable
+			sdram_controller_0_s1_readdatavalid                 : in  std_logic                     := 'X';             -- readdatavalid
+			sdram_controller_0_s1_waitrequest                   : in  std_logic                     := 'X';             -- waitrequest
+			sdram_controller_0_s1_chipselect                    : out std_logic                                         -- chipselect
+		);
+	end component plasma_de1_soc_mm_interconnect_0;
+
+	component plasma_de1_soc_mm_interconnect_1 is
 		port (
 			hps_0_h2f_axi_master_awid                                        : in  std_logic_vector(11 downto 0)  := (others => 'X'); -- awid
 			hps_0_h2f_axi_master_awaddr                                      : in  std_logic_vector(29 downto 0)  := (others => 'X'); -- awaddr
@@ -204,7 +281,7 @@ architecture rtl of plasma_de1_soc is
 			hps_0_h2f_axi_master_rlast                                       : out std_logic;                                         -- rlast
 			hps_0_h2f_axi_master_rvalid                                      : out std_logic;                                         -- rvalid
 			hps_0_h2f_axi_master_rready                                      : in  std_logic                      := 'X';             -- rready
-			clk_0_clk_clk                                                    : in  std_logic                      := 'X';             -- clk
+			sys_sdram_pll_0_sys_clk_clk                                      : in  std_logic                      := 'X';             -- clk
 			hps_0_h2f_axi_master_agent_clk_reset_reset_bridge_in_reset_reset : in  std_logic                      := 'X';             -- reset
 			plasma_soc_0_reset_sink_reset_bridge_in_reset_reset              : in  std_logic                      := 'X';             -- reset
 			plasma_soc_0_avalon_slave_0_address                              : out std_logic_vector(31 downto 0);                     -- address
@@ -216,7 +293,7 @@ architecture rtl of plasma_de1_soc is
 			plasma_soc_0_avalon_slave_0_waitrequest                          : in  std_logic                      := 'X';             -- waitrequest
 			plasma_soc_0_avalon_slave_0_response                             : in  std_logic_vector(1 downto 0)   := (others => 'X')  -- response
 		);
-	end component plasma_de1_soc_mm_interconnect_0;
+	end component plasma_de1_soc_mm_interconnect_1;
 
 	component altera_reset_controller is
 		generic (
@@ -284,56 +361,81 @@ architecture rtl of plasma_de1_soc is
 		);
 	end component altera_reset_controller;
 
+	signal sys_sdram_pll_0_sys_clk_clk                                   : std_logic;                      -- sys_sdram_pll_0:sys_clk_clk -> [hps_0:f2h_axi_clk, hps_0:h2f_axi_clk, mm_interconnect_0:sys_sdram_pll_0_sys_clk_clk, mm_interconnect_1:sys_sdram_pll_0_sys_clk_clk, plasma_soc_0:GCLK, rst_controller:clk, rst_controller_001:clk, sdram_controller_0:clk]
 	signal hps_0_h2f_reset_reset                                         : std_logic;                      -- hps_0:h2f_rst_n -> hps_0_h2f_reset_reset:in
-	signal hps_0_h2f_axi_master_awburst                                  : std_logic_vector(1 downto 0);   -- hps_0:h2f_AWBURST -> mm_interconnect_0:hps_0_h2f_axi_master_awburst
-	signal hps_0_h2f_axi_master_arlen                                    : std_logic_vector(3 downto 0);   -- hps_0:h2f_ARLEN -> mm_interconnect_0:hps_0_h2f_axi_master_arlen
-	signal hps_0_h2f_axi_master_wstrb                                    : std_logic_vector(15 downto 0);  -- hps_0:h2f_WSTRB -> mm_interconnect_0:hps_0_h2f_axi_master_wstrb
-	signal hps_0_h2f_axi_master_wready                                   : std_logic;                      -- mm_interconnect_0:hps_0_h2f_axi_master_wready -> hps_0:h2f_WREADY
-	signal hps_0_h2f_axi_master_rid                                      : std_logic_vector(11 downto 0);  -- mm_interconnect_0:hps_0_h2f_axi_master_rid -> hps_0:h2f_RID
-	signal hps_0_h2f_axi_master_rready                                   : std_logic;                      -- hps_0:h2f_RREADY -> mm_interconnect_0:hps_0_h2f_axi_master_rready
-	signal hps_0_h2f_axi_master_awlen                                    : std_logic_vector(3 downto 0);   -- hps_0:h2f_AWLEN -> mm_interconnect_0:hps_0_h2f_axi_master_awlen
-	signal hps_0_h2f_axi_master_wid                                      : std_logic_vector(11 downto 0);  -- hps_0:h2f_WID -> mm_interconnect_0:hps_0_h2f_axi_master_wid
-	signal hps_0_h2f_axi_master_arcache                                  : std_logic_vector(3 downto 0);   -- hps_0:h2f_ARCACHE -> mm_interconnect_0:hps_0_h2f_axi_master_arcache
-	signal hps_0_h2f_axi_master_wvalid                                   : std_logic;                      -- hps_0:h2f_WVALID -> mm_interconnect_0:hps_0_h2f_axi_master_wvalid
-	signal hps_0_h2f_axi_master_araddr                                   : std_logic_vector(29 downto 0);  -- hps_0:h2f_ARADDR -> mm_interconnect_0:hps_0_h2f_axi_master_araddr
-	signal hps_0_h2f_axi_master_arprot                                   : std_logic_vector(2 downto 0);   -- hps_0:h2f_ARPROT -> mm_interconnect_0:hps_0_h2f_axi_master_arprot
-	signal hps_0_h2f_axi_master_awprot                                   : std_logic_vector(2 downto 0);   -- hps_0:h2f_AWPROT -> mm_interconnect_0:hps_0_h2f_axi_master_awprot
-	signal hps_0_h2f_axi_master_wdata                                    : std_logic_vector(127 downto 0); -- hps_0:h2f_WDATA -> mm_interconnect_0:hps_0_h2f_axi_master_wdata
-	signal hps_0_h2f_axi_master_arvalid                                  : std_logic;                      -- hps_0:h2f_ARVALID -> mm_interconnect_0:hps_0_h2f_axi_master_arvalid
-	signal hps_0_h2f_axi_master_awcache                                  : std_logic_vector(3 downto 0);   -- hps_0:h2f_AWCACHE -> mm_interconnect_0:hps_0_h2f_axi_master_awcache
-	signal hps_0_h2f_axi_master_arid                                     : std_logic_vector(11 downto 0);  -- hps_0:h2f_ARID -> mm_interconnect_0:hps_0_h2f_axi_master_arid
-	signal hps_0_h2f_axi_master_arlock                                   : std_logic_vector(1 downto 0);   -- hps_0:h2f_ARLOCK -> mm_interconnect_0:hps_0_h2f_axi_master_arlock
-	signal hps_0_h2f_axi_master_awlock                                   : std_logic_vector(1 downto 0);   -- hps_0:h2f_AWLOCK -> mm_interconnect_0:hps_0_h2f_axi_master_awlock
-	signal hps_0_h2f_axi_master_awaddr                                   : std_logic_vector(29 downto 0);  -- hps_0:h2f_AWADDR -> mm_interconnect_0:hps_0_h2f_axi_master_awaddr
-	signal hps_0_h2f_axi_master_bresp                                    : std_logic_vector(1 downto 0);   -- mm_interconnect_0:hps_0_h2f_axi_master_bresp -> hps_0:h2f_BRESP
-	signal hps_0_h2f_axi_master_arready                                  : std_logic;                      -- mm_interconnect_0:hps_0_h2f_axi_master_arready -> hps_0:h2f_ARREADY
-	signal hps_0_h2f_axi_master_rdata                                    : std_logic_vector(127 downto 0); -- mm_interconnect_0:hps_0_h2f_axi_master_rdata -> hps_0:h2f_RDATA
-	signal hps_0_h2f_axi_master_awready                                  : std_logic;                      -- mm_interconnect_0:hps_0_h2f_axi_master_awready -> hps_0:h2f_AWREADY
-	signal hps_0_h2f_axi_master_arburst                                  : std_logic_vector(1 downto 0);   -- hps_0:h2f_ARBURST -> mm_interconnect_0:hps_0_h2f_axi_master_arburst
-	signal hps_0_h2f_axi_master_arsize                                   : std_logic_vector(2 downto 0);   -- hps_0:h2f_ARSIZE -> mm_interconnect_0:hps_0_h2f_axi_master_arsize
-	signal hps_0_h2f_axi_master_bready                                   : std_logic;                      -- hps_0:h2f_BREADY -> mm_interconnect_0:hps_0_h2f_axi_master_bready
-	signal hps_0_h2f_axi_master_rlast                                    : std_logic;                      -- mm_interconnect_0:hps_0_h2f_axi_master_rlast -> hps_0:h2f_RLAST
-	signal hps_0_h2f_axi_master_wlast                                    : std_logic;                      -- hps_0:h2f_WLAST -> mm_interconnect_0:hps_0_h2f_axi_master_wlast
-	signal hps_0_h2f_axi_master_rresp                                    : std_logic_vector(1 downto 0);   -- mm_interconnect_0:hps_0_h2f_axi_master_rresp -> hps_0:h2f_RRESP
-	signal hps_0_h2f_axi_master_awid                                     : std_logic_vector(11 downto 0);  -- hps_0:h2f_AWID -> mm_interconnect_0:hps_0_h2f_axi_master_awid
-	signal hps_0_h2f_axi_master_bid                                      : std_logic_vector(11 downto 0);  -- mm_interconnect_0:hps_0_h2f_axi_master_bid -> hps_0:h2f_BID
-	signal hps_0_h2f_axi_master_bvalid                                   : std_logic;                      -- mm_interconnect_0:hps_0_h2f_axi_master_bvalid -> hps_0:h2f_BVALID
-	signal hps_0_h2f_axi_master_awsize                                   : std_logic_vector(2 downto 0);   -- hps_0:h2f_AWSIZE -> mm_interconnect_0:hps_0_h2f_axi_master_awsize
-	signal hps_0_h2f_axi_master_awvalid                                  : std_logic;                      -- hps_0:h2f_AWVALID -> mm_interconnect_0:hps_0_h2f_axi_master_awvalid
-	signal hps_0_h2f_axi_master_rvalid                                   : std_logic;                      -- mm_interconnect_0:hps_0_h2f_axi_master_rvalid -> hps_0:h2f_RVALID
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_readdata        : std_logic_vector(31 downto 0);  -- plasma_soc_0:avs_readdata -> mm_interconnect_0:plasma_soc_0_avalon_slave_0_readdata
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_waitrequest     : std_logic;                      -- plasma_soc_0:avs_waitrequest -> mm_interconnect_0:plasma_soc_0_avalon_slave_0_waitrequest
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_address         : std_logic_vector(31 downto 0);  -- mm_interconnect_0:plasma_soc_0_avalon_slave_0_address -> plasma_soc_0:avs_address
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_read            : std_logic;                      -- mm_interconnect_0:plasma_soc_0_avalon_slave_0_read -> mm_interconnect_0_plasma_soc_0_avalon_slave_0_read:in
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_byteenable      : std_logic_vector(3 downto 0);   -- mm_interconnect_0:plasma_soc_0_avalon_slave_0_byteenable -> plasma_soc_0:avs_byteenable
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_response        : std_logic_vector(1 downto 0);   -- plasma_soc_0:avs_response -> mm_interconnect_0:plasma_soc_0_avalon_slave_0_response
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_write           : std_logic;                      -- mm_interconnect_0:plasma_soc_0_avalon_slave_0_write -> mm_interconnect_0_plasma_soc_0_avalon_slave_0_write:in
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_writedata       : std_logic_vector(31 downto 0);  -- mm_interconnect_0:plasma_soc_0_avalon_slave_0_writedata -> plasma_soc_0:avs_writedata
-	signal rst_controller_reset_out_reset                                : std_logic;                      -- rst_controller:reset_out -> [mm_interconnect_0:plasma_soc_0_reset_sink_reset_bridge_in_reset_reset, plasma_soc_0:RST]
-	signal rst_controller_001_reset_out_reset                            : std_logic;                      -- rst_controller_001:reset_out -> mm_interconnect_0:hps_0_h2f_axi_master_agent_clk_reset_reset_bridge_in_reset_reset
-	signal hps_0_h2f_reset_reset_ports_inv                               : std_logic;                      -- hps_0_h2f_reset_reset:inv -> [rst_controller:reset_in0, rst_controller_001:reset_in0]
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_read_ports_inv  : std_logic;                      -- mm_interconnect_0_plasma_soc_0_avalon_slave_0_read:inv -> plasma_soc_0:avs_read_n
-	signal mm_interconnect_0_plasma_soc_0_avalon_slave_0_write_ports_inv : std_logic;                      -- mm_interconnect_0_plasma_soc_0_avalon_slave_0_write:inv -> plasma_soc_0:avs_write_n
+	signal plasma_soc_0_avalon_master_0_readdata                         : std_logic_vector(31 downto 0);  -- mm_interconnect_0:plasma_soc_0_avalon_master_0_readdata -> plasma_soc_0:avm_readdata
+	signal plasma_soc_0_avalon_master_0_waitrequest                      : std_logic;                      -- mm_interconnect_0:plasma_soc_0_avalon_master_0_waitrequest -> plasma_soc_0:avm_waitrequest
+	signal plasma_soc_0_avalon_master_0_address                          : std_logic_vector(31 downto 0);  -- plasma_soc_0:avm_address -> mm_interconnect_0:plasma_soc_0_avalon_master_0_address
+	signal plasma_soc_0_avalon_master_0_byteenable                       : std_logic_vector(3 downto 0);   -- plasma_soc_0:avm_byteenable -> mm_interconnect_0:plasma_soc_0_avalon_master_0_byteenable
+	signal plasma_soc_0_avalon_master_0_read                             : std_logic;                      -- plasma_soc_0:avm_read_n -> plasma_soc_0_avalon_master_0_read:in
+	signal plasma_soc_0_avalon_master_0_response                         : std_logic_vector(1 downto 0);   -- mm_interconnect_0:plasma_soc_0_avalon_master_0_response -> plasma_soc_0:avm_response
+	signal plasma_soc_0_avalon_master_0_write                            : std_logic;                      -- plasma_soc_0:avm_write_n -> plasma_soc_0_avalon_master_0_write:in
+	signal plasma_soc_0_avalon_master_0_writedata                        : std_logic_vector(31 downto 0);  -- plasma_soc_0:avm_writedata -> mm_interconnect_0:plasma_soc_0_avalon_master_0_writedata
+	signal mm_interconnect_0_sdram_controller_0_s1_chipselect            : std_logic;                      -- mm_interconnect_0:sdram_controller_0_s1_chipselect -> sdram_controller_0:az_cs
+	signal mm_interconnect_0_sdram_controller_0_s1_readdata              : std_logic_vector(15 downto 0);  -- sdram_controller_0:za_data -> mm_interconnect_0:sdram_controller_0_s1_readdata
+	signal mm_interconnect_0_sdram_controller_0_s1_waitrequest           : std_logic;                      -- sdram_controller_0:za_waitrequest -> mm_interconnect_0:sdram_controller_0_s1_waitrequest
+	signal mm_interconnect_0_sdram_controller_0_s1_address               : std_logic_vector(24 downto 0);  -- mm_interconnect_0:sdram_controller_0_s1_address -> sdram_controller_0:az_addr
+	signal mm_interconnect_0_sdram_controller_0_s1_read                  : std_logic;                      -- mm_interconnect_0:sdram_controller_0_s1_read -> mm_interconnect_0_sdram_controller_0_s1_read:in
+	signal mm_interconnect_0_sdram_controller_0_s1_byteenable            : std_logic_vector(1 downto 0);   -- mm_interconnect_0:sdram_controller_0_s1_byteenable -> mm_interconnect_0_sdram_controller_0_s1_byteenable:in
+	signal mm_interconnect_0_sdram_controller_0_s1_readdatavalid         : std_logic;                      -- sdram_controller_0:za_valid -> mm_interconnect_0:sdram_controller_0_s1_readdatavalid
+	signal mm_interconnect_0_sdram_controller_0_s1_write                 : std_logic;                      -- mm_interconnect_0:sdram_controller_0_s1_write -> mm_interconnect_0_sdram_controller_0_s1_write:in
+	signal mm_interconnect_0_sdram_controller_0_s1_writedata             : std_logic_vector(15 downto 0);  -- mm_interconnect_0:sdram_controller_0_s1_writedata -> sdram_controller_0:az_data
+	signal hps_0_h2f_axi_master_awburst                                  : std_logic_vector(1 downto 0);   -- hps_0:h2f_AWBURST -> mm_interconnect_1:hps_0_h2f_axi_master_awburst
+	signal hps_0_h2f_axi_master_arlen                                    : std_logic_vector(3 downto 0);   -- hps_0:h2f_ARLEN -> mm_interconnect_1:hps_0_h2f_axi_master_arlen
+	signal hps_0_h2f_axi_master_wstrb                                    : std_logic_vector(15 downto 0);  -- hps_0:h2f_WSTRB -> mm_interconnect_1:hps_0_h2f_axi_master_wstrb
+	signal hps_0_h2f_axi_master_wready                                   : std_logic;                      -- mm_interconnect_1:hps_0_h2f_axi_master_wready -> hps_0:h2f_WREADY
+	signal hps_0_h2f_axi_master_rid                                      : std_logic_vector(11 downto 0);  -- mm_interconnect_1:hps_0_h2f_axi_master_rid -> hps_0:h2f_RID
+	signal hps_0_h2f_axi_master_rready                                   : std_logic;                      -- hps_0:h2f_RREADY -> mm_interconnect_1:hps_0_h2f_axi_master_rready
+	signal hps_0_h2f_axi_master_awlen                                    : std_logic_vector(3 downto 0);   -- hps_0:h2f_AWLEN -> mm_interconnect_1:hps_0_h2f_axi_master_awlen
+	signal hps_0_h2f_axi_master_wid                                      : std_logic_vector(11 downto 0);  -- hps_0:h2f_WID -> mm_interconnect_1:hps_0_h2f_axi_master_wid
+	signal hps_0_h2f_axi_master_arcache                                  : std_logic_vector(3 downto 0);   -- hps_0:h2f_ARCACHE -> mm_interconnect_1:hps_0_h2f_axi_master_arcache
+	signal hps_0_h2f_axi_master_wvalid                                   : std_logic;                      -- hps_0:h2f_WVALID -> mm_interconnect_1:hps_0_h2f_axi_master_wvalid
+	signal hps_0_h2f_axi_master_araddr                                   : std_logic_vector(29 downto 0);  -- hps_0:h2f_ARADDR -> mm_interconnect_1:hps_0_h2f_axi_master_araddr
+	signal hps_0_h2f_axi_master_arprot                                   : std_logic_vector(2 downto 0);   -- hps_0:h2f_ARPROT -> mm_interconnect_1:hps_0_h2f_axi_master_arprot
+	signal hps_0_h2f_axi_master_awprot                                   : std_logic_vector(2 downto 0);   -- hps_0:h2f_AWPROT -> mm_interconnect_1:hps_0_h2f_axi_master_awprot
+	signal hps_0_h2f_axi_master_wdata                                    : std_logic_vector(127 downto 0); -- hps_0:h2f_WDATA -> mm_interconnect_1:hps_0_h2f_axi_master_wdata
+	signal hps_0_h2f_axi_master_arvalid                                  : std_logic;                      -- hps_0:h2f_ARVALID -> mm_interconnect_1:hps_0_h2f_axi_master_arvalid
+	signal hps_0_h2f_axi_master_awcache                                  : std_logic_vector(3 downto 0);   -- hps_0:h2f_AWCACHE -> mm_interconnect_1:hps_0_h2f_axi_master_awcache
+	signal hps_0_h2f_axi_master_arid                                     : std_logic_vector(11 downto 0);  -- hps_0:h2f_ARID -> mm_interconnect_1:hps_0_h2f_axi_master_arid
+	signal hps_0_h2f_axi_master_arlock                                   : std_logic_vector(1 downto 0);   -- hps_0:h2f_ARLOCK -> mm_interconnect_1:hps_0_h2f_axi_master_arlock
+	signal hps_0_h2f_axi_master_awlock                                   : std_logic_vector(1 downto 0);   -- hps_0:h2f_AWLOCK -> mm_interconnect_1:hps_0_h2f_axi_master_awlock
+	signal hps_0_h2f_axi_master_awaddr                                   : std_logic_vector(29 downto 0);  -- hps_0:h2f_AWADDR -> mm_interconnect_1:hps_0_h2f_axi_master_awaddr
+	signal hps_0_h2f_axi_master_bresp                                    : std_logic_vector(1 downto 0);   -- mm_interconnect_1:hps_0_h2f_axi_master_bresp -> hps_0:h2f_BRESP
+	signal hps_0_h2f_axi_master_arready                                  : std_logic;                      -- mm_interconnect_1:hps_0_h2f_axi_master_arready -> hps_0:h2f_ARREADY
+	signal hps_0_h2f_axi_master_rdata                                    : std_logic_vector(127 downto 0); -- mm_interconnect_1:hps_0_h2f_axi_master_rdata -> hps_0:h2f_RDATA
+	signal hps_0_h2f_axi_master_awready                                  : std_logic;                      -- mm_interconnect_1:hps_0_h2f_axi_master_awready -> hps_0:h2f_AWREADY
+	signal hps_0_h2f_axi_master_arburst                                  : std_logic_vector(1 downto 0);   -- hps_0:h2f_ARBURST -> mm_interconnect_1:hps_0_h2f_axi_master_arburst
+	signal hps_0_h2f_axi_master_arsize                                   : std_logic_vector(2 downto 0);   -- hps_0:h2f_ARSIZE -> mm_interconnect_1:hps_0_h2f_axi_master_arsize
+	signal hps_0_h2f_axi_master_bready                                   : std_logic;                      -- hps_0:h2f_BREADY -> mm_interconnect_1:hps_0_h2f_axi_master_bready
+	signal hps_0_h2f_axi_master_rlast                                    : std_logic;                      -- mm_interconnect_1:hps_0_h2f_axi_master_rlast -> hps_0:h2f_RLAST
+	signal hps_0_h2f_axi_master_wlast                                    : std_logic;                      -- hps_0:h2f_WLAST -> mm_interconnect_1:hps_0_h2f_axi_master_wlast
+	signal hps_0_h2f_axi_master_rresp                                    : std_logic_vector(1 downto 0);   -- mm_interconnect_1:hps_0_h2f_axi_master_rresp -> hps_0:h2f_RRESP
+	signal hps_0_h2f_axi_master_awid                                     : std_logic_vector(11 downto 0);  -- hps_0:h2f_AWID -> mm_interconnect_1:hps_0_h2f_axi_master_awid
+	signal hps_0_h2f_axi_master_bid                                      : std_logic_vector(11 downto 0);  -- mm_interconnect_1:hps_0_h2f_axi_master_bid -> hps_0:h2f_BID
+	signal hps_0_h2f_axi_master_bvalid                                   : std_logic;                      -- mm_interconnect_1:hps_0_h2f_axi_master_bvalid -> hps_0:h2f_BVALID
+	signal hps_0_h2f_axi_master_awsize                                   : std_logic_vector(2 downto 0);   -- hps_0:h2f_AWSIZE -> mm_interconnect_1:hps_0_h2f_axi_master_awsize
+	signal hps_0_h2f_axi_master_awvalid                                  : std_logic;                      -- hps_0:h2f_AWVALID -> mm_interconnect_1:hps_0_h2f_axi_master_awvalid
+	signal hps_0_h2f_axi_master_rvalid                                   : std_logic;                      -- mm_interconnect_1:hps_0_h2f_axi_master_rvalid -> hps_0:h2f_RVALID
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_readdata        : std_logic_vector(31 downto 0);  -- plasma_soc_0:avs_readdata -> mm_interconnect_1:plasma_soc_0_avalon_slave_0_readdata
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_waitrequest     : std_logic;                      -- plasma_soc_0:avs_waitrequest -> mm_interconnect_1:plasma_soc_0_avalon_slave_0_waitrequest
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_address         : std_logic_vector(31 downto 0);  -- mm_interconnect_1:plasma_soc_0_avalon_slave_0_address -> plasma_soc_0:avs_address
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_read            : std_logic;                      -- mm_interconnect_1:plasma_soc_0_avalon_slave_0_read -> mm_interconnect_1_plasma_soc_0_avalon_slave_0_read:in
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_byteenable      : std_logic_vector(3 downto 0);   -- mm_interconnect_1:plasma_soc_0_avalon_slave_0_byteenable -> plasma_soc_0:avs_byteenable
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_response        : std_logic_vector(1 downto 0);   -- plasma_soc_0:avs_response -> mm_interconnect_1:plasma_soc_0_avalon_slave_0_response
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_write           : std_logic;                      -- mm_interconnect_1:plasma_soc_0_avalon_slave_0_write -> mm_interconnect_1_plasma_soc_0_avalon_slave_0_write:in
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_writedata       : std_logic_vector(31 downto 0);  -- mm_interconnect_1:plasma_soc_0_avalon_slave_0_writedata -> plasma_soc_0:avs_writedata
+	signal rst_controller_reset_out_reset                                : std_logic;                      -- rst_controller:reset_out -> [mm_interconnect_0:plasma_soc_0_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_1:plasma_soc_0_reset_sink_reset_bridge_in_reset_reset, plasma_soc_0:RST, rst_controller_reset_out_reset:in]
+	signal sys_sdram_pll_0_reset_source_reset                            : std_logic;                      -- sys_sdram_pll_0:reset_source_reset -> rst_controller:reset_in0
+	signal rst_controller_001_reset_out_reset                            : std_logic;                      -- rst_controller_001:reset_out -> mm_interconnect_1:hps_0_h2f_axi_master_agent_clk_reset_reset_bridge_in_reset_reset
+	signal hps_0_h2f_reset_reset_ports_inv                               : std_logic;                      -- hps_0_h2f_reset_reset:inv -> [rst_controller_001:reset_in0, sys_sdram_pll_0:ref_reset_reset]
+	signal plasma_soc_0_avalon_master_0_read_ports_inv                   : std_logic;                      -- plasma_soc_0_avalon_master_0_read:inv -> mm_interconnect_0:plasma_soc_0_avalon_master_0_read
+	signal plasma_soc_0_avalon_master_0_write_ports_inv                  : std_logic;                      -- plasma_soc_0_avalon_master_0_write:inv -> mm_interconnect_0:plasma_soc_0_avalon_master_0_write
+	signal mm_interconnect_0_sdram_controller_0_s1_read_ports_inv        : std_logic;                      -- mm_interconnect_0_sdram_controller_0_s1_read:inv -> sdram_controller_0:az_rd_n
+	signal mm_interconnect_0_sdram_controller_0_s1_byteenable_ports_inv  : std_logic_vector(1 downto 0);   -- mm_interconnect_0_sdram_controller_0_s1_byteenable:inv -> sdram_controller_0:az_be_n
+	signal mm_interconnect_0_sdram_controller_0_s1_write_ports_inv       : std_logic;                      -- mm_interconnect_0_sdram_controller_0_s1_write:inv -> sdram_controller_0:az_wr_n
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_read_ports_inv  : std_logic;                      -- mm_interconnect_1_plasma_soc_0_avalon_slave_0_read:inv -> plasma_soc_0:avs_read_n
+	signal mm_interconnect_1_plasma_soc_0_avalon_slave_0_write_ports_inv : std_logic;                      -- mm_interconnect_1_plasma_soc_0_avalon_slave_0_write:inv -> plasma_soc_0:avs_write_n
+	signal rst_controller_reset_out_reset_ports_inv                      : std_logic;                      -- rst_controller_reset_out_reset:inv -> sdram_controller_0:reset_n
 
 begin
 
@@ -360,7 +462,7 @@ begin
 			mem_dm      => hps_0_ddr_mem_dm,             --               .mem_dm
 			oct_rzqin   => hps_0_ddr_oct_rzqin,          --               .oct_rzqin
 			h2f_rst_n   => hps_0_h2f_reset_reset,        --      h2f_reset.reset_n
-			h2f_axi_clk => clk_clk,                      --  h2f_axi_clock.clk
+			h2f_axi_clk => sys_sdram_pll_0_sys_clk_clk,  --  h2f_axi_clock.clk
 			h2f_AWID    => hps_0_h2f_axi_master_awid,    -- h2f_axi_master.awid
 			h2f_AWADDR  => hps_0_h2f_axi_master_awaddr,  --               .awaddr
 			h2f_AWLEN   => hps_0_h2f_axi_master_awlen,   --               .awlen
@@ -397,7 +499,7 @@ begin
 			h2f_RLAST   => hps_0_h2f_axi_master_rlast,   --               .rlast
 			h2f_RVALID  => hps_0_h2f_axi_master_rvalid,  --               .rvalid
 			h2f_RREADY  => hps_0_h2f_axi_master_rready,  --               .rready
-			f2h_axi_clk => clk_clk,                      --  f2h_axi_clock.clk
+			f2h_axi_clk => sys_sdram_pll_0_sys_clk_clk,  --  f2h_axi_clock.clk
 			f2h_AWID    => open,                         --  f2h_axi_slave.awid
 			f2h_AWADDR  => open,                         --               .awaddr
 			f2h_AWLEN   => open,                         --               .awlen
@@ -440,29 +542,93 @@ begin
 
 	plasma_soc_0 : component plasma_soc_top
 		port map (
-			avs_address     => mm_interconnect_0_plasma_soc_0_avalon_slave_0_address,         -- avalon_slave_0.address
-			avs_byteenable  => mm_interconnect_0_plasma_soc_0_avalon_slave_0_byteenable,      --               .byteenable
-			avs_write_n     => mm_interconnect_0_plasma_soc_0_avalon_slave_0_write_ports_inv, --               .write_n
-			avs_read_n      => mm_interconnect_0_plasma_soc_0_avalon_slave_0_read_ports_inv,  --               .read_n
-			avs_readdata    => mm_interconnect_0_plasma_soc_0_avalon_slave_0_readdata,        --               .readdata
-			avs_writedata   => mm_interconnect_0_plasma_soc_0_avalon_slave_0_writedata,       --               .writedata
-			avs_waitrequest => mm_interconnect_0_plasma_soc_0_avalon_slave_0_waitrequest,     --               .waitrequest
-			avs_response    => mm_interconnect_0_plasma_soc_0_avalon_slave_0_response,        --               .response
-			RST             => rst_controller_reset_out_reset,                                --     reset_sink.reset
-			GCLK            => clk_clk,                                                       --     clock_sink.clk
-			LD              => plasma_soc_0_leds_ld,                                          --           leds.ld
-			SD_CD           => plasma_soc_0_sd_card_sd_cd,                                    --        sd_card.sd_cd
-			SD_SPI_CS       => plasma_soc_0_sd_card_sd_spi_cs,                                --               .sd_spi_cs
-			SD_SPI_MISO     => plasma_soc_0_sd_card_sd_spi_miso,                              --               .sd_spi_miso
-			SD_SPI_MOSI     => plasma_soc_0_sd_card_sd_spi_mosi,                              --               .sd_spi_mosi
-			SD_SPI_SCLK     => plasma_soc_0_sd_card_sd_spi_sclk,                              --               .sd_spi_sclk
-			SD_WP           => plasma_soc_0_sd_card_sd_wp,                                    --               .sd_wp
-			SW              => plasma_soc_0_switches_sw,                                      --       switches.sw
-			UART_RX         => plasma_soc_0_uart_uart_rx,                                     --           uart.uart_rx
-			UART_TX         => plasma_soc_0_uart_uart_tx                                      --               .uart_tx
+			avs_address     => mm_interconnect_1_plasma_soc_0_avalon_slave_0_address,         --  avalon_slave_0.address
+			avs_byteenable  => mm_interconnect_1_plasma_soc_0_avalon_slave_0_byteenable,      --                .byteenable
+			avs_write_n     => mm_interconnect_1_plasma_soc_0_avalon_slave_0_write_ports_inv, --                .write_n
+			avs_read_n      => mm_interconnect_1_plasma_soc_0_avalon_slave_0_read_ports_inv,  --                .read_n
+			avs_readdata    => mm_interconnect_1_plasma_soc_0_avalon_slave_0_readdata,        --                .readdata
+			avs_writedata   => mm_interconnect_1_plasma_soc_0_avalon_slave_0_writedata,       --                .writedata
+			avs_waitrequest => mm_interconnect_1_plasma_soc_0_avalon_slave_0_waitrequest,     --                .waitrequest
+			avs_response    => mm_interconnect_1_plasma_soc_0_avalon_slave_0_response,        --                .response
+			RST             => rst_controller_reset_out_reset,                                --      reset_sink.reset
+			GCLK            => sys_sdram_pll_0_sys_clk_clk,                                   --      clock_sink.clk
+			LD              => plasma_soc_0_leds_ld,                                          --            leds.ld
+			SD_CD           => plasma_soc_0_sd_card_sd_cd,                                    --         sd_card.sd_cd
+			SD_SPI_CS       => plasma_soc_0_sd_card_sd_spi_cs,                                --                .sd_spi_cs
+			SD_SPI_MISO     => plasma_soc_0_sd_card_sd_spi_miso,                              --                .sd_spi_miso
+			SD_SPI_MOSI     => plasma_soc_0_sd_card_sd_spi_mosi,                              --                .sd_spi_mosi
+			SD_SPI_SCLK     => plasma_soc_0_sd_card_sd_spi_sclk,                              --                .sd_spi_sclk
+			SD_WP           => plasma_soc_0_sd_card_sd_wp,                                    --                .sd_wp
+			SW              => plasma_soc_0_switches_sw,                                      --        switches.sw
+			UART_RX         => plasma_soc_0_uart_uart_rx,                                     --            uart.uart_rx
+			UART_TX         => plasma_soc_0_uart_uart_tx,                                     --                .uart_tx
+			avm_address     => plasma_soc_0_avalon_master_0_address,                          -- avalon_master_0.address
+			avm_byteenable  => plasma_soc_0_avalon_master_0_byteenable,                       --                .byteenable
+			avm_write_n     => plasma_soc_0_avalon_master_0_write,                            --                .write_n
+			avm_read_n      => plasma_soc_0_avalon_master_0_read,                             --                .read_n
+			avm_readdata    => plasma_soc_0_avalon_master_0_readdata,                         --                .readdata
+			avm_writedata   => plasma_soc_0_avalon_master_0_writedata,                        --                .writedata
+			avm_waitrequest => plasma_soc_0_avalon_master_0_waitrequest,                      --                .waitrequest
+			avm_response    => plasma_soc_0_avalon_master_0_response                          --                .response
+		);
+
+	sdram_controller_0 : component plasma_de1_soc_sdram_controller_0
+		port map (
+			clk            => sys_sdram_pll_0_sys_clk_clk,                                  --   clk.clk
+			reset_n        => rst_controller_reset_out_reset_ports_inv,                     -- reset.reset_n
+			az_addr        => mm_interconnect_0_sdram_controller_0_s1_address,              --    s1.address
+			az_be_n        => mm_interconnect_0_sdram_controller_0_s1_byteenable_ports_inv, --      .byteenable_n
+			az_cs          => mm_interconnect_0_sdram_controller_0_s1_chipselect,           --      .chipselect
+			az_data        => mm_interconnect_0_sdram_controller_0_s1_writedata,            --      .writedata
+			az_rd_n        => mm_interconnect_0_sdram_controller_0_s1_read_ports_inv,       --      .read_n
+			az_wr_n        => mm_interconnect_0_sdram_controller_0_s1_write_ports_inv,      --      .write_n
+			za_data        => mm_interconnect_0_sdram_controller_0_s1_readdata,             --      .readdata
+			za_valid       => mm_interconnect_0_sdram_controller_0_s1_readdatavalid,        --      .readdatavalid
+			za_waitrequest => mm_interconnect_0_sdram_controller_0_s1_waitrequest,          --      .waitrequest
+			zs_addr        => sdram_controller_0_wire_addr,                                 --  wire.export
+			zs_ba          => sdram_controller_0_wire_ba,                                   --      .export
+			zs_cas_n       => sdram_controller_0_wire_cas_n,                                --      .export
+			zs_cke         => sdram_controller_0_wire_cke,                                  --      .export
+			zs_cs_n        => sdram_controller_0_wire_cs_n,                                 --      .export
+			zs_dq          => sdram_controller_0_wire_dq,                                   --      .export
+			zs_dqm         => sdram_controller_0_wire_dqm,                                  --      .export
+			zs_ras_n       => sdram_controller_0_wire_ras_n,                                --      .export
+			zs_we_n        => sdram_controller_0_wire_we_n                                  --      .export
+		);
+
+	sys_sdram_pll_0 : component plasma_de1_soc_sys_sdram_pll_0
+		port map (
+			ref_clk_clk        => clk_clk,                            --      ref_clk.clk
+			ref_reset_reset    => hps_0_h2f_reset_reset_ports_inv,    --    ref_reset.reset
+			sys_clk_clk        => sys_sdram_pll_0_sys_clk_clk,        --      sys_clk.clk
+			sdram_clk_clk      => sys_sdram_pll_0_sdram_clk_clk,      --    sdram_clk.clk
+			reset_source_reset => sys_sdram_pll_0_reset_source_reset  -- reset_source.reset
 		);
 
 	mm_interconnect_0 : component plasma_de1_soc_mm_interconnect_0
+		port map (
+			sys_sdram_pll_0_sys_clk_clk                         => sys_sdram_pll_0_sys_clk_clk,                           --                       sys_sdram_pll_0_sys_clk.clk
+			plasma_soc_0_reset_sink_reset_bridge_in_reset_reset => rst_controller_reset_out_reset,                        -- plasma_soc_0_reset_sink_reset_bridge_in_reset.reset
+			plasma_soc_0_avalon_master_0_address                => plasma_soc_0_avalon_master_0_address,                  --                  plasma_soc_0_avalon_master_0.address
+			plasma_soc_0_avalon_master_0_waitrequest            => plasma_soc_0_avalon_master_0_waitrequest,              --                                              .waitrequest
+			plasma_soc_0_avalon_master_0_byteenable             => plasma_soc_0_avalon_master_0_byteenable,               --                                              .byteenable
+			plasma_soc_0_avalon_master_0_read                   => plasma_soc_0_avalon_master_0_read_ports_inv,           --                                              .read
+			plasma_soc_0_avalon_master_0_readdata               => plasma_soc_0_avalon_master_0_readdata,                 --                                              .readdata
+			plasma_soc_0_avalon_master_0_write                  => plasma_soc_0_avalon_master_0_write_ports_inv,          --                                              .write
+			plasma_soc_0_avalon_master_0_writedata              => plasma_soc_0_avalon_master_0_writedata,                --                                              .writedata
+			plasma_soc_0_avalon_master_0_response               => plasma_soc_0_avalon_master_0_response,                 --                                              .response
+			sdram_controller_0_s1_address                       => mm_interconnect_0_sdram_controller_0_s1_address,       --                         sdram_controller_0_s1.address
+			sdram_controller_0_s1_write                         => mm_interconnect_0_sdram_controller_0_s1_write,         --                                              .write
+			sdram_controller_0_s1_read                          => mm_interconnect_0_sdram_controller_0_s1_read,          --                                              .read
+			sdram_controller_0_s1_readdata                      => mm_interconnect_0_sdram_controller_0_s1_readdata,      --                                              .readdata
+			sdram_controller_0_s1_writedata                     => mm_interconnect_0_sdram_controller_0_s1_writedata,     --                                              .writedata
+			sdram_controller_0_s1_byteenable                    => mm_interconnect_0_sdram_controller_0_s1_byteenable,    --                                              .byteenable
+			sdram_controller_0_s1_readdatavalid                 => mm_interconnect_0_sdram_controller_0_s1_readdatavalid, --                                              .readdatavalid
+			sdram_controller_0_s1_waitrequest                   => mm_interconnect_0_sdram_controller_0_s1_waitrequest,   --                                              .waitrequest
+			sdram_controller_0_s1_chipselect                    => mm_interconnect_0_sdram_controller_0_s1_chipselect     --                                              .chipselect
+		);
+
+	mm_interconnect_1 : component plasma_de1_soc_mm_interconnect_1
 		port map (
 			hps_0_h2f_axi_master_awid                                        => hps_0_h2f_axi_master_awid,                                 --                                       hps_0_h2f_axi_master.awid
 			hps_0_h2f_axi_master_awaddr                                      => hps_0_h2f_axi_master_awaddr,                               --                                                           .awaddr
@@ -500,17 +666,17 @@ begin
 			hps_0_h2f_axi_master_rlast                                       => hps_0_h2f_axi_master_rlast,                                --                                                           .rlast
 			hps_0_h2f_axi_master_rvalid                                      => hps_0_h2f_axi_master_rvalid,                               --                                                           .rvalid
 			hps_0_h2f_axi_master_rready                                      => hps_0_h2f_axi_master_rready,                               --                                                           .rready
-			clk_0_clk_clk                                                    => clk_clk,                                                   --                                                  clk_0_clk.clk
+			sys_sdram_pll_0_sys_clk_clk                                      => sys_sdram_pll_0_sys_clk_clk,                               --                                    sys_sdram_pll_0_sys_clk.clk
 			hps_0_h2f_axi_master_agent_clk_reset_reset_bridge_in_reset_reset => rst_controller_001_reset_out_reset,                        -- hps_0_h2f_axi_master_agent_clk_reset_reset_bridge_in_reset.reset
 			plasma_soc_0_reset_sink_reset_bridge_in_reset_reset              => rst_controller_reset_out_reset,                            --              plasma_soc_0_reset_sink_reset_bridge_in_reset.reset
-			plasma_soc_0_avalon_slave_0_address                              => mm_interconnect_0_plasma_soc_0_avalon_slave_0_address,     --                                plasma_soc_0_avalon_slave_0.address
-			plasma_soc_0_avalon_slave_0_write                                => mm_interconnect_0_plasma_soc_0_avalon_slave_0_write,       --                                                           .write
-			plasma_soc_0_avalon_slave_0_read                                 => mm_interconnect_0_plasma_soc_0_avalon_slave_0_read,        --                                                           .read
-			plasma_soc_0_avalon_slave_0_readdata                             => mm_interconnect_0_plasma_soc_0_avalon_slave_0_readdata,    --                                                           .readdata
-			plasma_soc_0_avalon_slave_0_writedata                            => mm_interconnect_0_plasma_soc_0_avalon_slave_0_writedata,   --                                                           .writedata
-			plasma_soc_0_avalon_slave_0_byteenable                           => mm_interconnect_0_plasma_soc_0_avalon_slave_0_byteenable,  --                                                           .byteenable
-			plasma_soc_0_avalon_slave_0_waitrequest                          => mm_interconnect_0_plasma_soc_0_avalon_slave_0_waitrequest, --                                                           .waitrequest
-			plasma_soc_0_avalon_slave_0_response                             => mm_interconnect_0_plasma_soc_0_avalon_slave_0_response     --                                                           .response
+			plasma_soc_0_avalon_slave_0_address                              => mm_interconnect_1_plasma_soc_0_avalon_slave_0_address,     --                                plasma_soc_0_avalon_slave_0.address
+			plasma_soc_0_avalon_slave_0_write                                => mm_interconnect_1_plasma_soc_0_avalon_slave_0_write,       --                                                           .write
+			plasma_soc_0_avalon_slave_0_read                                 => mm_interconnect_1_plasma_soc_0_avalon_slave_0_read,        --                                                           .read
+			plasma_soc_0_avalon_slave_0_readdata                             => mm_interconnect_1_plasma_soc_0_avalon_slave_0_readdata,    --                                                           .readdata
+			plasma_soc_0_avalon_slave_0_writedata                            => mm_interconnect_1_plasma_soc_0_avalon_slave_0_writedata,   --                                                           .writedata
+			plasma_soc_0_avalon_slave_0_byteenable                           => mm_interconnect_1_plasma_soc_0_avalon_slave_0_byteenable,  --                                                           .byteenable
+			plasma_soc_0_avalon_slave_0_waitrequest                          => mm_interconnect_1_plasma_soc_0_avalon_slave_0_waitrequest, --                                                           .waitrequest
+			plasma_soc_0_avalon_slave_0_response                             => mm_interconnect_1_plasma_soc_0_avalon_slave_0_response     --                                                           .response
 		);
 
 	rst_controller : component altera_reset_controller
@@ -541,41 +707,41 @@ begin
 			ADAPT_RESET_REQUEST       => 0
 		)
 		port map (
-			reset_in0      => hps_0_h2f_reset_reset_ports_inv, -- reset_in0.reset
-			clk            => clk_clk,                         --       clk.clk
-			reset_out      => rst_controller_reset_out_reset,  -- reset_out.reset
-			reset_req      => open,                            -- (terminated)
-			reset_req_in0  => '0',                             -- (terminated)
-			reset_in1      => '0',                             -- (terminated)
-			reset_req_in1  => '0',                             -- (terminated)
-			reset_in2      => '0',                             -- (terminated)
-			reset_req_in2  => '0',                             -- (terminated)
-			reset_in3      => '0',                             -- (terminated)
-			reset_req_in3  => '0',                             -- (terminated)
-			reset_in4      => '0',                             -- (terminated)
-			reset_req_in4  => '0',                             -- (terminated)
-			reset_in5      => '0',                             -- (terminated)
-			reset_req_in5  => '0',                             -- (terminated)
-			reset_in6      => '0',                             -- (terminated)
-			reset_req_in6  => '0',                             -- (terminated)
-			reset_in7      => '0',                             -- (terminated)
-			reset_req_in7  => '0',                             -- (terminated)
-			reset_in8      => '0',                             -- (terminated)
-			reset_req_in8  => '0',                             -- (terminated)
-			reset_in9      => '0',                             -- (terminated)
-			reset_req_in9  => '0',                             -- (terminated)
-			reset_in10     => '0',                             -- (terminated)
-			reset_req_in10 => '0',                             -- (terminated)
-			reset_in11     => '0',                             -- (terminated)
-			reset_req_in11 => '0',                             -- (terminated)
-			reset_in12     => '0',                             -- (terminated)
-			reset_req_in12 => '0',                             -- (terminated)
-			reset_in13     => '0',                             -- (terminated)
-			reset_req_in13 => '0',                             -- (terminated)
-			reset_in14     => '0',                             -- (terminated)
-			reset_req_in14 => '0',                             -- (terminated)
-			reset_in15     => '0',                             -- (terminated)
-			reset_req_in15 => '0'                              -- (terminated)
+			reset_in0      => sys_sdram_pll_0_reset_source_reset, -- reset_in0.reset
+			clk            => sys_sdram_pll_0_sys_clk_clk,        --       clk.clk
+			reset_out      => rst_controller_reset_out_reset,     -- reset_out.reset
+			reset_req      => open,                               -- (terminated)
+			reset_req_in0  => '0',                                -- (terminated)
+			reset_in1      => '0',                                -- (terminated)
+			reset_req_in1  => '0',                                -- (terminated)
+			reset_in2      => '0',                                -- (terminated)
+			reset_req_in2  => '0',                                -- (terminated)
+			reset_in3      => '0',                                -- (terminated)
+			reset_req_in3  => '0',                                -- (terminated)
+			reset_in4      => '0',                                -- (terminated)
+			reset_req_in4  => '0',                                -- (terminated)
+			reset_in5      => '0',                                -- (terminated)
+			reset_req_in5  => '0',                                -- (terminated)
+			reset_in6      => '0',                                -- (terminated)
+			reset_req_in6  => '0',                                -- (terminated)
+			reset_in7      => '0',                                -- (terminated)
+			reset_req_in7  => '0',                                -- (terminated)
+			reset_in8      => '0',                                -- (terminated)
+			reset_req_in8  => '0',                                -- (terminated)
+			reset_in9      => '0',                                -- (terminated)
+			reset_req_in9  => '0',                                -- (terminated)
+			reset_in10     => '0',                                -- (terminated)
+			reset_req_in10 => '0',                                -- (terminated)
+			reset_in11     => '0',                                -- (terminated)
+			reset_req_in11 => '0',                                -- (terminated)
+			reset_in12     => '0',                                -- (terminated)
+			reset_req_in12 => '0',                                -- (terminated)
+			reset_in13     => '0',                                -- (terminated)
+			reset_req_in13 => '0',                                -- (terminated)
+			reset_in14     => '0',                                -- (terminated)
+			reset_req_in14 => '0',                                -- (terminated)
+			reset_in15     => '0',                                -- (terminated)
+			reset_req_in15 => '0'                                 -- (terminated)
 		);
 
 	rst_controller_001 : component altera_reset_controller
@@ -607,7 +773,7 @@ begin
 		)
 		port map (
 			reset_in0      => hps_0_h2f_reset_reset_ports_inv,    -- reset_in0.reset
-			clk            => clk_clk,                            --       clk.clk
+			clk            => sys_sdram_pll_0_sys_clk_clk,        --       clk.clk
 			reset_out      => rst_controller_001_reset_out_reset, -- reset_out.reset
 			reset_req      => open,                               -- (terminated)
 			reset_req_in0  => '0',                                -- (terminated)
@@ -645,8 +811,20 @@ begin
 
 	hps_0_h2f_reset_reset_ports_inv <= not hps_0_h2f_reset_reset;
 
-	mm_interconnect_0_plasma_soc_0_avalon_slave_0_read_ports_inv <= not mm_interconnect_0_plasma_soc_0_avalon_slave_0_read;
+	plasma_soc_0_avalon_master_0_read_ports_inv <= not plasma_soc_0_avalon_master_0_read;
 
-	mm_interconnect_0_plasma_soc_0_avalon_slave_0_write_ports_inv <= not mm_interconnect_0_plasma_soc_0_avalon_slave_0_write;
+	plasma_soc_0_avalon_master_0_write_ports_inv <= not plasma_soc_0_avalon_master_0_write;
+
+	mm_interconnect_0_sdram_controller_0_s1_read_ports_inv <= not mm_interconnect_0_sdram_controller_0_s1_read;
+
+	mm_interconnect_0_sdram_controller_0_s1_byteenable_ports_inv <= not mm_interconnect_0_sdram_controller_0_s1_byteenable;
+
+	mm_interconnect_0_sdram_controller_0_s1_write_ports_inv <= not mm_interconnect_0_sdram_controller_0_s1_write;
+
+	mm_interconnect_1_plasma_soc_0_avalon_slave_0_read_ports_inv <= not mm_interconnect_1_plasma_soc_0_avalon_slave_0_read;
+
+	mm_interconnect_1_plasma_soc_0_avalon_slave_0_write_ports_inv <= not mm_interconnect_1_plasma_soc_0_avalon_slave_0_write;
+
+	rst_controller_reset_out_reset_ports_inv <= not rst_controller_reset_out_reset;
 
 end architecture rtl; -- of plasma_de1_soc

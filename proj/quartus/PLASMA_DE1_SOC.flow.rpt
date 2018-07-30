@@ -1,5 +1,5 @@
 Flow report for PLASMA_DE1_SOC
-Fri Jul 27 10:49:16 2018
+Mon Jul 30 13:37:36 2018
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -37,24 +37,29 @@ refer to the applicable agreement for further details.
 
 
 
-+---------------------------------------------------------------------------+
-; Flow Summary                                                              ;
-+-----------------------------+---------------------------------------------+
-; Flow Status                 ; Successful - Fri Jul 27 10:49:16 2018       ;
-; Quartus Prime Version       ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
-; Revision Name               ; PLASMA_DE1_SOC                              ;
-; Top-level Entity Name       ; PLASMA_DE1_SOC                              ;
-; Family                      ; Cyclone V                                   ;
-; Device                      ; 5CSEMA5F31C6                                ;
-; Timing Models               ; Final                                       ;
-; Logic utilization (in ALMs) ; N/A until Partition Merge                   ;
-; Total registers             ; N/A until Partition Merge                   ;
-; Total pins                  ; N/A until Partition Merge                   ;
-; Total virtual pins          ; N/A until Partition Merge                   ;
-; Total block memory bits     ; N/A until Partition Merge                   ;
-; Total PLLs                  ; N/A until Partition Merge                   ;
-; Total DLLs                  ; N/A until Partition Merge                   ;
-+-----------------------------+---------------------------------------------+
++-------------------------------------------------------------------------------+
+; Flow Summary                                                                  ;
++---------------------------------+---------------------------------------------+
+; Flow Status                     ; Successful - Mon Jul 30 13:37:36 2018       ;
+; Quartus Prime Version           ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
+; Revision Name                   ; PLASMA_DE1_SOC                              ;
+; Top-level Entity Name           ; PLASMA_DE1_SOC                              ;
+; Family                          ; Cyclone V                                   ;
+; Device                          ; 5CSEMA5F31C6                                ;
+; Timing Models                   ; Final                                       ;
+; Logic utilization (in ALMs)     ; 4,790 / 32,070 ( 15 % )                     ;
+; Total registers                 ; 6705                                        ;
+; Total pins                      ; 210 / 457 ( 46 % )                          ;
+; Total virtual pins              ; 0                                           ;
+; Total block memory bits         ; 65,664 / 4,065,280 ( 2 % )                  ;
+; Total DSP Blocks                ; 28 / 87 ( 32 % )                            ;
+; Total HSSI RX PCSs              ; 0                                           ;
+; Total HSSI PMA RX Deserializers ; 0                                           ;
+; Total HSSI TX PCSs              ; 0                                           ;
+; Total HSSI PMA TX Serializers   ; 0                                           ;
+; Total PLLs                      ; 1 / 6 ( 17 % )                              ;
+; Total DLLs                      ; 1 / 4 ( 25 % )                              ;
++---------------------------------+---------------------------------------------+
 
 
 +-----------------------------------------+
@@ -62,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 07/27/2018 10:46:51 ;
+; Start date & time ; 07/30/2018 13:15:35 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; PLASMA_DE1_SOC      ;
 +-------------------+---------------------+
@@ -73,7 +78,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------+------------------------------------------------------------------------------+---------------+------------------------------------+----------------+
 ; Assignment Name                       ; Value                                                                        ; Default Value ; Entity Name                        ; Section Id     ;
 +---------------------------------------+------------------------------------------------------------------------------+---------------+------------------------------------+----------------+
-; COMPILER_SIGNATURE_ID                 ; 246927996115660.153268120507408                                              ; --            ; --                                 ; --             ;
+; COMPILER_SIGNATURE_ID                 ; 246927996115660.153294932707960                                              ; --            ; --                                 ; --             ;
 ; ECO_REGENERATE_REPORT                 ; On                                                                           ; Off           ; --                                 ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT                ; Vhdl                                                                         ; --            ; --                                 ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                   ; ModelSim-Altera (VHDL)                                                       ; <None>        ; --                                 ; --             ;
@@ -117,7 +122,7 @@ refer to the applicable agreement for further details.
 ; POWER_PRESET_COOLING_SOLUTION         ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW                                        ; --            ; --                                 ; --             ;
 ; SLD_FILE                              ; plasma_de1_soc/synthesis/plasma_de1_soc.regmap                               ; --            ; --                                 ; --             ;
 ; SLD_FILE                              ; plasma_de1_soc/synthesis/plasma_de1_soc.debuginfo                            ; --            ; --                                 ; --             ;
-; SLD_INFO                              ; QSYS_NAME plasma_de1_soc HAS_SOPCINFO 1 GENERATION_ID 1532680563             ; --            ; --                                 ; --             ;
+; SLD_INFO                              ; QSYS_NAME plasma_de1_soc HAS_SOPCINFO 1 GENERATION_ID 1532949094             ; --            ; --                                 ; --             ;
 ; SOPCINFO_FILE                         ; plasma_de1_soc/synthesis/../../plasma_de1_soc.sopcinfo                       ; --            ; --                                 ; --             ;
 ; SYNTHESIS_ONLY_QIP                    ; On                                                                           ; --            ; --                                 ; --             ;
 ; USE_DLL_FREQUENCY_FOR_DQS_DELAY_CHAIN ; On                                                                           ; Off           ; --                                 ; --             ;
@@ -125,29 +130,41 @@ refer to the applicable agreement for further details.
 +---------------------------------------+------------------------------------------------------------------------------+---------------+------------------------------------+----------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------+
-; Flow Elapsed Time                                                                                                          ;
-+------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Module Name            ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
-+------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Elaboration ; 00:03:15     ; 1.0                     ; 5178 MB             ; 00:03:13                           ;
-; Total                  ; 00:03:15     ; --                      ; --                  ; 00:03:13                           ;
-+------------------------+--------------+-------------------------+---------------------+------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                        ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis ; 00:06:15     ; 1.0                     ; 5267 MB             ; 00:05:59                           ;
+; Fitter               ; 00:04:55     ; 1.3                     ; 7776 MB             ; 00:07:22                           ;
+; Assembler            ; 00:00:42     ; 1.0                     ; 4993 MB             ; 00:00:36                           ;
+; MIF/HEX Update       ; 00:00:46     ; 1.0                     ; 5038 MB             ; 00:00:41                           ;
+; Assembler            ; 00:01:26     ; 1.0                     ; 4991 MB             ; 00:01:22                           ;
+; Total                ; 00:14:04     ; --                      ; --                  ; 00:16:00                           ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
-+--------------------------------------------------------------------------------------+
-; Flow OS Summary                                                                      ;
-+------------------------+------------------+------------+------------+----------------+
-; Module Name            ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
-+------------------------+------------------+------------+------------+----------------+
-; Analysis & Elaboration ; SZ-W-M           ; Windows 10 ; 10.0       ; x86_64         ;
-+------------------------+------------------+------------+------------+----------------+
++------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                    ;
++----------------------+------------------+------------+------------+----------------+
+; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
++----------------------+------------------+------------+------------+----------------+
+; Analysis & Synthesis ; SZ-W-M           ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; SZ-W-M           ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; SZ-W-M           ; Windows 10 ; 10.0       ; x86_64         ;
+; MIF/HEX Update       ; SZ-W-M           ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; SZ-W-M           ; Windows 10 ; 10.0       ; x86_64         ;
++----------------------+------------------+------------+------------+----------------+
 
 
 ------------
 ; Flow Log ;
 ------------
-quartus_map --read_settings_files=on --write_settings_files=off PLASMA_DE1_SOC -c PLASMA_DE1_SOC --analysis_and_elaboration
+quartus_map --read_settings_files=on --write_settings_files=off PLASMA_DE1_SOC -c PLASMA_DE1_SOC
+quartus_fit --read_settings_files=on --write_settings_files=off PLASMA_DE1_SOC -c PLASMA_DE1_SOC
+quartus_asm --read_settings_files=off --write_settings_files=off PLASMA_DE1_SOC -c PLASMA_DE1_SOC
+quartus_cdb PLASMA_DE1_SOC -c PLASMA_DE1_SOC --update_mif
+quartus_asm --read_settings_files=on --write_settings_files=off PLASMA_DE1_SOC -c PLASMA_DE1_SOC
 
 
 

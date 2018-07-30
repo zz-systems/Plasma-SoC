@@ -61,6 +61,15 @@ architecture logic of tb_plasma_de1_soc is
     signal avs_writedata         : std_logic_vector(31 downto 0);
     signal avs_waitrequest       : std_logic; 
     signal avs_response          : std_logic_vector(1 downto 0);
+
+    signal avm_address           : std_logic_vector(31 downto 0);
+    signal avm_byteenable        : std_logic_vector(3 downto 0);
+    signal avm_write_n           : std_logic;
+    signal avm_read_n            : std_logic;
+    signal avm_readdata          : std_logic_vector(31 downto 0);
+    signal avm_writedata         : std_logic_vector(31 downto 0);
+    signal avm_waitrequest       : std_logic; 
+    signal avm_response          : std_logic_vector(1 downto 0);
 begin  --architecture
     --Uncomment the line below to test interrupts
     --interrupt <= '1' after 20 us when interrupt = '0' else '0' after 445 ns;
@@ -101,13 +110,7 @@ begin  --architecture
         clk               => clkx,
         reset             => reset,
         uart_read         => px_uart_write,
-        uart_write        => px_uart_write,
-
-        address           => px_mem_address,
-        data_write        => px_mem_data,
-        data_read         => px_data_read,
-        write_byte_enable => px_mem_byte_sel,
-        mem_pause_in      => px_mem_pause,
+        uart_write        => px_uart_write,       
 
         gpio_o            => open,
         gpio_i            => (127 downto 32 => '0') & px_data_read,
@@ -124,7 +127,16 @@ begin  --architecture
         avs_readdata          => avs_readdata,
         avs_writedata         => avs_writedata,
         avs_waitrequest       => avs_waitrequest,
-        avs_response          => avs_response
+        avs_response          => avs_response,
+
+        avm_address           => avm_address,
+        avm_byteenable        => avm_byteenable,
+        avm_write_n           => avm_write_n,
+        avm_read_n            => avm_read_n,
+        avm_readdata          => avm_readdata,
+        avm_writedata         => avm_writedata,
+        avm_waitrequest       => avm_waitrequest,
+        avm_response          => avm_response
     );
     
 end; --architecture logic

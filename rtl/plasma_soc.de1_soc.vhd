@@ -60,13 +60,7 @@ entity plasma_soc is
         reset             : in std_logic;
 
         uart_write        : out std_logic;
-        uart_read         : in std_logic;
-
-        address           : out std_logic_vector(31 downto 2);
-        data_write        : out std_logic_vector(31 downto 0);
-        data_read         : in std_logic_vector(31 downto 0);
-        write_byte_enable : out std_logic_vector(3 downto 0);
-        mem_pause_in      : in std_logic;
+        uart_read         : in std_logic;        
 
         gpio_o            : out std_logic_vector(127 downto 0);
         gpio_i            : in std_logic_vector(127 downto 0);
@@ -85,7 +79,17 @@ entity plasma_soc is
         avs_readdata          : out std_logic_vector(31 downto 0);
         avs_writedata         : in std_logic_vector(31 downto 0);
         avs_waitrequest       : out std_logic; 
-        avs_response          : out std_logic_vector(1 downto 0)
+        avs_response          : out std_logic_vector(1 downto 0);
+
+        -- avalon master interface
+        avm_address           : out std_logic_vector(31 downto 0);
+        avm_byteenable        : out std_logic_vector(3 downto 0);
+        avm_write_n           : out std_logic;
+        avm_read_n            : out std_logic;
+        avm_readdata          : in std_logic_vector(31 downto 0);
+        avm_writedata         : out std_logic_vector(31 downto 0);
+        avm_waitrequest       : in std_logic; 
+        avm_response          : in std_logic_vector(1 downto 0)
     );
 end; --entity plasma
 
@@ -110,13 +114,15 @@ architecture logic of plasma_soc is
                         : wb_port is master_ports(1);
 
     alias mem_port      : wb_port is slave_ports(0);
-    alias ext_mem_port  : wb_port is slave_ports(1);
-    alias irc_port      : wb_port is slave_ports(2);
-    alias uart_port     : wb_port is slave_ports(3);
-    alias timer_ports   : ports(3 downto 0) is slave_ports(7 downto 4);
-    alias counter_ports : ports(3 downto 0) is slave_ports(11 downto 8);
-    alias gpio_ports    : ports(3 downto 0) is slave_ports(15 downto 12);
-    alias spic_port     : wb_port is slave_ports(16);
+    alias irc_port      : wb_port is slave_ports(1);
+    alias uart_port     : wb_port is slave_ports(2);
+    alias timer_ports   : ports(3 downto 0) is slave_ports(6 downto 3);
+    alias counter_ports : ports(3 downto 0) is slave_ports(10 downto 7);
+    alias gpio_ports    : ports(3 downto 0) is slave_ports(14 downto 11);
+    alias spic_port     : wb_port is slave_ports(15);
+
+    alias avalon_master2wb_slave_port
+                        : wb_port is slave_ports(16);
 
     signal irq          : std_logic;
     signal irq_inputs   : std_logic_vector(31 downto 0);
@@ -206,30 +212,32 @@ begin  --architecture
 
         memmap => 
         (
-            ( x"00000000", x"00004FFF" ),  -- internal memory
-            ( x"00005000", x"001FFFFF" ),  -- external memory                 
-            ( x"20000000", x"0000001F" ),  -- irc       
-            ( x"20000100", x"0000000F" ),  -- uart
+            ( x"00000000", x"00004FFF" ),  -- internal memory             
+            ( x"00005000", x"0000001F" ),  -- irc       
+            ( x"00005100", x"0000000F" ),  -- uart
 
             -- timers ----------------------------------------------------------
-            ( x"20000200", x"0000000F" ),  -- timer0
-            ( x"20000210", x"0000000F" ),  -- timer1
-            ( x"20000220", x"0000000F" ),  -- timer2
-            ( x"20000230", x"0000000F" ),  -- timer3
+            ( x"00005200", x"0000000F" ),  -- timer0
+            ( x"00005210", x"0000000F" ),  -- timer1
+            ( x"00005220", x"0000000F" ),  -- timer2
+            ( x"00005230", x"0000000F" ),  -- timer3
 
             -- counters --------------------------------------------------------
-            ( x"20000300", x"0000000F" ),  -- counter0
-            ( x"20000310", x"0000000F" ),  -- counter1
-            ( x"20000320", x"0000000F" ),  -- counter2
-            ( x"20000330", x"0000000F" ),  -- counter3
+            ( x"00005300", x"0000000F" ),  -- counter0
+            ( x"00005310", x"0000000F" ),  -- counter1
+            ( x"00005320", x"0000000F" ),  -- counter2
+            ( x"00005330", x"0000000F" ),  -- counter3
            
             -- gpios -----------------------------------------------------------
-            ( x"20000400", x"0000000F" ),  -- gpio0
-            ( x"20000410", x"0000000F" ),  -- gpio1
-            ( x"20000420", x"0000000F" ),  -- gpio2
-            ( x"20000430", x"0000000F" ),  -- gpio3
+            ( x"00005400", x"0000000F" ),  -- gpio0
+            ( x"00005410", x"0000000F" ),  -- gpio1
+            ( x"00005420", x"0000000F" ),  -- gpio2
+            ( x"00005430", x"0000000F" ),  -- gpio3
 
-            ( x"20000500", x"0000000F" )   -- spic
+            ( x"00005500", x"0000000F" ),  -- spic
+
+            -- avalon ----------------------------------------------------------
+            ( x"10000000", x"0FFFFFFF" )   -- avalon slaves    
         )
     )
     port map
@@ -334,6 +342,37 @@ begin  --architecture
         err_i   => avalon_slave2wb_master_port.err
     );
 
+    u_avalon_master2wb_slave: entity zz_systems.avalon_master2wb_slave
+    port map
+    (
+        clk_i   => clk,
+        rst_i   => reset,
+
+        address           => avm_address,
+        byteenable        => avm_byteenable,
+        write_n           => avm_write_n,
+        read_n            => avm_read_n,
+        readdata          => avm_readdata,
+        writedata         => avm_writedata,
+        waitrequest       => avm_waitrequest,
+        response          => avm_response,
+
+        cyc_i   => avalon_master2wb_slave_port.cyc,
+        stb_i   => avalon_master2wb_slave_port.stb,
+        we_i    => avalon_master2wb_slave_port.we,
+
+        adr_i   => avalon_master2wb_slave_port.adr,
+        dat_i   => avalon_master2wb_slave_port.dat_i,
+
+        sel_i   => avalon_master2wb_slave_port.sel,
+
+        dat_o   => avalon_master2wb_slave_port.dat_o,
+        ack_o   => avalon_master2wb_slave_port.ack,
+        rty_o   => avalon_master2wb_slave_port.rty,
+        stall_o => avalon_master2wb_slave_port.stall,
+        err_o   => avalon_master2wb_slave_port.err
+    );
+
     u_irc : entity zz_systems.slave_irc
     port map
     (
@@ -383,33 +422,6 @@ begin  --architecture
         rty_o   => mem_port.rty,
         stall_o => mem_port.stall,
         err_o   => mem_port.err
-    );
-
-    u_ext_mem: entity zz_systems.slave_ext_memory
-    port map
-    (
-        clk_i   => clk,
-        rst_i   => reset,
-
-        address             => address,
-        data_write          => data_write,
-        data_read           => data_read,
-        write_byte_enable   => write_byte_enable,
-
-        cyc_i   => ext_mem_port.cyc,
-        stb_i   => ext_mem_port.stb,
-        we_i    => ext_mem_port.we,
-
-        adr_i   => ext_mem_port.adr,
-        dat_i   => ext_mem_port.dat_i,
-
-        sel_i   => ext_mem_port.sel,
-
-        dat_o   => ext_mem_port.dat_o,
-        ack_o   => ext_mem_port.ack,
-        rty_o   => ext_mem_port.rty,
-        stall_o => ext_mem_port.stall,
-        err_o   => ext_mem_port.err
     );
 
     u_uart: entity zz_systems.slave_uart

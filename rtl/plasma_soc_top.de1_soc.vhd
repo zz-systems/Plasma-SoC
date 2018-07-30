@@ -37,7 +37,17 @@ entity plasma_soc_top is
         avs_readdata          : out std_logic_vector(31 downto 0);
         avs_writedata         : in std_logic_vector(31 downto 0);
         avs_waitrequest       : out std_logic; 
-        avs_response          : out std_logic_vector(1 downto 0)
+        avs_response          : out std_logic_vector(1 downto 0);
+
+        -- avalon master interface
+        avm_address           : out std_logic_vector(31 downto 0);
+        avm_byteenable        : out std_logic_vector(3 downto 0);
+        avm_write_n           : out std_logic;
+        avm_read_n            : out std_logic;
+        avm_readdata          : in std_logic_vector(31 downto 0);
+        avm_writedata         : out std_logic_vector(31 downto 0);
+        avm_waitrequest       : in std_logic; 
+        avm_response          : in std_logic_vector(1 downto 0)
     );
 end;
 
@@ -114,12 +124,6 @@ begin
         uart_write        => uart_write,
         uart_read         => uart_read,
 
-        address           => mem_address,
-        write_byte_enable => write_byte_enable,
-        data_write        => data_write,
-        data_read         => data_reg,
-        mem_pause_in      => mem_pause_in,
-
         gpio_o            => gpio0_out,
         gpio_i            => gpioA_in,
 
@@ -128,6 +132,7 @@ begin
         SCLK    => sclk,
         CS      => cs_n,
 
+        -- avalon slave interface
         avs_address           => avs_address,
         avs_byteenable        => avs_byteenable,
         avs_write_n           => avs_write_n,
@@ -135,6 +140,16 @@ begin
         avs_readdata          => avs_readdata,
         avs_writedata         => avs_writedata,
         avs_waitrequest       => avs_waitrequest,
-        avs_response          => avs_response
+        avs_response          => avs_response,
+
+        -- avalon master interface
+        avm_address           => avm_address,
+        avm_byteenable        => avm_byteenable,
+        avm_write_n           => avm_write_n,
+        avm_read_n            => avm_read_n,
+        avm_readdata          => avm_readdata,
+        avm_writedata         => avm_writedata,
+        avm_waitrequest       => avm_waitrequest,
+        avm_response          => avm_response
     );
 end;

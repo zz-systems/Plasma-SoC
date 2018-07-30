@@ -26,7 +26,17 @@ module plasma_de1_soc (
 	plasma_soc_0_sd_card_sd_wp,
 	plasma_soc_0_switches_sw,
 	plasma_soc_0_uart_uart_rx,
-	plasma_soc_0_uart_uart_tx);	
+	plasma_soc_0_uart_uart_tx,
+	sdram_controller_0_wire_addr,
+	sdram_controller_0_wire_ba,
+	sdram_controller_0_wire_cas_n,
+	sdram_controller_0_wire_cke,
+	sdram_controller_0_wire_cs_n,
+	sdram_controller_0_wire_dq,
+	sdram_controller_0_wire_dqm,
+	sdram_controller_0_wire_ras_n,
+	sdram_controller_0_wire_we_n,
+	sys_sdram_pll_0_sdram_clk_clk);	
 
 	input		clk_clk;
 	output	[14:0]	hps_0_ddr_mem_a;
@@ -55,4 +65,14 @@ module plasma_de1_soc (
 	input	[9:0]	plasma_soc_0_switches_sw;
 	input		plasma_soc_0_uart_uart_rx;
 	output		plasma_soc_0_uart_uart_tx;
+	output	[12:0]	sdram_controller_0_wire_addr;
+	output	[1:0]	sdram_controller_0_wire_ba;
+	output		sdram_controller_0_wire_cas_n;
+	output		sdram_controller_0_wire_cke;
+	output		sdram_controller_0_wire_cs_n;
+	inout	[15:0]	sdram_controller_0_wire_dq;
+	output	[1:0]	sdram_controller_0_wire_dqm;
+	output		sdram_controller_0_wire_ras_n;
+	output		sdram_controller_0_wire_we_n;
+	output		sys_sdram_pll_0_sdram_clk_clk;
 endmodule

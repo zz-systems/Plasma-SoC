@@ -3,12 +3,14 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="95" />
+   <connections preferredWidth="159" />
    <irq preferredWidth="34" />
+   <inputclock preferredWidth="185" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library" />
- <window width="1920" height="1976" x="0" y="0" />
+ <library
+   expandedCategories="Library/Memory Interfaces and Controllers,Library/University Program,Library,Library/Memory Interfaces and Controllers/SDRAM,Project,Library/University Program/Clock,Library/University Program/Memory" />
+ <window width="398" height="1976" x="-7" y="0" />
  <generation
    synthesis="VHDL"
    path="_PROJECT_NAME_"

@@ -131,7 +131,7 @@ end process;
    -- Option #2
    -- Two dual-port RAMs, each with one read-port and one write-port
    dual_port_mem:
-   if memory_type = "DUAL_PORT_" generate
+   if memory_type = "DUAL_PORT_X" generate
       ram_proc2: process(clk, addr_read1, addr_read2, 
             addr_write, reg_dest_new, write_enable)
       variable dual_port_ram1 : ram_type;
