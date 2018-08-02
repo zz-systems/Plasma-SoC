@@ -53,22 +53,24 @@ architecture logic of tb_plasma_de1_soc is
     signal miso         : std_logic;
     signal mosi         : std_logic;
 
+    -- avalon slave interface
     signal avs_address           : std_logic_vector(31 downto 0);
     signal avs_byteenable        : std_logic_vector(3 downto 0);
-    signal avs_write_n           : std_logic;
-    signal avs_read_n            : std_logic;
+    signal avs_write             : std_logic;
+    signal avs_read              : std_logic;
     signal avs_readdata          : std_logic_vector(31 downto 0);
     signal avs_writedata         : std_logic_vector(31 downto 0);
-    signal avs_waitrequest       : std_logic; 
+    signal avs_waitrequest_n     : std_logic; 
     signal avs_response          : std_logic_vector(1 downto 0);
 
+    -- avalon master interface
     signal avm_address           : std_logic_vector(31 downto 0);
     signal avm_byteenable        : std_logic_vector(3 downto 0);
-    signal avm_write_n           : std_logic;
-    signal avm_read_n            : std_logic;
+    signal avm_write             : std_logic;
+    signal avm_read              : std_logic;
     signal avm_readdata          : std_logic_vector(31 downto 0);
     signal avm_writedata         : std_logic_vector(31 downto 0);
-    signal avm_waitrequest       : std_logic; 
+    signal avm_waitrequest_n     : std_logic; 
     signal avm_response          : std_logic_vector(1 downto 0);
 begin  --architecture
     --Uncomment the line below to test interrupts
@@ -120,22 +122,24 @@ begin  --architecture
         SCLK    => sclk,
         CS      => cs_n,
 
+        -- avalon slave interface
         avs_address           => avs_address,
         avs_byteenable        => avs_byteenable,
-        avs_write_n           => avs_write_n,
-        avs_read_n            => avs_read_n,
+        avs_write             => avs_write,
+        avs_read              => avs_read,
         avs_readdata          => avs_readdata,
         avs_writedata         => avs_writedata,
-        avs_waitrequest       => avs_waitrequest,
+        avs_waitrequest_n     => avs_waitrequest_n,
         avs_response          => avs_response,
 
+        -- avalon master interface
         avm_address           => avm_address,
         avm_byteenable        => avm_byteenable,
-        avm_write_n           => avm_write_n,
-        avm_read_n            => avm_read_n,
+        avm_write             => avm_write,
+        avm_read              => avm_read,
         avm_readdata          => avm_readdata,
         avm_writedata         => avm_writedata,
-        avm_waitrequest       => avm_waitrequest,
+        avm_waitrequest_n     => avm_waitrequest_n,
         avm_response          => avm_response
     );
     

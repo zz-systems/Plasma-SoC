@@ -5,15 +5,8 @@
   <columns>
    <connections preferredWidth="159" />
    <irq preferredWidth="34" />
-   <inputclock preferredWidth="185" />
   </columns>
  </systemtable>
- <library
-   expandedCategories="Library/Memory Interfaces and Controllers,Library/University Program,Library,Library/Memory Interfaces and Controllers/SDRAM,Project,Library/University Program/Clock,Library/University Program/Memory" />
- <window width="398" height="1976" x="-7" y="0" />
- <generation
-   synthesis="VHDL"
-   path="_PROJECT_NAME_"
-   block_symbol_file="0"
-   simulation="VHDL" />
+ <library expandedCategories="Library,Project" />
+ <window width="1766" height="1367" x="0" y="0" />
 </preferences>

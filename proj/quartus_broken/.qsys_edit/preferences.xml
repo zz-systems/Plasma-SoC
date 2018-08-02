@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences>
+ <debug showDebugMenu="0" />
+ <systemtable filter="All Interfaces">
+  <columns>
+   <connections preferredWidth="159" />
+   <irq preferredWidth="34" />
+   <inputclock preferredWidth="185" />
+  </columns>
+ </systemtable>
+ <library
+   expandedCategories="Library/Qsys Interconnect,Library/Basic Functions,Library/University Program/Clock,Library/Interface Protocols/Serial,Library/Qsys Interconnect/Interrupt,Library/Processors and Peripherals/Co-Processors,Library/DSP/Primitive DSP,Library/Processors and Peripherals/Inter-Process Communication,Library,Library/Processors and Peripherals/Embedded Processors,Library/University Program/Communications,Library/DSP/Filters,Library/Qsys Interconnect/Memory-Mapped Alpha,Library/University Program/Generic IO,Library/Basic Functions/Arithmetic,Library/Qsys Interconnect/Memory-Mapped,Library/DSP,Library/Interface Protocols,Library/Processors and Peripherals,Library/Processors and Peripherals/Hard Processor Systems,Library/Qsys Interconnect/Tri-State Components,Library/Basic Functions/On Chip Memory,Library/Basic Functions/Bridges and Adaptors/Memory Mapped,Library/University Program/Bridges,Library/Basic Functions/DMA,Library/DSP/Video and Image Processing,Library/Memory Interfaces and Controllers/Memory Interfaces with UniPHY,Library/Memory Interfaces and Controllers/Memory Interfaces with ALTMEMPHY,Library/DSP/Transforms,Library/Low Power,Library/Processors and Peripherals/Peripherals,Library/DSP/Error Detection and Correction,Library/Memory Interfaces and Controllers/Flash,Project,Library/Memory Interfaces and Controllers,Library/DSP/Signal Generation,Library/Basic Functions/Bridges and Adaptors,Library/Processors and Peripherals/Hard Processor Components,Library/Basic Functions/Clocks; PLLs and Resets,Library/University Program/Memory,Library/University Program" />
+ <window width="1920" height="1976" x="-8" y="-8" />
+ <generation
+   synthesis="VHDL"
+   path="plasma_de1_soc/"
+   block_symbol_file="0"
+   simulation="VERILOG"
+   testbench_simulation="VERILOG"
+   testbench_system="STANDARD" />
+</preferences>
