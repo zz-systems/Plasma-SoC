@@ -212,7 +212,7 @@ begin  --architecture
 
         memmap => 
         (
-            ( x"00000000", x"00004FFF" ),  -- internal memory             
+            ( x"00000000", x"00001FFF" ),  -- internal memory             
             ( x"00005000", x"0000001F" ),  -- irc       
             ( x"00005100", x"0000000F" ),  -- uart
 

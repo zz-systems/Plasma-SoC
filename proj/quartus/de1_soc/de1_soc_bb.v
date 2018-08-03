@@ -37,7 +37,12 @@ module de1_soc (
 	sdram_controller_0_wire_dqm,
 	sdram_controller_0_wire_ras_n,
 	sdram_controller_0_wire_we_n,
-	sys_sdram_pll_0_sdram_clk_clk);	
+	sys_sdram_pll_0_sdram_clk_clk,
+	hex_1_external_connection_export,
+	hex_2_external_connection_export,
+	hex_3_external_connection_export,
+	hex_4_external_connection_export,
+	hex_5_external_connection_export);	
 
 	input		clk_clk;
 	output	[6:0]	hex_0_external_connection_export;
@@ -77,4 +82,9 @@ module de1_soc (
 	output		sdram_controller_0_wire_ras_n;
 	output		sdram_controller_0_wire_we_n;
 	output		sys_sdram_pll_0_sdram_clk_clk;
+	output	[6:0]	hex_1_external_connection_export;
+	output	[6:0]	hex_2_external_connection_export;
+	output	[6:0]	hex_3_external_connection_export;
+	output	[6:0]	hex_4_external_connection_export;
+	output	[6:0]	hex_5_external_connection_export;
 endmodule

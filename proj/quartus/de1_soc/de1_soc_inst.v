@@ -36,6 +36,11 @@
 		.sdram_controller_0_wire_dqm      (<connected-to-sdram_controller_0_wire_dqm>),      //                          .dqm
 		.sdram_controller_0_wire_ras_n    (<connected-to-sdram_controller_0_wire_ras_n>),    //                          .ras_n
 		.sdram_controller_0_wire_we_n     (<connected-to-sdram_controller_0_wire_we_n>),     //                          .we_n
-		.sys_sdram_pll_0_sdram_clk_clk    (<connected-to-sys_sdram_pll_0_sdram_clk_clk>)     // sys_sdram_pll_0_sdram_clk.clk
+		.sys_sdram_pll_0_sdram_clk_clk    (<connected-to-sys_sdram_pll_0_sdram_clk_clk>),    // sys_sdram_pll_0_sdram_clk.clk
+		.hex_1_external_connection_export (<connected-to-hex_1_external_connection_export>), // hex_1_external_connection.export
+		.hex_2_external_connection_export (<connected-to-hex_2_external_connection_export>), // hex_2_external_connection.export
+		.hex_3_external_connection_export (<connected-to-hex_3_external_connection_export>), // hex_3_external_connection.export
+		.hex_4_external_connection_export (<connected-to-hex_4_external_connection_export>), // hex_4_external_connection.export
+		.hex_5_external_connection_export (<connected-to-hex_5_external_connection_export>)  // hex_5_external_connection.export
 	);
 

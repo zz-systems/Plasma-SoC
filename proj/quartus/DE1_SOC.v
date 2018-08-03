@@ -44,11 +44,11 @@ module DE1_SOC(
 
 	//////////// SEG7 //////////
 	output		     [6:0]		HEX0,
-	// output		     [6:0]		HEX1,
-	// output		     [6:0]		HEX2,
-	// output		     [6:0]		HEX3,
-	// output		     [6:0]		HEX4,
-	// output		     [6:0]		HEX5,
+	output		     [6:0]		HEX1,
+	output		     [6:0]		HEX2,
+	output		     [6:0]		HEX3,
+	output		     [6:0]		HEX4,
+	output		     [6:0]		HEX5,
 
 	//////////// IR //////////
 	// input 		          		IRDA_RXD,
@@ -194,7 +194,13 @@ de1_soc de1_soc(
 	// BASIC I/O -------------------------------
 	.plasma_soc_0_leds_ld(LEDR),//(LEDR),
 	.plasma_soc_0_switches_sw(SW),//(KEY),
+
 	.hex_0_external_connection_export(HEX0),
+	.hex_1_external_connection_export(HEX1),
+	.hex_2_external_connection_export(HEX2),
+	.hex_3_external_connection_export(HEX3),
+	.hex_4_external_connection_export(HEX4),
+	.hex_5_external_connection_export(HEX5),
 	
 	// UART ------------------------------------
 	.plasma_soc_0_uart_uart_rx(HPS_UART_RX),
