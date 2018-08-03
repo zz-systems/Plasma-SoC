@@ -43,20 +43,58 @@ port
 end wb_to_avalon_bridge;
 
 architecture behavior of wb_to_avalon_bridge is   
+    signal read_os  : std_logic := '0';
+    signal write_os : std_logic := '0';
+    signal ack_os   : std_logic := '0';
+    signal sel_os   : std_logic_vector(sel_i'range) := (others => '0');
+    signal dat_os   : std_logic_vector(dat_o'range) := (others => '0');
 begin
 
     -- avalon -> wishbone
-    dat_o   <= readdata;
-    ack_o   <= stb_i and waitrequest_n;
-    
+    --dat_o   <= readdata;
+    --ack_o   <= (stb_i or cyc_i) and waitrequest_n;
+    dat_o   <= dat_os;
+    ack_o   <= ack_os;
+
     rty_o   <= '0';
     stall_o <= '0';
-    err_o   <= '1' when stb_i = '1' and response = response_slaveerror else '0';
+    err_o   <= '1' when cyc_i = '1' and response = response_slaveerror else '0';
 
     -- avalon <- wishbone
     address     <= adr_i;
     byteenable  <= sel_i;
-    write       <= (stb_i and we_i);
-    read        <= (stb_i and not we_i);
+
+    write       <= write_os;
+    read        <= read_os;
     writedata   <= dat_i;
+
+    process(clk_i, rst_i) is 
+    begin
+        if rst_i = '1' then
+            write_os    <= '0';
+            read_os     <= '0';
+            ack_os      <= '0';
+            dat_os      <= (others => '0');
+        elsif rising_edge(clk_i) then
+            if stb_i = '1' then
+                write_os <= we_i;
+                read_os  <= not we_i;
+                ack_os   <= '0';
+            elsif cyc_i = '1' then
+                -- Await ACK
+                if waitrequest_n = '1' then
+                    write_os    <= '0';
+                    read_os     <= '0';
+                    ack_os      <= '1';
+                    dat_os      <= readdata;
+                else 
+                    ack_os      <= '0';
+                end if;
+            else 
+                write_os    <= '0';
+                read_os     <= '0';
+                ack_os      <= '0';
+            end if;
+        end if;
+    end process;
 end;

@@ -1,0 +1,180 @@
+onerror {resume}
+quietly WaveActivateNextPane {} 0
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/clk
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/clkx
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/reset
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/interrupt
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/px_mem_write
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/px_mem_address
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/px_mem_data
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/px_mem_pause
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/px_mem_byte_sel
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/px_uart_write
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/px_data_read
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/sclk
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/cs_n
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/miso
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/mosi
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avs_address
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avs_byteenable
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avs_write
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avs_read
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avs_readdata
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avs_writedata
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avs_waitrequest_n
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avs_response
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avm_address
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avm_byteenable
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avm_write
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avm_read
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avm_readdata
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avm_writedata
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avm_waitrequest_n
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/avm_response
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal -childformat {{/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(31) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(30) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(29) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(28) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(27) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(26) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(25) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(24) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(23) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(22) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(21) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(20) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(19) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(18) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(17) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(16) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(15) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(14) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(13) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(12) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(11) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(10) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(9) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(8) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(7) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(6) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(5) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(4) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(3) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(2) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(1) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(0) -radix hexadecimal}} -expand -subitemconfig {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(31) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(30) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(29) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(28) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(27) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(26) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(25) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(24) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(23) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(22) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(21) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(20) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(19) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(18) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(17) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(16) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(15) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(14) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(13) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(12) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(11) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(10) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(9) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(8) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(7) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(6) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(5) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(4) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(3) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(2) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(1) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1(0) {-height 15 -radix hexadecimal}} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram1
+add wave -noupdate -expand -group {REG BANK} -childformat {{/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(31) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(30) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(29) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(28) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(27) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(26) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(25) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(24) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(23) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(22) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(21) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(20) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(19) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(18) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(17) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(16) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(15) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(14) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(13) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(12) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(11) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(10) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(9) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(8) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(7) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(6) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(5) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(4) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(3) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(2) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(1) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(0) -radix hexadecimal}} -subitemconfig {/tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(31) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(30) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(29) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(28) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(27) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(26) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(25) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(24) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(23) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(22) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(21) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(20) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(19) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(18) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(17) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(16) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(15) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(14) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(13) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(12) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(11) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(10) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(9) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(8) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(7) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(6) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(5) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(4) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(3) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(2) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(1) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2(0) {-height 15 -radix hexadecimal}} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/dual_port_mem/ram_proc2/dual_port_ram2
+add wave -noupdate -expand -group {REG BANK} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/clk
+add wave -noupdate -expand -group {REG BANK} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/reset_in
+add wave -noupdate -expand -group {REG BANK} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/pause
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/rs_index
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/rt_index
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/rd_index
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/reg_source_out
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/reg_target_out
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/reg_dest_new
+add wave -noupdate -expand -group {REG BANK} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/intr_enable
+add wave -noupdate -expand -group {REG BANK} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/intr_enable_reg
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/addr_read1
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/addr_read2
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/addr_write
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/data_out1
+add wave -noupdate -expand -group {REG BANK} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/data_out2
+add wave -noupdate -expand -group {REG BANK} /tb_plasma_de1_soc/u1_soc/u_cpu/u1_cpu/u4_reg_bank/write_enable
+add wave -noupdate -expand -group CPU -radix hexadecimal -childformat {{/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(31) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(30) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(29) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(28) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(27) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(26) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(25) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(24) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(23) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(22) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(21) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(20) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(19) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(18) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(17) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(16) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(15) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(14) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(13) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(12) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(11) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(10) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(9) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(8) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(7) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(6) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(5) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(4) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(3) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(2) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(1) -radix hexadecimal} {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(0) -radix hexadecimal}} -subitemconfig {/tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(31) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(30) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(29) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(28) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(27) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(26) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(25) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(24) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(23) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(22) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(21) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(20) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(19) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(18) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(17) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(16) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(15) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(14) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(13) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(12) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(11) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(10) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(9) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(8) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(7) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(6) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(5) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(4) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(3) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(2) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(1) {-height 15 -radix hexadecimal} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o(0) {-height 15 -radix hexadecimal}} /tb_plasma_de1_soc/u1_soc/u_cpu/adr_o
+add wave -noupdate -expand -group CPU -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/dat_o
+add wave -noupdate -expand -group CPU -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/dat_i
+add wave -noupdate -expand -group CPU -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_cpu/we_o
+add wave -noupdate -expand -group CPU /tb_plasma_de1_soc/u1_soc/u_cpu/cyc_o
+add wave -noupdate -expand -group CPU /tb_plasma_de1_soc/u1_soc/u_cpu/stb_o
+add wave -noupdate -expand -group CPU /tb_plasma_de1_soc/u1_soc/u_cpu/err_i
+add wave -noupdate -expand -group GPIO /tb_plasma_de1_soc/u1_soc/gen_gpio(0)/u_gpio/cyc_i
+add wave -noupdate -expand -group GPIO /tb_plasma_de1_soc/u1_soc/gen_gpio(0)/u_gpio/stb_i
+add wave -noupdate -expand -group GPIO /tb_plasma_de1_soc/u1_soc/gen_gpio(0)/u_gpio/we_i
+add wave -noupdate -expand -group GPIO -radix hexadecimal /tb_plasma_de1_soc/u1_soc/gen_gpio(0)/u_gpio/adr_i
+add wave -noupdate -expand -group GPIO /tb_plasma_de1_soc/u1_soc/gen_gpio(0)/u_gpio/dat_i
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_cyc_o
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/clk_i
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/rst_i
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/ir_i
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/irq_o
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/cyc_i
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/stb_i
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/we_i
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/adr_i
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/dat_i
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/sel_i
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/dat_o
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/ack_o
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/rty_o
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/stall_o
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/err_o
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/ctrl_s
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/stat_s
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/ir_s
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/clear_s
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/ir_state_s
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/inv_s
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/mask_s
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/edge_s
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/ack_s
+add wave -noupdate -group IRC -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_irc/err_s
+add wave -noupdate -radix hexadecimal /tb_plasma_de1_soc/u1_soc/irq_inputs
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/clk_i
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/rst_i
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/cyc_i
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/stb_i
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/we_i
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/adr_i
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/dat_i
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/sel_i
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/dat_o
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/ack_o
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/rty_o
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/stall_o
+add wave -noupdate -expand -group RAM -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_ram/err_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/clk_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/rst_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_gnt_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_cyc_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_stb_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_adr_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_we_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_dat_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_sel_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_dat_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_ack_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_stall_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_err_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_rty_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_cyc_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_stb_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_adr_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_we_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_dat_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_sel_o
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_dat_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_ack_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_stall_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_err_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/slave_rty_i
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/master_id_s
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/addr_s
+add wave -noupdate -group BUS -radix hexadecimal /tb_plasma_de1_soc/u1_soc/system_bus/addr_offset_s
+add wave -noupdate -group BUS /tb_plasma_de1_soc/u1_soc/system_bus/cs_s
+add wave -noupdate -expand -group {COUNTER 0} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/gen_counter(0)/u_counter/irq_o
+add wave -noupdate -expand -group {COUNTER 0} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/gen_counter(0)/u_counter/cyc_i
+add wave -noupdate -expand -group {COUNTER 0} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/gen_counter(0)/u_counter/stb_i
+add wave -noupdate -expand -group {COUNTER 0} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/gen_counter(0)/u_counter/we_i
+add wave -noupdate -expand -group {COUNTER 0} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/gen_counter(0)/u_counter/adr_i
+add wave -noupdate -expand -group {COUNTER 0} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/gen_counter(0)/u_counter/dat_i
+add wave -noupdate -expand -group {COUNTER 0} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/gen_counter(0)/u_counter/sel_i
+add wave -noupdate -expand -group {COUNTER 0} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/gen_counter(0)/u_counter/dat_o
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/clk_i
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/rst_i
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/address
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/byteenable
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/write
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/read
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/readdata
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/writedata
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/waitrequest_n
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/response
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/cyc_i
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/stb_i
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/we_i
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/adr_i
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/dat_i
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/sel_i
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/dat_o
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/ack_o
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/rty_o
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/stall_o
+add wave -noupdate -expand -group {AVALON MASTER} -radix hexadecimal /tb_plasma_de1_soc/u1_soc/u_wb_to_avalon_bridge/err_o
+TreeUpdate [SetDefaultTree]
+WaveRestoreCursors {{Cursor 1} {48920000 ps} 0} {{Cursor 2} {0 ps} 0}
+quietly wave cursor active 1
+configure wave -namecolwidth 430
+configure wave -valuecolwidth 100
+configure wave -justifyvalue left
+configure wave -signalnamewidth 0
+configure wave -snapdistance 10
+configure wave -datasetprefix 0
+configure wave -rowmargin 4
+configure wave -childrowmargin 2
+configure wave -gridoffset 0
+configure wave -gridperiod 1
+configure wave -griddelta 40
+configure wave -timeline 0
+configure wave -timelineunits ns
+update
+WaveRestoreZoom {48919757 ps} {48920244 ps}

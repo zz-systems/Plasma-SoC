@@ -78,10 +78,6 @@ begin
 
                     dat_is <= dat_i;
                 end if; 
-
-                if stall_i = '1' then 
-                    --stall_s <= '1';
-                end if;
             elsif cyc_os  = '1' then
                 if ack_i  = '1' then
                     cyc_os <= '0';
@@ -93,15 +89,16 @@ begin
                 stb_os <= '1';
             end if;
 
-            --if cyc_os = '1' then
-
+            -- Plasma CPU sets the byte selector only for write-access
+            -- Wishbone protocol relies on byte selector for both read and write operations
+            -- Avalon relies on the byte selector for both read and write operations aswell.
+            if sel_os /= (sel_os'range => '0') then
+                we_o <= '1';
                 sel_o <= sel_os;
-                if sel_os /= (sel_os'range => '0') then
-                    we_o <= '1';
-                else 
-                    we_o <= '0';
-                end if;
-           -- end if;
+            else 
+                we_o <= '0';
+                sel_o <= x"F"; -- Assume 4 byte transfer
+            end if;
         end if;
     end process;
 
