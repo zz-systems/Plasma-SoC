@@ -11,19 +11,16 @@ library zz_systems;
     use zz_systems.util_pkg.all;
 
 entity arbiter is
-    generic(
-        channel_descriptors : cdesc_t;
+    generic
+    (
         constant channels : natural := 1
     );
     port(
         clk_i : in std_logic;
         rst_i : in std_logic;
 
-        -- is channel interruptible?
-        interruptible_i : in std_logic_vector(channels - 1 downto 0);
-
-        -- bus busy?
-        busy_i          : in std_logic;
+        -- channel grant request
+        cgrq_i          : in std_logic_vector(channels - 1 downto 0);
 
         -- channel select
         cs_o            : out std_logic_vector(bit_width(channels) downto 0)
@@ -31,64 +28,30 @@ entity arbiter is
 end arbiter;
 
 architecture behavior of arbiter is
-
-    type states is (evaluate, await_interruptible, await_uninterruptible, reschedule);
-    signal state : states;
-
-    signal channel, channel_s       : natural;
-    signal counter, counter_s       : natural;
-    
-    signal cs_s : std_logic_vector(cs_o'range);
+    signal channel, channel_s : natural;
 begin
 
-    process(clk_i, rst_i)
+    process(clk_i, rst_i, cgrq_i)
     begin
         if rst_i = '1' then
-            state <= evaluate;
-
             channel         <= 0;
-            counter         <= 0;
+            channel_s       <= 0;
+            cs_o            <= (others => '0');
         else
             if rising_edge(clk_i) then
                 channel         <= channel_s;
-                counter         <= counter_s;
 
-                case state is
-                    when evaluate => 
-                        counter_s <= channel_descriptors(channel);--.priority;
-
-                        if interruptible_i(channel) = '1' then
-                            state <= await_interruptible;
-                        else 
-                            state <= await_uninterruptible;
+                -- if previous bus owner frees the bus, select the next bus owner
+                if cgrq_i(channel) = '0' then
+                    for i in cgrq_i'range loop
+                        if cgrq_i(i) = '1' then
+                            channel_s <= i;
                         end if;
+                    end loop;
+                end if;
 
-                    when await_interruptible =>
-                        if counter = 0 then
-                            state <= reschedule;
-                        else
-                            counter_s <= counter - 1;
-                        end if;
-
-                    when await_uninterruptible =>
-                        state <= evaluate;
-
-                    when reschedule =>
-                        if busy_i = '0' then
-                            if (channel < channels - 1) then
-                                channel_s <= (channel + 1);
-                            else 
-                                channel_s <= 0;
-                            end if;
-                        end if;
-
-                        state <= evaluate;
-                end case;
-
-                cs_s <= std_logic_vector(to_unsigned(channel, cs_s'length));
+                cs_o <= std_logic_vector(to_unsigned(channel, cs_o'length));
             end if;
         end if;
     end process;
-    
-    cs_o <= cs_s;
 end;

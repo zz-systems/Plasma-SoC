@@ -44,65 +44,44 @@ port
 end avalon_to_wb_bridge;
 
 architecture behavior of avalon_to_wb_bridge is
-    signal cyc_os : std_logic := '0';
-    signal stb_os : std_logic := '0';
-
-    signal adr_os : std_logic_vector(adr_o'range) := (others => '0');
-    signal sel_os : std_logic_vector(sel_o'range) := (others => '0');
-
-    signal dat_is : std_logic_vector(dat_i'range) := (others => '0');
-
-    signal clk : std_logic := '0';
-    signal stall_s : std_logic := '0';
-begin
-    -- generate CYC signal from avalon rad_n / write_n
-    -- recreate STB signal as chipselect / chipselect_n is obsolete
-    -- refer to Avalon interface specifications, Appendix A. Deprecated Signals
+    signal cycstb_s     : std_logic := '0';
+    signal readdata_s   : std_logic_vector(readdata'range) := (others => '0');
+begin  
+    -- avalon -> wishbone
     process(clk_i, rst_i)
     begin         
-        if rst_i = '1' then 
-            cyc_os <= '0';
-            stb_os <= '0';
-        elsif rising_edge(clk_i) then
-            if (err_i  = '1' and cyc_os  = '1') then
-                cyc_os      <= '0';
-                stb_os      <= '0';
-            elsif stb_os  = '1' then
-                if stall_i = '0' then
-                    stb_os <= '0';
-                end if;
-
-                if stall_i = '0' and ack_i = '1' then
-                    cyc_os <= '0';
-                end if; 
-            elsif cyc_os  = '1' then
-                if ack_i  = '1' then
-                    cyc_os <= '0';
-                end if;
+       if rising_edge(clk_i) then
+            if rst_i = '1' then
+                cycstb_s <= '0';
+            elsif ack_i = '1' or err_i = '1' then
+                cycstb_s <= '0';
             elsif (write = '1') or (read = '1') then
-                cyc_os <= '1';
-                stb_os <= '1';
-            else
-                cyc_os <= '0';
-                stb_os <= '0';
-            end if;
+                cycstb_s <= '1';
+            end if;            
         end if;
     end process;
 
-    -- avalon -> wishbone
-    cyc_o <= cyc_os;
-    stb_o <= stb_os;
+    cyc_o <= cycstb_s;
+    stb_o <= cycstb_s;
 
     adr_o <= address;
     dat_o <= writedata;
 
     sel_o <= byteenable;
-    we_o <= write and (not read);
+    we_o <= write;
 
     -- avalon <- wishbone
-    readdata <= dat_i;
-    waitrequest_n <= ack_i;
+    process(clk_i)
+    begin         
+       if rising_edge(clk_i) then
+            readdata_s <= dat_i;            
+        end if;
+    end process;
 
-    response <= response_slaveerror when (err_i  = '1' and cyc_os  = '1') else 
+
+    readdata <= readdata_s;
+    waitrequest_n <= ack_i or err_i;
+
+    response <= response_slaveerror when (err_i  = '1' and cycstb_s  = '1') else 
                 response_okay;
 end;

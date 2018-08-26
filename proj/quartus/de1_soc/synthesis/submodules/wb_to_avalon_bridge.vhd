@@ -49,25 +49,8 @@ architecture behavior of wb_to_avalon_bridge is
     signal sel_os   : std_logic_vector(sel_i'range) := (others => '0');
     signal dat_os   : std_logic_vector(dat_o'range) := (others => '0');
 begin
-
-    -- avalon -> wishbone
-    --dat_o   <= readdata;
-    --ack_o   <= (stb_i or cyc_i) and waitrequest_n;
-    dat_o   <= dat_os;
-    ack_o   <= ack_os;
-
-    rty_o   <= '0';
-    stall_o <= '0';
-    err_o   <= '1' when cyc_i = '1' and response = response_slaveerror else '0';
-
-    -- avalon <- wishbone
-    address     <= adr_i;
-    byteenable  <= sel_i;
-
-    write       <= write_os;
-    read        <= read_os;
-    writedata   <= dat_i;
-
+    -- convert control signals from wishbone to avalon protocol.
+    -- convert avalon waitrequest to wishbone ACK and persist data.
     process(clk_i, rst_i) is 
     begin
         if rst_i = '1' then
@@ -97,4 +80,20 @@ begin
             end if;
         end if;
     end process;
+
+    -- avalon -> wishbone
+    dat_o   <= dat_os;
+    ack_o   <= ack_os;
+
+    rty_o   <= '0';
+    stall_o <= '0';
+    err_o   <= '1' when cyc_i = '1' and response = response_slaveerror else '0';
+
+    -- avalon <- wishbone
+    address     <= adr_i;
+    byteenable  <= sel_i;
+
+    write       <= write_os;
+    read        <= read_os;
+    writedata   <= dat_i;
 end;

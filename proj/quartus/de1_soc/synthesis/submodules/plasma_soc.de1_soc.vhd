@@ -190,16 +190,13 @@ begin  --architecture
     arbiter : entity zz_systems.arbiter
     generic map
     (
-        channel_descriptors => ( 0 => 16#1#, 1 => 16#1# ),
         channels => 2
     )
     port map(
         clk_i => clk,
-        rst_i => reset,
-        
-        interruptible_i => (others => '1'),
+        rst_i => reset,       
 
-        busy_i => or_reduce(master_ports_aggregate.cyc),
+        cgrq_i => master_ports_aggregate.cyc,
 
         cs_o => master_select
     );
@@ -246,7 +243,7 @@ begin  --architecture
         rst_i => reset,
 
         -- arbiter interface 
-        master_gnt_i => "00",--master_select,
+        master_gnt_i => master_select,
 
         -- master interface
         master_cyc_i    => master_ports_aggregate.cyc,

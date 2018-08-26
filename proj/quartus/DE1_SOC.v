@@ -201,6 +201,8 @@ de1_soc de1_soc(
 	.hex_3_external_connection_export(HEX3),
 	.hex_4_external_connection_export(HEX4),
 	.hex_5_external_connection_export(HEX5),
+
+	.switches_external_connection_export (SW),  // switches_external_connection.export
 	
 	// UART ------------------------------------
 	.plasma_soc_0_uart_uart_rx(HPS_UART_RX),

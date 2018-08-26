@@ -2,6 +2,11 @@
 module de1_soc (
 	clk_clk,
 	hex_0_external_connection_export,
+	hex_1_external_connection_export,
+	hex_2_external_connection_export,
+	hex_3_external_connection_export,
+	hex_4_external_connection_export,
+	hex_5_external_connection_export,
 	hps_0_ddr_mem_a,
 	hps_0_ddr_mem_ba,
 	hps_0_ddr_mem_ck,
@@ -19,12 +24,10 @@ module de1_soc (
 	hps_0_ddr_mem_dm,
 	hps_0_ddr_oct_rzqin,
 	plasma_soc_0_leds_ld,
-	plasma_soc_0_sd_card_sd_cd,
-	plasma_soc_0_sd_card_sd_spi_cs,
-	plasma_soc_0_sd_card_sd_spi_miso,
-	plasma_soc_0_sd_card_sd_spi_mosi,
-	plasma_soc_0_sd_card_sd_spi_sclk,
-	plasma_soc_0_sd_card_sd_wp,
+	plasma_soc_0_sd_card_spi_cs,
+	plasma_soc_0_sd_card_spi_miso,
+	plasma_soc_0_sd_card_spi_mosi,
+	plasma_soc_0_sd_card_spi_sclk,
 	plasma_soc_0_switches_sw,
 	plasma_soc_0_uart_uart_rx,
 	plasma_soc_0_uart_uart_tx,
@@ -37,15 +40,16 @@ module de1_soc (
 	sdram_controller_0_wire_dqm,
 	sdram_controller_0_wire_ras_n,
 	sdram_controller_0_wire_we_n,
-	sys_sdram_pll_0_sdram_clk_clk,
-	hex_1_external_connection_export,
-	hex_2_external_connection_export,
-	hex_3_external_connection_export,
-	hex_4_external_connection_export,
-	hex_5_external_connection_export);	
+	switches_external_connection_export,
+	sys_sdram_pll_0_sdram_clk_clk);	
 
 	input		clk_clk;
 	output	[6:0]	hex_0_external_connection_export;
+	output	[6:0]	hex_1_external_connection_export;
+	output	[6:0]	hex_2_external_connection_export;
+	output	[6:0]	hex_3_external_connection_export;
+	output	[6:0]	hex_4_external_connection_export;
+	output	[6:0]	hex_5_external_connection_export;
 	output	[14:0]	hps_0_ddr_mem_a;
 	output	[2:0]	hps_0_ddr_mem_ba;
 	output		hps_0_ddr_mem_ck;
@@ -63,12 +67,10 @@ module de1_soc (
 	output	[3:0]	hps_0_ddr_mem_dm;
 	input		hps_0_ddr_oct_rzqin;
 	output	[9:0]	plasma_soc_0_leds_ld;
-	input		plasma_soc_0_sd_card_sd_cd;
-	output		plasma_soc_0_sd_card_sd_spi_cs;
-	input		plasma_soc_0_sd_card_sd_spi_miso;
-	output		plasma_soc_0_sd_card_sd_spi_mosi;
-	output		plasma_soc_0_sd_card_sd_spi_sclk;
-	input		plasma_soc_0_sd_card_sd_wp;
+	output		plasma_soc_0_sd_card_spi_cs;
+	input		plasma_soc_0_sd_card_spi_miso;
+	output		plasma_soc_0_sd_card_spi_mosi;
+	output		plasma_soc_0_sd_card_spi_sclk;
 	input	[9:0]	plasma_soc_0_switches_sw;
 	input		plasma_soc_0_uart_uart_rx;
 	output		plasma_soc_0_uart_uart_tx;
@@ -81,10 +83,6 @@ module de1_soc (
 	output	[1:0]	sdram_controller_0_wire_dqm;
 	output		sdram_controller_0_wire_ras_n;
 	output		sdram_controller_0_wire_we_n;
+	input	[9:0]	switches_external_connection_export;
 	output		sys_sdram_pll_0_sdram_clk_clk;
-	output	[6:0]	hex_1_external_connection_export;
-	output	[6:0]	hex_2_external_connection_export;
-	output	[6:0]	hex_3_external_connection_export;
-	output	[6:0]	hex_4_external_connection_export;
-	output	[6:0]	hex_5_external_connection_export;
 endmodule

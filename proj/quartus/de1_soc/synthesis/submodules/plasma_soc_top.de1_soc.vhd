@@ -20,14 +20,11 @@ entity plasma_soc_top is
         UART_TX     : out   std_logic;
         UART_RX     : in   std_logic;
     
-        -- PMOD SD pinout
-        SD_SPI_CS   : out   std_logic;
-        SD_SPI_MOSI : out   std_logic;
-        SD_SPI_MISO : in   std_logic;
-        SD_SPI_SCLK : out   std_logic;
-    
-        SD_CD       : in   std_logic;
-        SD_WP       : in   std_logic;
+        -- SPI pinout
+        SPI_CS   : out   std_logic;
+        SPI_MOSI : out   std_logic;
+        SPI_MISO : in   std_logic;
+        SPI_SCLK : out   std_logic;
 
         -- avalon slave interface
         avs_address           : in std_logic_vector(31 downto 0);
@@ -59,15 +56,7 @@ architecture logic of plasma_soc_top is
 
     signal uart_read          : std_logic;
     signal uart_write         : std_logic;
-  
-    signal clk_reg            : std_logic;
-    signal mem_address        : std_logic_vector(31 downto 2);
-    signal data_write         : std_logic_vector(31 downto 0);
-    signal data_reg           : std_logic_vector(31 downto 0);
-    signal write_byte_enable  : std_logic_vector(3 downto 0);
-    signal mem_pause_in       : std_logic;
-    signal clk_in             : std_logic;
-    signal reset              : std_logic;
+
     signal gpio0_out          : std_logic_vector(127 downto 0);
     signal gpioA_in           : std_logic_vector(127 downto 0);
 
@@ -78,34 +67,8 @@ architecture logic of plasma_soc_top is
     signal miso         : std_logic;
     signal mosi         : std_logic;
 begin
-    clk_in <= GCLK;
-    reset <= RST;
 
-    --LD(2) <= clk_reg;
-
-
-
-    uart_read <= UART_RX;
-    UART_TX <= uart_write;
-
-    gpioA_in <= (OTHERS => '0');
-    data_reg <= (others => '0');
-    mem_pause_in <= '0';
-
-    --Divide 50 MHz clock by two
-    -- clk_div: process(reset, clk_in, clk_reg)
-    -- begin
-    -- if reset = '1' then
-    --     clk_reg <= '0';
-    -- elsif rising_edge(clk_in) then
-    --     clk_reg <= not clk_reg;
-    -- end if;
-    -- end process; --clk_div
-
-    mem_pause_in <= '0';
-
-
-    LD(9 downto 0) <= gpio0_out(9 downto 0) when reset = '0' else "1111100000";
+    LD(9 downto 0) <= gpio0_out(9 downto 0) when RST = '0' else "1111100000";
 
     u_soc: entity zz_systems.plasma_soc
     generic map 
@@ -120,7 +83,7 @@ begin
     port map
     (
         clk               => GCLK,
-        reset             => reset,
+        reset             => RST,
         uart_write        => uart_write,
         uart_read         => uart_read,
 
