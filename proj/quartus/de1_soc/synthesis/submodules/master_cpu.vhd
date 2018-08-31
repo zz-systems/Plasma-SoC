@@ -17,6 +17,7 @@ port
     rst_i : in std_logic;
 
     irq_i : in std_logic;
+    grant_i : in std_logic;
 
     mem_pause_o : out std_logic;
 
@@ -68,7 +69,7 @@ begin
                 cyc_os <= '0';
                 stb_os <= '0';
                 --stall_s <= '0';
-            elsif stb_os  = '1' then
+            elsif stb_os  = '1' and grant_i = '1' then
                 if stall_i = '0' then
                     stb_os <= '0';
                 end if;
@@ -78,7 +79,7 @@ begin
 
                     dat_is <= dat_i;
                 end if; 
-            elsif cyc_os  = '1' then
+            elsif cyc_os  = '1' and grant_i = '1' then
                 if ack_i  = '1' then
                     cyc_os <= '0';
 

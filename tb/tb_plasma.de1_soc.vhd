@@ -95,6 +95,19 @@ begin  --architecture
         
         --wait for 250 ns;
         --reset <= '0';
+
+        for i in 0 to 10 loop
+            wait for 40 us;
+            avs_address <= x"00005108";
+            avs_writedata <= x"DEADBEEF";
+            avs_byteenable <= x"F";
+            avs_write <= '1';
+
+            wait until avs_waitrequest_n = '1';
+            avs_address <= x"00000000";
+            avs_byteenable <= x"0";
+            avs_write <= '0';
+        end loop;
     end process;
     
     u1_soc: entity zz_systems.plasma_soc

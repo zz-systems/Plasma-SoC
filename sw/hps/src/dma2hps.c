@@ -198,33 +198,9 @@ int main(void)
 
 	while(1)
 	{
-		if(sw_data != *h2f_SWITCH_data_ptr)
-		{
-			printf("switch changed: %03X\n", *h2f_SWITCH_data_ptr);
-			sw_data = *h2f_SWITCH_data_ptr;
-		}
-
-
-		// === DMA transfer HPS->FPGA
-		// set up DMA
-		// from https://www.altera.com/en_US/pdfs/literature/ug/ug_embedded_ip.pdf
-		// section 25.4.3 Tables 224 and 225
-		//*(DMA_status_ptr) = 0;
-		// read bus-master gets data from HPS addr=0xffff0000
-		//*(DMA_status_ptr+1) = SWITCH_data_ptr;
-		// write bus_master for fpga sram is mapped to 0x08000000
-		//*(DMA_status_ptr+2) = GPIO_data_ptr;
-		// copy 4 bytes for 1 int
-		//*(DMA_status_ptr+3) = 4;
-		// set bit 2 for WORD transfer
-		// set bit 3 to start DMA
-		// set bit 7 to stop on byte-count
-
-		//*(DMA_status_ptr+6) = 0b10001100;
-
 		_DMA_REG_STATUS(DMA_status_ptr) = 0;
 		_DMA_REG_READ_ADDR(DMA_status_ptr) = (uintptr_t) SWITCH_data_ptr;
-		_DMA_REG_WRITE_ADDR(DMA_status_ptr) =  (uintptr_t) GPIO_data_ptr; // ((unsigned volatile int*)(ERAM_BASE + 0x800));//
+		_DMA_REG_WRITE_ADDR(DMA_status_ptr) =  /*(uintptr_t) GPIO_data_ptr; //*/ ((uintptr_t)(ERAM_BASE + 0x800));//
 		_DMA_REG_LENGTH(DMA_status_ptr) = 4;
 		_DMA_REG_CONTROL(DMA_status_ptr)=_DMA_CTR_WORD | _DMA_CTR_GO | _DMA_CTR_LEEN;
 
@@ -236,8 +212,8 @@ int main(void)
 
 		//while ((*(DMA_status_ptr) & 0x010) == 0) {};
 		struct timespec s;
-		s.tv_sec = 0;//1;
-		s.tv_nsec = 1000;
+		s.tv_sec = 1;//0;//1;
+		s.tv_nsec = 0;//2e7; // 50Hz
 		nanosleep(&s, NULL);
 	}
 

@@ -80,7 +80,7 @@ begin
 
 
     readdata <= readdata_s;
-    waitrequest_n <= ack_i or err_i;
+    waitrequest_n <= cycstb_s and (ack_i or err_i);
 
     response <= response_slaveerror when (err_i  = '1' and cycstb_s  = '1') else 
                 response_okay;

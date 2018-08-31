@@ -66,10 +66,10 @@ package wb_pkg is
 
         sel     : std_logic_vector(master_ports_sel_range);
 
-        ack     : std_logic;
-        stall   : std_logic;
-        err     : std_logic;
-        rty     : std_logic;
+        ack     : std_logic_vector(master_ports_chan_range);
+        stall   : std_logic_vector(master_ports_chan_range);
+        err     : std_logic_vector(master_ports_chan_range);
+        rty     : std_logic_vector(master_ports_chan_range);
     end record;
 
     type wb_slave_ports is record

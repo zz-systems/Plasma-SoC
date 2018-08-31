@@ -59,11 +59,13 @@ begin
             ack_os      <= '0';
             dat_os      <= (others => '0');
         elsif rising_edge(clk_i) then
-            if stb_i = '1' then
-                write_os <= we_i;
-                read_os  <= not we_i;
-                ack_os   <= '0';
-            elsif cyc_i = '1' then
+            
+            if cyc_i = '1' then
+                if stb_i = '1' then
+                    write_os <= we_i;
+                    read_os  <= not we_i;
+                end if;
+                
                 -- Await ACK
                 if waitrequest_n = '1' then
                     write_os    <= '0';

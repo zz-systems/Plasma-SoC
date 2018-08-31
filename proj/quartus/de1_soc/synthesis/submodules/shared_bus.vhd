@@ -31,7 +31,9 @@ entity shared_bus is
         rst_i           : in std_logic;
 
         -- arbiter interface 
-        master_gnt_i    : in std_logic_vector(bit_width(masters) downto 0);
+        grant_i         : in std_logic_vector(masters - 1 downto 0);
+        grant_enc_i     : in std_logic_vector(bit_width(masters) downto 0);
+        grant_valid_i   : in std_logic;
 
         -- master interface
         master_cyc_i    : in std_logic_vector(masters - 1 downto 0);
@@ -44,10 +46,10 @@ entity shared_bus is
 
         master_dat_o    : out std_logic_vector(data_w - 1 downto 0);
 
-        master_ack_o    : out std_logic;
-        master_stall_o  : out std_logic;
-        master_err_o    : out std_logic;
-        master_rty_o    : out std_logic;
+        master_ack_o    : out std_logic_vector(masters - 1 downto 0);
+        master_stall_o  : out std_logic_vector(masters - 1 downto 0);
+        master_err_o    : out std_logic_vector(masters - 1 downto 0);
+        master_rty_o    : out std_logic_vector(masters - 1 downto 0);
 
         -- slave interface
         slave_cyc_o     : out std_logic_vector(slaves - 1 downto 0);
@@ -74,18 +76,18 @@ architecture behavior of shared_bus is
     
     signal cs_s : std_logic_vector(slaves - 1 downto 0) := (others => '0');
 begin
-    process(clk_i, rst_i)
-    begin
-        if rst_i = '1' then
-            master_id_s <= 0;           
-            addr_s      <= (others => '0');
-        else
-            if rising_edge(clk_i) then
-                master_id_s     <= to_integer(unsigned(master_gnt_i));
-                addr_s          <= master_adr_i((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w);
-            end if;
-        end if;
-    end process;
+    -- process(clk_i, rst_i)
+    -- begin
+    --     if rst_i = '1' then
+    --         master_id_s <= 0;           
+    --         addr_s      <= (others => '0');
+    --     else
+    --         if rising_edge(clk_i) then
+                master_id_s     <= to_integer(unsigned(grant_enc_i));
+                addr_s          <= master_adr_i((master_id_s + 1) * addr_w - 1 downto master_id_s * addr_w);
+    --         end if;
+    --     end if;
+    -- end process;
 
     -- address translation -----------------------------------------------------
 
@@ -108,21 +110,24 @@ begin
 
     -- master to slave ---------------------------------------------------------
     slave_stb_cyc : for i in 0 to slaves - 1 generate
-        slave_stb_o(i) <= cs_s(i) and or_reduce(master_stb_i);
-        slave_cyc_o(i) <= cs_s(i) and or_reduce(master_cyc_i);
+        slave_stb_o(i) <= cs_s(i) and master_stb_i(master_id_s) and grant_i(master_id_s);
+        slave_cyc_o(i) <= cs_s(i) and master_cyc_i(master_id_s) and grant_i(master_id_s);
     end generate;
 
-    slave_adr_o <= master_adr_i((master_id_s + 1) * addr_w - 1  downto master_id_s * addr_w) and addr_offset_s;
-    slave_dat_o <= master_dat_i((master_id_s + 1) * data_w - 1  downto master_id_s * data_w);
-    slave_sel_o <= master_sel_i((master_id_s + 1) * sel_w - 1   downto master_id_s * sel_w);
+    slave_adr_o <= master_adr_i((master_id_s + 1) * addr_w - 1 downto master_id_s * addr_w) and addr_offset_s;
+    slave_dat_o <= master_dat_i((master_id_s + 1) * data_w - 1 downto master_id_s * data_w);
+    slave_sel_o <= master_sel_i((master_id_s + 1) * sel_w - 1  downto master_id_s * sel_w);
     slave_we_o  <= master_we_i(master_id_s);
 
     -- slave to master ---------------------------------------------------------
     
-    master_ack_o    <= or_reduce(slave_ack_i);
-    master_err_o    <= or_reduce(slave_err_i) or nor_reduce(cs_s); -- error if slave reports error or invalid address provided
-    master_rty_o    <= or_reduce(slave_rty_i);
-    master_stall_o  <= or_reduce(slave_stall_i);
+    master_ctl : for i in 0 to masters - 1 generate
+        master_ack_o(i)    <= grant_i(i) and or_reduce(slave_ack_i); --'1' when grant_i(i) = '1' and unsigned(slave_ack_i and cs_s) /= 0 else '0';
+         -- error if slave reports error or invalid address provided
+        master_err_o(i)    <= grant_i(i) and (or_reduce(slave_err_i) or nor_reduce(cs_s)); --'1' when grant_i(i) = '1' and (unsigned(slave_err_i and cs_s) /= 0 or nor_reduce(cs_s) = '1') else '0';
+        master_rty_o(i)    <= grant_i(i) and or_reduce(slave_rty_i); --'1' when grant_i(i) = '1' and unsigned(slave_rty_i and cs_s) /= 0 else '0';
+        master_stall_o(i)  <= grant_i(i) and or_reduce(slave_stall_i); --'1' when grant_i(i) = '1' and unsigned(slave_stall_i and cs_s) /= 0 else '0';
+    end generate;
 
     process(clk_i, rst_i, slave_dat_i, cs_s)
         variable dat : std_logic_vector(data_w - 1 downto 0);
@@ -135,7 +140,7 @@ begin
                 dat := (others => '0');
 
                 for i in 0 to slaves - 1 loop
-                    dat := dat or (slave_dat_i((i + 1) * data_w - 1  downto i * data_w) and (dat'range => cs_s(i)));
+                    dat := dat or (slave_dat_i((i + 1) * data_w - 1 downto i * data_w) and (dat'range => cs_s(i)));
                 end loop;
                 master_dat_o <= dat;				
             end if;

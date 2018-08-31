@@ -50,7 +50,7 @@ begin
         proc_immediate: process(clk_i, rst_i) is
         begin         
             if rst_i = '1' then   
-                ack_o <= '0';      
+                ack_o <= '0';
             elsif rising_edge(clk_i) then
                 ack_o <= stb_i;
             end if;

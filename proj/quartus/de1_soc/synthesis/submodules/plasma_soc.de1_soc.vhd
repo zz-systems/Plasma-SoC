@@ -97,7 +97,10 @@ architecture logic of plasma_soc is
     constant masters    : positive := 2;
     constant slaves     : positive := 17;
   
-    signal master_select    : std_logic_vector(bit_width(masters) downto 0);    
+    signal master_grant         : std_logic_vector(masters - 1 downto 0);
+    signal master_grant_enc     : std_logic_vector(bit_width(masters) downto 0);
+    signal master_grant_valid   : std_logic;
+
     signal slave_select     : std_logic_vector(bit_width(slaves) downto 0);
 
     signal master_ports_aggregate : wb_master_ports;
@@ -159,10 +162,10 @@ begin  --architecture
         master_ports_aggregate.dat_o((i + 1) * data_w - 1 downto i * data_w)
                                         <= master_ports(i).dat_o;
 
-        master_ports(i).ack             <= master_ports_aggregate.ack;
-        master_ports(i).stall           <= master_ports_aggregate.stall;
-        master_ports(i).err             <= master_ports_aggregate.err;   
-        master_ports(i).rty             <= master_ports_aggregate.rty;
+        master_ports(i).ack             <= master_ports_aggregate.ack(i);
+        master_ports(i).stall           <= master_ports_aggregate.stall(i);
+        master_ports(i).err             <= master_ports_aggregate.err(i);   
+        master_ports(i).rty             <= master_ports_aggregate.rty(i);
     end generate;    
 
     -- connect wishbone slaves to aggregated ports 
@@ -196,9 +199,12 @@ begin  --architecture
         clk_i => clk,
         rst_i => reset,       
 
-        cgrq_i => master_ports_aggregate.cyc,
+        request_i => master_ports_aggregate.cyc,
+        ack_i => or_reduce(master_ports_aggregate.ack),
 
-        cs_o => master_select
+        grant_o => master_grant,
+        grant_enc_o => master_grant_enc,
+        grant_valid_o  => master_grant_valid
     );
 
     -- system bus
@@ -243,7 +249,9 @@ begin  --architecture
         rst_i => reset,
 
         -- arbiter interface 
-        master_gnt_i => master_select,
+        grant_i         => master_grant,
+        grant_enc_i     => master_grant_enc,
+        grant_valid_i   => master_grant_valid,
 
         -- master interface
         master_cyc_i    => master_ports_aggregate.cyc,
@@ -291,6 +299,7 @@ begin  --architecture
         rst_i   => reset,
 
         irq_i   => irq,
+        grant_i => master_grant(0),
 
         cyc_o   => cpu_port.cyc,
         stb_o   => cpu_port.stb,
