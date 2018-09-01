@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
@@ -23,6 +24,8 @@
 #include "../plasma_de1_soc_system.h"
 
 #include <soc_cv_av/socal/socal.h>
+
+#include <kdev/alt_dmac.h>
 
 #define H2F_AXI_MASTER_BASE   (0xC0000000)
 
@@ -60,6 +63,8 @@ volatile uint32_t* GPIO_data_ptr = NULL;
 
 #define SWITCH_DATA_OFFSET		0x20
 
+struct alt_dmac_t* dmac0 = NULL;
+
 volatile uint32_t* h2f_SWITCH_data_ptr = NULL;
 volatile uint32_t* SWITCH_data_ptr = NULL;
 
@@ -68,86 +73,33 @@ int fd;
 
 int test_value = 0xFFFFFFFF;
 
-
-//Register Map
-
-#define _DMA_REG_STATUS(BASE_ADDR) *((uint32_t *)BASE_ADDR+0)
-#define _DMA_REG_READ_ADDR(BASE_ADDR) *((uint32_t *)BASE_ADDR+1)
-#define _DMA_REG_WRITE_ADDR(BASE_ADDR) *((uint32_t *)BASE_ADDR+2)
-#define _DMA_REG_LENGTH(BASE_ADDR) *((uint32_t *)BASE_ADDR+3)
-#define _DMA_REG_CONTROL(BASE_ADDR) *((uint32_t *)BASE_ADDR+6)
-
-//status register map
-
-#define _DMA_STAT_DONE				0x1
-#define _DMA_STAT_BUSY				0x2
-#define _DMA_STAT_REOP				0x4
-#define _DMA_STAT_WEOP				0x8
-#define _DMA_STAT_LEN				0x10
-
-//control register
-#define _DMA_CTR_BYTE				0x1
-#define _DMA_CTR_HW					0x2
-#define _DMA_CTR_WORD				0x4
-#define _DMA_CTR_GO					0x8
-#define _DMA_CTR_I_EN				0x10
-#define _DMA_CTR_REEN				0x20
-#define _DMA_CTR_WEEN				0x40
-#define _DMA_CTR_LEEN				0x80
-#define _DMA_CTR_RCON				0x100
-#define _DMA_CTR_WCON				0x200
-#define _DMA_CTR_DOUBLEWORD			0x400
-#define _DMA_CTR_QUADWORD			0x800
-#define _DMA_CTR_SOFTWARERESET		0x1000
-
-
-
 #define DEBUG
 
 
 
-void debugPrintDMARegister(){
+void debugPrintDMARegister(alt_dmac_t* dmac){
 #ifdef DEBUG
 	printf("DMA Registers:\n");
-	printf( "status: %x\n", _DMA_REG_STATUS(DMA_status_ptr) );
-	printf( "read: %x\n", _DMA_REG_READ_ADDR(DMA_status_ptr) );
-	printf( "write: %x\n", _DMA_REG_WRITE_ADDR(DMA_status_ptr) );
-	printf( "length: %x\n", _DMA_REG_LENGTH(DMA_status_ptr) );
-	printf( "control: %x\n", _DMA_REG_CONTROL(DMA_status_ptr) );
+	printf( "status: %x\n", dmac->status);
+	printf( "read: %x\n", dmac->readaddress);
+	printf( "write: %x\n", dmac->writeaddress);
+	printf( "length: %x\n", dmac->length);
+	printf( "control: %x\n", dmac->control);
 
 #endif
 }
 
-void debugPrintDMAStatus(){
+void debugPrintDMAStatus(alt_dmac_t* dmac){
 #ifdef DEBUG
 	printf("DMA Status Registers:\n");
-	if(*((uint32_t *)DMA_status_ptr) & _DMA_STAT_DONE) printf( "Status: DONE\n");
-	if(*((uint32_t *)DMA_status_ptr) & _DMA_STAT_BUSY) printf( "Status: BUSY\n");
-	if(*((uint32_t *)DMA_status_ptr) & _DMA_STAT_REOP) printf( "Status: REOP\n");
-	if(*((uint32_t *)DMA_status_ptr) & _DMA_STAT_WEOP) printf( "Status: WEOP\n");
-	if(*((uint32_t *)DMA_status_ptr) & _DMA_STAT_LEN) printf( "Status: LEN\n");
+	if(dmac->status & ALT_DMAC_STAT_DONE) printf( "Status: DONE\n");
+	if(dmac->status & ALT_DMAC_STAT_BUSY) printf( "Status: BUSY\n");
+	if(dmac->status & ALT_DMAC_STAT_REOP) printf( "Status: REOP\n");
+	if(dmac->status & ALT_DMAC_STAT_WEOP) printf( "Status: WEOP\n");
+	if(dmac->status & ALT_DMAC_STAT_LEN) printf( "Status: LEN\n");
 
 #endif
 }
-
-void waitDMAFinish(){
-	if((_DMA_REG_STATUS(DMA_status_ptr)&_DMA_STAT_BUSY))
-		printf("wait...");
-	while( (_DMA_REG_STATUS(DMA_status_ptr)&_DMA_STAT_BUSY)){
-		struct timespec s;
-		s.tv_sec = 0;
-		s.tv_nsec = 1000000L;
-		nanosleep(&s, NULL);
-		//usleep(1000);//usleep is obsolete
-		printf(".");
-	}
-	printf("\n");
-}
-
-void stopDMA(){
-	*((uint32_t *)DMA_status_ptr+6)=0;
-}
-
 
 #define ERAM_BASE 0x10000000
 
@@ -176,12 +128,10 @@ int main(void)
 		return(1);
 	}
 	// the DMA registers
-	DMA_status_ptr = (unsigned int *)(h2p_lw_virtual_base);
-	DMA_read_ptr = (unsigned int *)(h2p_lw_virtual_base + DMA_READ_ADD_OFFSET);
-	DMA_write_ptr = (unsigned int *)(h2p_lw_virtual_base + DMA_WRT_ADD_OFFSET);
-	DMA_length_ptr = (unsigned int *)(h2p_lw_virtual_base + DMA_LENGTH_OFFSET);
-	DMA_cntl_ptr = (unsigned int *)(h2p_lw_virtual_base + DMA_CNTL_OFFSET);
+	dmac0 = (struct alt_dmac_t*)(h2p_lw_virtual_base);
 
+
+	DMA_status_ptr = (unsigned int *)(h2p_lw_virtual_base);
 	GPIO_data_ptr =  (uint32_t *)(PLASMA_GPIO0_BASE + PLASMA_GPIO_DATA_OFFSET);
 
 	h2f_SWITCH_data_ptr = (uint32_t *)(h2p_lw_virtual_base + SWITCH_DATA_OFFSET);
@@ -198,19 +148,15 @@ int main(void)
 
 	while(1)
 	{
-		_DMA_REG_STATUS(DMA_status_ptr) = 0;
-		_DMA_REG_READ_ADDR(DMA_status_ptr) = (uintptr_t) SWITCH_data_ptr;
-		_DMA_REG_WRITE_ADDR(DMA_status_ptr) =  /*(uintptr_t) GPIO_data_ptr; //*/ ((uintptr_t)(ERAM_BASE + 0x800));//
-		_DMA_REG_LENGTH(DMA_status_ptr) = 4;
-		_DMA_REG_CONTROL(DMA_status_ptr)=_DMA_CTR_WORD | _DMA_CTR_GO | _DMA_CTR_LEEN;
+		alt_dmac_reset(dmac0);
+		dmac0->readaddress = (uintptr_t) SWITCH_data_ptr;
+		dmac0->writeaddress = (uintptr_t)(ERAM_BASE + 0x800);
+		dmac0->length = 4;
+		dmac0->control = ALT_DMAC_CTL_WORD | ALT_DMAC_CTL_GO | ALT_DMAC_CTL_LEEN;
 
-		//debugPrintDMARegister();
-		//debugPrintDMAStatus();
-		waitDMAFinish();
-		stopDMA();//stop the DMA controller
+		alt_dmac_await(dmac0);
+		alt_dmac_stop(dmac0);
 
-
-		//while ((*(DMA_status_ptr) & 0x010) == 0) {};
 		struct timespec s;
 		s.tv_sec = 1;//0;//1;
 		s.tv_nsec = 0;//2e7; // 50Hz

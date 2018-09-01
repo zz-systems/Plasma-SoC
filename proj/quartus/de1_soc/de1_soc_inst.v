@@ -40,6 +40,7 @@
 		.sdram_controller_0_wire_ras_n       (<connected-to-sdram_controller_0_wire_ras_n>),       //                             .ras_n
 		.sdram_controller_0_wire_we_n        (<connected-to-sdram_controller_0_wire_we_n>),        //                             .we_n
 		.switches_external_connection_export (<connected-to-switches_external_connection_export>), // switches_external_connection.export
-		.sys_sdram_pll_0_sdram_clk_clk       (<connected-to-sys_sdram_pll_0_sdram_clk_clk>)        //    sys_sdram_pll_0_sdram_clk.clk
+		.sys_sdram_pll_0_sdram_clk_clk       (<connected-to-sys_sdram_pll_0_sdram_clk_clk>),       //    sys_sdram_pll_0_sdram_clk.clk
+		.keys_external_connection_export     (<connected-to-keys_external_connection_export>)      //     keys_external_connection.export
 	);
 

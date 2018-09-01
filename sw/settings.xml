@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="C Source File">
+<includepath>C:\intelFPGA\18.0\embedded\ip\altera\hps\altera_hps\hwlib\include</includepath>
+<includepath>\\vmware-host\Shared Folders\Documents\DEV\plasmax\dependencies\KebabOS\include</includepath>
+
+</language>
+<language name="Assembly Source File">
+
+</language>
+<language name="s,sx,SX,ASM">
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="C Source File">
+
+</language>
+<language name="Assembly Source File">
+
+</language>
+<language name="s,sx,SX,ASM">
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+</cdtprojectproperties>

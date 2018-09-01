@@ -122,11 +122,11 @@ begin
     -- slave to master ---------------------------------------------------------
     
     master_ctl : for i in 0 to masters - 1 generate
-        master_ack_o(i)    <= grant_i(i) and or_reduce(slave_ack_i); --'1' when grant_i(i) = '1' and unsigned(slave_ack_i and cs_s) /= 0 else '0';
+        master_ack_o(i)    <= '1' when grant_i(i) = '1' and unsigned(slave_ack_i and cs_s) /= 0 else '0';
          -- error if slave reports error or invalid address provided
-        master_err_o(i)    <= grant_i(i) and (or_reduce(slave_err_i) or nor_reduce(cs_s)); --'1' when grant_i(i) = '1' and (unsigned(slave_err_i and cs_s) /= 0 or nor_reduce(cs_s) = '1') else '0';
-        master_rty_o(i)    <= grant_i(i) and or_reduce(slave_rty_i); --'1' when grant_i(i) = '1' and unsigned(slave_rty_i and cs_s) /= 0 else '0';
-        master_stall_o(i)  <= grant_i(i) and or_reduce(slave_stall_i); --'1' when grant_i(i) = '1' and unsigned(slave_stall_i and cs_s) /= 0 else '0';
+        master_err_o(i)    <= '1' when grant_i(i) = '1' and (unsigned(slave_err_i and cs_s) /= 0 or nor_reduce(cs_s) = '1') else '0';
+        master_rty_o(i)    <= '1' when grant_i(i) = '1' and unsigned(slave_rty_i and cs_s) /= 0 else '0';
+        master_stall_o(i)  <= '1' when grant_i(i) = '1' and unsigned(slave_stall_i and cs_s) /= 0 else '0';
     end generate;
 
     process(clk_i, rst_i, slave_dat_i, cs_s)

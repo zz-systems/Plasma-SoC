@@ -18,26 +18,26 @@
 // altera message_level Level1 
 // altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
-module de1_soc_hps_to_plasma_dma_read_data_mux (
-                                                 // inputs:
-                                                  byte_access,
-                                                  clk,
-                                                  clk_en,
-                                                  dma_ctl_address,
-                                                  dma_ctl_chipselect,
-                                                  dma_ctl_write_n,
-                                                  dma_ctl_writedata,
-                                                  hw,
-                                                  read_readdata,
-                                                  read_readdatavalid,
-                                                  readaddress,
-                                                  readaddress_inc,
-                                                  reset_n,
-                                                  word,
+module de1_soc_dma_0_read_data_mux (
+                                     // inputs:
+                                      byte_access,
+                                      clk,
+                                      clk_en,
+                                      dma_ctl_address,
+                                      dma_ctl_chipselect,
+                                      dma_ctl_write_n,
+                                      dma_ctl_writedata,
+                                      hw,
+                                      read_readdata,
+                                      read_readdatavalid,
+                                      readaddress,
+                                      readaddress_inc,
+                                      reset_n,
+                                      word,
 
-                                                 // outputs:
-                                                  fifo_wr_data
-                                               )
+                                     // outputs:
+                                      fifo_wr_data
+                                   )
 ;
 
   output  [ 31: 0] fifo_wr_data;
@@ -51,7 +51,7 @@ module de1_soc_hps_to_plasma_dma_read_data_mux (
   input            hw;
   input   [ 31: 0] read_readdata;
   input            read_readdatavalid;
-  input   [  5: 0] readaddress;
+  input   [ 31: 0] readaddress;
   input   [  4: 0] readaddress_inc;
   input            reset_n;
   input            word;
@@ -103,16 +103,16 @@ endmodule
 // altera message_level Level1 
 // altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
-module de1_soc_hps_to_plasma_dma_byteenables (
-                                               // inputs:
-                                                byte_access,
-                                                hw,
-                                                word,
-                                                write_address,
+module de1_soc_dma_0_byteenables (
+                                   // inputs:
+                                    byte_access,
+                                    hw,
+                                    word,
+                                    write_address,
 
-                                               // outputs:
-                                                write_byteenable
-                                             )
+                                   // outputs:
+                                    write_byteenable
+                                 )
 ;
 
   output  [  3: 0] write_byteenable;
@@ -151,20 +151,20 @@ endmodule
 // altera message_level Level1 
 // altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
-module de1_soc_hps_to_plasma_dma_fifo_module_fifo_ram_module (
-                                                               // inputs:
-                                                                clk,
-                                                                data,
-                                                                rdaddress,
-                                                                rdclken,
-                                                                reset_n,
-                                                                wraddress,
-                                                                wrclock,
-                                                                wren,
+module de1_soc_dma_0_fifo_module_fifo_ram_module (
+                                                   // inputs:
+                                                    clk,
+                                                    data,
+                                                    rdaddress,
+                                                    rdclken,
+                                                    reset_n,
+                                                    wraddress,
+                                                    wrclock,
+                                                    wren,
 
-                                                               // outputs:
-                                                                q
-                                                             )
+                                                   // outputs:
+                                                    q
+                                                 )
 ;
 
   output  [ 31: 0] q;
@@ -250,23 +250,23 @@ endmodule
 // altera message_level Level1 
 // altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
-module de1_soc_hps_to_plasma_dma_fifo_module (
-                                               // inputs:
-                                                clk,
-                                                clk_en,
-                                                fifo_read,
-                                                fifo_wr_data,
-                                                fifo_write,
-                                                flush_fifo,
-                                                inc_pending_data,
-                                                reset_n,
+module de1_soc_dma_0_fifo_module (
+                                   // inputs:
+                                    clk,
+                                    clk_en,
+                                    fifo_read,
+                                    fifo_wr_data,
+                                    fifo_write,
+                                    flush_fifo,
+                                    inc_pending_data,
+                                    reset_n,
 
-                                               // outputs:
-                                                fifo_datavalid,
-                                                fifo_empty,
-                                                fifo_rd_data,
-                                                p1_fifo_full
-                                             )
+                                   // outputs:
+                                    fifo_datavalid,
+                                    fifo_empty,
+                                    fifo_rd_data,
+                                    p1_fifo_full
+                                 )
 ;
 
   output           fifo_datavalid;
@@ -388,8 +388,8 @@ wire             write_collision;
 
 
   assign fifo_rd_data = last_write_collision ? last_write_data : fifo_ram_q;
-  //de1_soc_hps_to_plasma_dma_fifo_module_fifo_ram, which is an e_ram
-  de1_soc_hps_to_plasma_dma_fifo_module_fifo_ram_module de1_soc_hps_to_plasma_dma_fifo_module_fifo_ram
+  //de1_soc_dma_0_fifo_module_fifo_ram, which is an e_ram
+  de1_soc_dma_0_fifo_module_fifo_ram_module de1_soc_dma_0_fifo_module_fifo_ram
     (
       .clk       (clk),
       .data      (fifo_wr_data),
@@ -414,20 +414,20 @@ endmodule
 // altera message_level Level1 
 // altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
-module de1_soc_hps_to_plasma_dma_mem_read (
-                                            // inputs:
-                                             clk,
-                                             clk_en,
-                                             go,
-                                             p1_done_read,
-                                             p1_fifo_full,
-                                             read_waitrequest,
-                                             reset_n,
+module de1_soc_dma_0_mem_read (
+                                // inputs:
+                                 clk,
+                                 clk_en,
+                                 go,
+                                 p1_done_read,
+                                 p1_fifo_full,
+                                 read_waitrequest,
+                                 reset_n,
 
-                                            // outputs:
-                                             inc_read,
-                                             mem_read_n
-                                          )
+                                // outputs:
+                                 inc_read,
+                                 mem_read_n
+                              )
 ;
 
   output           inc_read;
@@ -441,8 +441,8 @@ module de1_soc_hps_to_plasma_dma_mem_read (
   input            reset_n;
 
 
-reg              de1_soc_hps_to_plasma_dma_mem_read_access;
-reg              de1_soc_hps_to_plasma_dma_mem_read_idle;
+reg              de1_soc_dma_0_mem_read_access;
+reg              de1_soc_dma_0_mem_read_idle;
 wire             inc_read;
 wire             mem_read_n;
 wire             p1_read_select;
@@ -462,13 +462,13 @@ reg              read_select;
   always @(posedge clk or negedge reset_n)
     begin
       if (reset_n == 0)
-          de1_soc_hps_to_plasma_dma_mem_read_idle <= 1;
+          de1_soc_dma_0_mem_read_idle <= 1;
       else if (clk_en)
-          de1_soc_hps_to_plasma_dma_mem_read_idle <= ((de1_soc_hps_to_plasma_dma_mem_read_idle == 1) & (go == 0)) |
-                    ((de1_soc_hps_to_plasma_dma_mem_read_idle == 1) & (p1_done_read == 1)) |
-                    ((de1_soc_hps_to_plasma_dma_mem_read_idle == 1) & (p1_fifo_full == 1)) |
-                    ((de1_soc_hps_to_plasma_dma_mem_read_access == 1) & (p1_fifo_full == 1) & (read_waitrequest == 0)) |
-                    ((de1_soc_hps_to_plasma_dma_mem_read_access == 1) & (p1_done_read == 1) & (read_waitrequest == 0));
+          de1_soc_dma_0_mem_read_idle <= ((de1_soc_dma_0_mem_read_idle == 1) & (go == 0)) |
+                    ((de1_soc_dma_0_mem_read_idle == 1) & (p1_done_read == 1)) |
+                    ((de1_soc_dma_0_mem_read_idle == 1) & (p1_fifo_full == 1)) |
+                    ((de1_soc_dma_0_mem_read_access == 1) & (p1_fifo_full == 1) & (read_waitrequest == 0)) |
+                    ((de1_soc_dma_0_mem_read_access == 1) & (p1_done_read == 1) & (read_waitrequest == 0));
 
     end
 
@@ -477,18 +477,18 @@ reg              read_select;
   always @(posedge clk or negedge reset_n)
     begin
       if (reset_n == 0)
-          de1_soc_hps_to_plasma_dma_mem_read_access <= 0;
+          de1_soc_dma_0_mem_read_access <= 0;
       else if (clk_en)
-          de1_soc_hps_to_plasma_dma_mem_read_access <= ((de1_soc_hps_to_plasma_dma_mem_read_idle == 1) & (p1_fifo_full == 0) & (p1_done_read == 0) & (go == 1)) |
-                    ((de1_soc_hps_to_plasma_dma_mem_read_access == 1) & (read_waitrequest == 1)) |
-                    ((de1_soc_hps_to_plasma_dma_mem_read_access == 1) & (p1_fifo_full == 0) & (p1_done_read == 0) & (read_waitrequest == 0));
+          de1_soc_dma_0_mem_read_access <= ((de1_soc_dma_0_mem_read_idle == 1) & (p1_fifo_full == 0) & (p1_done_read == 0) & (go == 1)) |
+                    ((de1_soc_dma_0_mem_read_access == 1) & (read_waitrequest == 1)) |
+                    ((de1_soc_dma_0_mem_read_access == 1) & (p1_fifo_full == 0) & (p1_done_read == 0) & (read_waitrequest == 0));
 
     end
 
 
-  assign p1_read_select = ({1 {((de1_soc_hps_to_plasma_dma_mem_read_access && (read_waitrequest == 1)))}} & 1) |
-    ({1 {((de1_soc_hps_to_plasma_dma_mem_read_access && (p1_done_read == 0) && (p1_fifo_full == 0) && (read_waitrequest == 0)))}} & 1) |
-    ({1 {((de1_soc_hps_to_plasma_dma_mem_read_idle && (go == 1) && (p1_done_read == 0) && (p1_fifo_full == 0)))}} & 1);
+  assign p1_read_select = ({1 {((de1_soc_dma_0_mem_read_access && (read_waitrequest == 1)))}} & 1) |
+    ({1 {((de1_soc_dma_0_mem_read_access && (p1_done_read == 0) && (p1_fifo_full == 0) && (read_waitrequest == 0)))}} & 1) |
+    ({1 {((de1_soc_dma_0_mem_read_idle && (go == 1) && (p1_done_read == 0) && (p1_fifo_full == 0)))}} & 1);
 
 
 endmodule
@@ -502,18 +502,18 @@ endmodule
 // altera message_level Level1 
 // altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
-module de1_soc_hps_to_plasma_dma_mem_write (
-                                             // inputs:
-                                              d1_enabled_write_endofpacket,
-                                              fifo_datavalid,
-                                              write_waitrequest,
+module de1_soc_dma_0_mem_write (
+                                 // inputs:
+                                  d1_enabled_write_endofpacket,
+                                  fifo_datavalid,
+                                  write_waitrequest,
 
-                                             // outputs:
-                                              fifo_read,
-                                              inc_write,
-                                              mem_write_n,
-                                              write_select
-                                           )
+                                 // outputs:
+                                  fifo_read,
+                                  inc_write,
+                                  mem_write_n,
+                                  write_select
+                               )
 ;
 
   output           fifo_read;
@@ -545,43 +545,43 @@ endmodule
 // altera message_level Level1 
 // altera message_off 10034 10035 10036 10037 10230 10240 10030 
 
-//DMA peripheral de1_soc_hps_to_plasma_dma
+//DMA peripheral de1_soc_dma_0
 //Read slaves:
-//switches.s1,keys.s1; 
+//hps_0_sysmgr.axi_slave0,hps_0_uart1.axi_slave0,hps_0_dcan0.axi_slave0,hps_0_i2c1.axi_slave0,hps_0_gpio0.axi_slave0,hps_0_clkmgr.axi_slave0,hps_0_l3regs.axi_slave0,hps_0_arm_gic_0.axi_slave0,hps_0_i2c3.axi_slave0,hps_0_gmac1.axi_slave0,hps_0_gpio2.axi_slave0,hps_0_nand0.axi_slave0,hps_0_arm_gic_0.axi_slave1,hps_0_spim1.axi_slave0,hps_0_timer1.axi_slave0,hps_0_nand0.axi_slave1,hps_0_axi_ocram.axi_slave0,hps_0_usb1.axi_slave0,hps_0_timer3.axi_slave0,hps_0_uart0.axi_slave0,hps_0_fpgamgr.axi_slave0,hps_0_fpgamgr.axi_slave1,hps_0_qspi.axi_slave0,hps_0_L2.axi_slave0,hps_0_i2c0.axi_slave0,hps_0_qspi.axi_slave1,hps_0_rstmgr.axi_slave0,hps_0_dcan1.axi_slave0,hps_0_i2c2.axi_slave0,hps_0_axi_sdram.axi_slave0,hps_0_gmac0.axi_slave0,hps_0_gpio1.axi_slave0,hps_0_timer.axi_slave0,hps_0_spim0.axi_slave0,hps_0_timer0.axi_slave0,hps_0_dma.axi_slave0,hps_0_usb0.axi_slave0,hps_0_timer2.axi_slave0,hps_0_sdrctl.axi_slave0,hps_0_sdmmc.axi_slave0; 
 //Write slaves:
 //plasma_soc_0.avalon_slave_0; 
 
 
-module de1_soc_hps_to_plasma_dma (
-                                   // inputs:
-                                    clk,
-                                    dma_ctl_address,
-                                    dma_ctl_chipselect,
-                                    dma_ctl_write_n,
-                                    dma_ctl_writedata,
-                                    read_readdata,
-                                    read_readdatavalid,
-                                    read_waitrequest,
-                                    system_reset_n,
-                                    write_waitrequest,
+module de1_soc_dma_0 (
+                       // inputs:
+                        clk,
+                        dma_ctl_address,
+                        dma_ctl_chipselect,
+                        dma_ctl_write_n,
+                        dma_ctl_writedata,
+                        read_readdata,
+                        read_readdatavalid,
+                        read_waitrequest,
+                        system_reset_n,
+                        write_waitrequest,
 
-                                   // outputs:
-                                    dma_ctl_irq,
-                                    dma_ctl_readdata,
-                                    read_address,
-                                    read_chipselect,
-                                    read_read_n,
-                                    write_address,
-                                    write_byteenable,
-                                    write_chipselect,
-                                    write_write_n,
-                                    write_writedata
-                                 )
+                       // outputs:
+                        dma_ctl_irq,
+                        dma_ctl_readdata,
+                        read_address,
+                        read_chipselect,
+                        read_read_n,
+                        write_address,
+                        write_byteenable,
+                        write_chipselect,
+                        write_write_n,
+                        write_writedata
+                     )
   /* synthesis ALTERA_ATTRIBUTE = "SUPPRESS_DA_RULE_INTERNAL=\"R101\"" */ ;
 
   output           dma_ctl_irq;
   output  [ 31: 0] dma_ctl_readdata;
-  output  [  5: 0] read_address;
+  output  [ 31: 0] read_address;
   output           read_chipselect;
   output           read_read_n;
   output  [ 31: 0] write_address;
@@ -634,7 +634,7 @@ wire             inc_read;
 wire             inc_write;
 wire             leen;
 reg              len;
-reg     [ 12: 0] length;
+reg     [ 31: 0] length;
 reg              length_eq_0;
 wire             mem_read_n;
 wire             mem_write_n;
@@ -643,22 +643,22 @@ wire    [ 31: 0] p1_dma_ctl_readdata;
 wire             p1_done_read;
 wire             p1_done_write;
 wire             p1_fifo_full;
-wire    [ 12: 0] p1_length;
+wire    [ 31: 0] p1_length;
 wire             p1_length_eq_0;
 wire             p1_read_got_endofpacket;
-wire    [  5: 0] p1_readaddress;
+wire    [ 31: 0] p1_readaddress;
 wire             p1_write_got_endofpacket;
 wire    [ 31: 0] p1_writeaddress;
-wire    [ 12: 0] p1_writelength;
+wire    [ 31: 0] p1_writelength;
 wire             p1_writelength_eq_0;
 wire             quadword;
 wire             rcon;
-wire    [  5: 0] read_address;
+wire    [ 31: 0] read_address;
 wire             read_chipselect;
 wire             read_endofpacket;
 reg              read_got_endofpacket;
 wire             read_read_n;
-reg     [  5: 0] readaddress;
+reg     [ 31: 0] readaddress;
 wire    [  4: 0] readaddress_inc;
 wire             reen;
 reg              reop;
@@ -682,12 +682,12 @@ wire             write_write_n;
 wire    [ 31: 0] write_writedata;
 reg     [ 31: 0] writeaddress;
 wire    [  4: 0] writeaddress_inc;
-reg     [ 12: 0] writelength;
+reg     [ 31: 0] writelength;
 reg              writelength_eq_0;
   assign clk_en = 1;
   //control_port_slave, which is an e_avalon_slave
   //read_master, which is an e_avalon_master
-  de1_soc_hps_to_plasma_dma_read_data_mux the_de1_soc_hps_to_plasma_dma_read_data_mux
+  de1_soc_dma_0_read_data_mux the_de1_soc_dma_0_read_data_mux
     (
       .byte_access        (byte_access),
       .clk                (clk),
@@ -707,7 +707,7 @@ reg              writelength_eq_0;
     );
 
   //write_master, which is an e_avalon_master
-  de1_soc_hps_to_plasma_dma_byteenables the_de1_soc_hps_to_plasma_dma_byteenables
+  de1_soc_dma_0_byteenables the_de1_soc_dma_0_byteenables
     (
       .byte_access      (byte_access),
       .hw               (hw),
@@ -722,7 +722,7 @@ reg              writelength_eq_0;
   always @(posedge clk or negedge reset_n)
     begin
       if (reset_n == 0)
-          readaddress <= 6'h0;
+          readaddress <= 32'h0;
       else if (clk_en)
           readaddress <= p1_readaddress;
     end
@@ -750,7 +750,7 @@ reg              writelength_eq_0;
   always @(posedge clk or negedge reset_n)
     begin
       if (reset_n == 0)
-          length <= 13'h0;
+          length <= 32'h0;
       else if (clk_en)
           length <= p1_length;
     end
@@ -781,7 +781,7 @@ reg              writelength_eq_0;
   always @(posedge clk or negedge reset_n)
     begin
       if (reset_n == 0)
-          writelength <= 13'h0;
+          writelength <= 32'h0;
       else if (clk_en)
           writelength <= p1_writelength;
     end
@@ -923,7 +923,7 @@ reg              writelength_eq_0;
 
 
   assign flush_fifo = ~d1_done_transaction & done_transaction;
-  de1_soc_hps_to_plasma_dma_fifo_module the_de1_soc_hps_to_plasma_dma_fifo_module
+  de1_soc_dma_0_fifo_module the_de1_soc_dma_0_fifo_module
     (
       .clk              (clk),
       .clk_en           (clk_en),
@@ -939,8 +939,8 @@ reg              writelength_eq_0;
       .reset_n          (reset_n)
     );
 
-  //the_de1_soc_hps_to_plasma_dma_mem_read, which is an e_instance
-  de1_soc_hps_to_plasma_dma_mem_read the_de1_soc_hps_to_plasma_dma_mem_read
+  //the_de1_soc_dma_0_mem_read, which is an e_instance
+  de1_soc_dma_0_mem_read the_de1_soc_dma_0_mem_read
     (
       .clk              (clk),
       .clk_en           (clk_en),
@@ -964,7 +964,7 @@ reg              writelength_eq_0;
     end
 
 
-  de1_soc_hps_to_plasma_dma_mem_write the_de1_soc_hps_to_plasma_dma_mem_write
+  de1_soc_dma_0_mem_write the_de1_soc_dma_0_mem_write
     (
       .d1_enabled_write_endofpacket (d1_enabled_write_endofpacket),
       .fifo_datavalid               (fifo_datavalid),
