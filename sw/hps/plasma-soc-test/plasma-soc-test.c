@@ -25,6 +25,7 @@
 
 #include <soc_cv_av/socal/socal.h>
 
+#define PLATFORM de1_soc
 #include <kdev/alt_dmac.h>
 
 #define H2F_AXI_MASTER_BASE   (0xC0000000)
@@ -44,18 +45,6 @@
 
 // the h2f light weight bus base
 void *h2p_lw_virtual_base;
-// HPS_to_FPGA DMA address = 0
-volatile unsigned int * DMA_status_ptr = NULL ;
-volatile unsigned int * DMA_read_ptr = NULL ;
-volatile unsigned int * DMA_write_ptr = NULL ;
-volatile unsigned int * DMA_length_ptr = NULL ;
-volatile unsigned int * DMA_cntl_ptr = NULL ;
-
-
-#define PLASMA_GPIO0_BASE          0x00005400
-#define PLASMA_GPIO1_BASE          (PLASMA_GPIO0_BASE + 0x10)
-#define PLASMA_GPIO2_BASE          (PLASMA_GPIO0_BASE + 0x20)
-#define PLASMA_GPIO3_BASE          (PLASMA_GPIO0_BASE + 0x30)
 
 #define PLASMA_GPIO_DATA_OFFSET		0x08
 volatile uint32_t* GPIO_data_ptr = NULL;
@@ -101,15 +90,8 @@ void debugPrintDMAStatus(alt_dmac_t* dmac){
 #endif
 }
 
-#define ERAM_BASE 0x10000000
-
 int main(void)
 {
-	// Declare volatile pointers to I/O registers (volatile
-	// means that IO load and store instructions will be used
-	// to access these pointer locations,
-	// instead of regular memory loads and stores)
-
 	// === get FPGA addresses ==================
 	// Open /dev/mem
 	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) 	{
@@ -127,18 +109,11 @@ int main(void)
 		close( fd );
 		return(1);
 	}
-	// the DMA registers
-	dmac0 = (struct alt_dmac_t*)(h2p_lw_virtual_base);
 
 
-	DMA_status_ptr = (unsigned int *)(h2p_lw_virtual_base);
-	GPIO_data_ptr =  (uint32_t *)(PLASMA_GPIO0_BASE + PLASMA_GPIO_DATA_OFFSET);
-
+	dmac0 = (struct alt_dmac_t*)(h2p_lw_virtual_base + HPS_TO_PLASMA_DMA_BASE);
 	h2f_SWITCH_data_ptr = (uint32_t *)(h2p_lw_virtual_base + SWITCH_DATA_OFFSET);
 	SWITCH_data_ptr = (uint32_t *)(/*h2p_lw_virtual_base + */SWITCH_DATA_OFFSET);
-
-	int sw_data = 0;
-
 
 	printf("Initialized...\n");
 	printf("h2p_lw_virtual_base at physical address: %p\n", (void*)h2p_lw_virtual_base);
@@ -150,7 +125,7 @@ int main(void)
 	{
 		alt_dmac_reset(dmac0);
 		dmac0->readaddress = (uintptr_t) SWITCH_data_ptr;
-		dmac0->writeaddress = (uintptr_t)(ERAM_BASE + 0x800);
+		dmac0->writeaddress = (uintptr_t)(AVALON_SDRAM_BASE + 0x800);
 		dmac0->length = 4;
 		dmac0->control = ALT_DMAC_CTL_WORD | ALT_DMAC_CTL_GO | ALT_DMAC_CTL_LEEN;
 

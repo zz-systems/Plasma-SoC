@@ -791,7 +791,7 @@ module de1_soc_mm_interconnect_3 (
 		.sink0_endofpacket   (rsp_demux_src1_endofpacket)                           //          .endofpacket
 	);
 
-	de1_soc_mm_interconnect_0_avalon_st_adapter #(
+	de1_soc_mm_interconnect_0_avalon_st_adapter_001 #(
 		.inBitsPerSymbol (34),
 		.inUsePackets    (0),
 		.inDataWidth     (34),

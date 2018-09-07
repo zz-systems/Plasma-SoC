@@ -1,0 +1,8 @@
+<!-- This file is intended for use with Quartus 14, SoCEDS 14.1,
+     and the linux 3.17 kernel.  Use it as a board file with 
+     the sopc2dts utility. -->
+<BoardInfo pov="hps_0_arm_a9_0">
+
+<DTAppend name="model" type="string" parentlabel="" val="Terasic DE1-SoC"/>
+
+</BoardInfo>

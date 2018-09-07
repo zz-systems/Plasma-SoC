@@ -2554,7 +2554,7 @@ module de1_soc_mm_interconnect_1 (
 		.sink1_endofpacket   (rsp_demux_003_src2_endofpacket)                       //          .endofpacket
 	);
 
-	de1_soc_mm_interconnect_0_avalon_st_adapter #(
+	de1_soc_mm_interconnect_0_avalon_st_adapter_001 #(
 		.inBitsPerSymbol (34),
 		.inUsePackets    (0),
 		.inDataWidth     (34),
@@ -2583,7 +2583,7 @@ module de1_soc_mm_interconnect_1 (
 		.out_0_error    (avalon_st_adapter_out_0_error)                                    //         .error
 	);
 
-	de1_soc_mm_interconnect_0_avalon_st_adapter #(
+	de1_soc_mm_interconnect_0_avalon_st_adapter_001 #(
 		.inBitsPerSymbol (34),
 		.inUsePackets    (0),
 		.inDataWidth     (34),
@@ -2612,7 +2612,7 @@ module de1_soc_mm_interconnect_1 (
 		.out_0_error    (avalon_st_adapter_001_out_0_error)                    //         .error
 	);
 
-	de1_soc_mm_interconnect_0_avalon_st_adapter #(
+	de1_soc_mm_interconnect_0_avalon_st_adapter_001 #(
 		.inBitsPerSymbol (34),
 		.inUsePackets    (0),
 		.inDataWidth     (34),
@@ -2641,7 +2641,7 @@ module de1_soc_mm_interconnect_1 (
 		.out_0_error    (avalon_st_adapter_002_out_0_error)                    //         .error
 	);
 
-	de1_soc_mm_interconnect_0_avalon_st_adapter #(
+	de1_soc_mm_interconnect_0_avalon_st_adapter_001 #(
 		.inBitsPerSymbol (34),
 		.inUsePackets    (0),
 		.inDataWidth     (34),

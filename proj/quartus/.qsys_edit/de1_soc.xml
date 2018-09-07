@@ -1740,7 +1740,7 @@
 										<property factory="SplitDockPlaceholderProperty">
 											<placeholder>dock.single.Messages</placeholder>
 											<backup-path>
-												<node location="RIGHT" size="0.8" id="1372710005721"/>
+												<node location="RIGHT" size="0.8120380147835269" id="1372710005721"/>
 												<node location="BOTTOM" size="0.25" id="1372710005725"/>
 												<leaf id="1372710005745"/>
 											</backup-path>

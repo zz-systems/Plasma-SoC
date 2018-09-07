@@ -8,8 +8,8 @@
   </columns>
  </systemtable>
  <library
-   expandedCategories="Project,Library/Interface Protocols/PCI Express/QSYS Example Designs,Library/Interface Protocols,Library/Processors and Peripherals,Library/Interface Protocols/PCI Express,Library/Processors and Peripherals/Peripherals,Library" />
- <window width="1936" height="1992" x="-8" y="-8" />
+   expandedCategories="Library/University Program/Clock,Library/University Program,Library/Interface Protocols/Transceiver PLL,Library,Library/Interface Protocols,Project,Library/Basic Functions,Library/Basic Functions/Clocks; PLLs and Resets/PLL,Library/Basic Functions/Clocks; PLLs and Resets" />
+ <window width="1920" height="1976" x="0" y="0" />
  <generation block_symbol_file="0" simulation="NONE" />
  <hdlexample language="VERILOG" />
 </preferences>

@@ -1,11 +1,5 @@
 	de1_soc u0 (
 		.clk_clk                             (<connected-to-clk_clk>),                             //                          clk.clk
-		.hex_0_external_connection_export    (<connected-to-hex_0_external_connection_export>),    //    hex_0_external_connection.export
-		.hex_1_external_connection_export    (<connected-to-hex_1_external_connection_export>),    //    hex_1_external_connection.export
-		.hex_2_external_connection_export    (<connected-to-hex_2_external_connection_export>),    //    hex_2_external_connection.export
-		.hex_3_external_connection_export    (<connected-to-hex_3_external_connection_export>),    //    hex_3_external_connection.export
-		.hex_4_external_connection_export    (<connected-to-hex_4_external_connection_export>),    //    hex_4_external_connection.export
-		.hex_5_external_connection_export    (<connected-to-hex_5_external_connection_export>),    //    hex_5_external_connection.export
 		.hps_0_ddr_mem_a                     (<connected-to-hps_0_ddr_mem_a>),                     //                    hps_0_ddr.mem_a
 		.hps_0_ddr_mem_ba                    (<connected-to-hps_0_ddr_mem_ba>),                    //                             .mem_ba
 		.hps_0_ddr_mem_ck                    (<connected-to-hps_0_ddr_mem_ck>),                    //                             .mem_ck
@@ -41,6 +35,12 @@
 		.sdram_controller_0_wire_we_n        (<connected-to-sdram_controller_0_wire_we_n>),        //                             .we_n
 		.switches_external_connection_export (<connected-to-switches_external_connection_export>), // switches_external_connection.export
 		.sys_sdram_pll_0_sdram_clk_clk       (<connected-to-sys_sdram_pll_0_sdram_clk_clk>),       //    sys_sdram_pll_0_sdram_clk.clk
+		.hex_0_external_connection_1_export  (<connected-to-hex_0_external_connection_1_export>),  //  hex_0_external_connection_1.export
+		.hex_1_external_connection_1_export  (<connected-to-hex_1_external_connection_1_export>),  //  hex_1_external_connection_1.export
+		.hex_2_external_connection_1_export  (<connected-to-hex_2_external_connection_1_export>),  //  hex_2_external_connection_1.export
+		.hex_3_external_connection_1_export  (<connected-to-hex_3_external_connection_1_export>),  //  hex_3_external_connection_1.export
+		.hex_4_external_connection_1_export  (<connected-to-hex_4_external_connection_1_export>),  //  hex_4_external_connection_1.export
+		.hex_5_external_connection_1_export  (<connected-to-hex_5_external_connection_1_export>),  //  hex_5_external_connection_1.export
 		.keys_external_connection_export     (<connected-to-keys_external_connection_export>)      //     keys_external_connection.export
 	);
 
