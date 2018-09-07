@@ -51,7 +51,7 @@ module de1_soc_hps_to_plasma_dma_read_data_mux (
   input            hw;
   input   [ 31: 0] read_readdata;
   input            read_readdatavalid;
-  input   [  5: 0] readaddress;
+  input   [  6: 0] readaddress;
   input   [  4: 0] readaddress_inc;
   input            reset_n;
   input            word;
@@ -541,7 +541,7 @@ endmodule
 
 //DMA peripheral de1_soc_hps_to_plasma_dma
 //Read slaves:
-//switches.s1,keys.s1; 
+//switches.s1,buttons.s1; 
 //Write slaves:
 //plasma_soc_0.avalon_slave_0; 
 
@@ -575,7 +575,7 @@ module de1_soc_hps_to_plasma_dma (
 
   output           dma_ctl_irq;
   output  [ 31: 0] dma_ctl_readdata;
-  output  [  5: 0] read_address;
+  output  [  6: 0] read_address;
   output           read_chipselect;
   output           read_read_n;
   output  [ 31: 0] write_address;
@@ -639,19 +639,19 @@ module de1_soc_hps_to_plasma_dma (
   wire    [ 12: 0] p1_length;
   wire             p1_length_eq_0;
   wire             p1_read_got_endofpacket;
-  wire    [  5: 0] p1_readaddress;
+  wire    [  6: 0] p1_readaddress;
   wire             p1_write_got_endofpacket;
   wire    [ 31: 0] p1_writeaddress;
   wire    [ 12: 0] p1_writelength;
   wire             p1_writelength_eq_0;
   wire             quadword;
   wire             rcon;
-  wire    [  5: 0] read_address;
+  wire    [  6: 0] read_address;
   wire             read_chipselect;
   wire             read_endofpacket;
   reg              read_got_endofpacket;
   wire             read_read_n;
-  reg     [  5: 0] readaddress;
+  reg     [  6: 0] readaddress;
   wire    [  4: 0] readaddress_inc;
   wire             reen;
   reg              reop;
@@ -715,7 +715,7 @@ module de1_soc_hps_to_plasma_dma (
   always @(posedge clk or negedge reset_n)
     begin
       if (reset_n == 0)
-          readaddress <= 6'h0;
+          readaddress <= 7'h0;
       else if (clk_en)
           readaddress <= p1_readaddress;
     end
