@@ -9,14 +9,14 @@
  </systemtable>
  <library
    expandedCategories="Project,Library,Library/Bridges/Memory-Mapped,Library/Bridges and Adapters,Library/Bridges" />
- <window width="1936" height="1992" x="-8" y="-8" />
+ <window width="1920" height="1976" x="-8" y="-8" />
  <generation block_symbol_file="0" simulation="NONE" synthesis="VERILOG" />
  <hdlexample language="VERILOG" />
  <clocktable>
   <columns>
-   <clockname preferredWidth="352" />
-   <clocksource preferredWidth="352" />
-   <frequency preferredWidth="332" />
+   <clockname preferredWidth="350" />
+   <clocksource preferredWidth="350" />
+   <frequency preferredWidth="331" />
   </columns>
  </clocktable>
 </preferences>

@@ -20,6 +20,7 @@
 #include <sys/mman.h>
 #include <sys/time.h>
 #include <math.h>
+#include <errno.h>
 
 #include <socal/socal.h>
 #include <socal/hps.h>
@@ -37,6 +38,7 @@
 
 int main(void)
 {
+	int ret = EXIT_FAILURE;
 	int fd;
 
 	// the h2f light weight bus base
@@ -45,51 +47,43 @@ int main(void)
 	volatile uint32_t* switches_data;
 
 	struct alt_dmac_t* dmac0 = NULL;
-
-	// === get FPGA addresses ==================
-	// Open /dev/mem
-	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) 	{
-		printf( "ERROR: could not open \"/dev/mem\"...\n" );
-		return( 1 );
-	}
-
-	//============================================
-	// get virtual addr that maps to physical
-	// for light weight bus
-	// DMA status register
-	h2p_lw_virtual_base = mmap( NULL, LWFPGASLAVES_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, LWFPGASLAVES_BASE );
-	if( h2p_lw_virtual_base == MAP_FAILED ) {
-		printf( "ERROR: mmap1() failed...\n" );
-		close( fd );
-		return(1);
-	}
 	
-	printf("Initialized...\n");
-	printf("h2p_lw_virtual_base: %p\n", (void*)h2p_lw_virtual_base);
+	printf("Opening /dev/mem/...\n");
+	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) 
+	{
+		perror("ERROR");
+		goto error_0;
+	}
+
+	printf("Mapping LWHPS2FPGA address...\n");
+	h2p_lw_virtual_base = mmap( NULL, LWFPGASLAVES_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, LWFPGASLAVES_BASE );
+	if( h2p_lw_virtual_base == MAP_FAILED ) 
+	{
+		perror("ERROR");
+		goto error_1;
+	}	
+	
+	printf("LWHPS2FPGA: %p\n", (void*)h2p_lw_virtual_base);
 
 	dmac0 = (struct alt_dmac_t*)(h2p_lw_virtual_base);// + 0x40);	
 	switches_data = (uint32_t *)(0x20);
 
 
-	//printf("Press any key to continue...\n");
-	//getchar();
+	printf("Transferring data...\n");
+	alt_dmac_reset(dmac0);
+	dmac0->readaddress = (uintptr_t) switches_data;
+	dmac0->writeaddress = (uintptr_t)(AVALON_SDRAM_BASE + 0x800);
+	dmac0->length = 4;
+	dmac0->control = ALT_DMAC_CTL_WORD | ALT_DMAC_CTL_GO | ALT_DMAC_CTL_LEEN;
 
-	//while(1)
-	{
-		alt_dmac_reset(dmac0);
-		dmac0->readaddress = (uintptr_t) switches_data;
-		dmac0->writeaddress = (uintptr_t)(AVALON_SDRAM_BASE + 0x800);
-		dmac0->length = 4;
-		dmac0->control = ALT_DMAC_CTL_WORD | ALT_DMAC_CTL_GO | ALT_DMAC_CTL_LEEN;
+	alt_dmac_await(dmac0);
+	alt_dmac_stop(dmac0);
 
-		alt_dmac_await(dmac0);
-		alt_dmac_stop(dmac0);
-
-		// struct timespec s;
-		// s.tv_sec = 1;//0;//1;
-		// s.tv_nsec = 0;//2e7; // 50Hz
-		// nanosleep(&s, NULL);
-	}
-
-	return EXIT_SUCCESS;
+	ret = EXIT_SUCCESS;
+error_2:
+	munmap(h2p_lw_virtual_base, LWFPGASLAVES_SPAN);
+error_1:
+	close(fd);
+error_0:
+	return ret;
 }
