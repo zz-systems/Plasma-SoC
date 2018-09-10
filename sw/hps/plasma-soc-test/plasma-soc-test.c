@@ -21,77 +21,31 @@
 #include <sys/time.h>
 #include <math.h>
 
-#include "../plasma_de1_soc_system.h"
-
-#include <soc_cv_av/socal/socal.h>
-
-#define PLATFORM de1_soc
+#include <socal/socal.h>
+#include <socal/hps.h>
+#include <plasma_soc.h>
+#include <de1_soc.h>
 #include <kdev/alt_dmac.h>
 
-#define H2F_AXI_MASTER_BASE   (0xC0000000)
+#define HPS2FPGASLAVES_BASE (0xC0000000)
+#define HPS2FPGASLAVES_SPAN (0x40000000)
+#define HPS2FPGASLAVES_MASK (HPS2FPGASLAVES_SPAN - 1)
 
-// ======================================
-// lw_bus; DMA  addresses
-#define HW_REGS_BASE        	0xff200000
-#define HW_REGS_SPAN        	0x00005000
-
-#define DMA0_BASE				0xff200000
-// https://www.altera.com/en_US/pdfs/literature/ug/ug_embedded_ip.pdf
-#define DMA_STATUS_OFFSET		0x00
-#define DMA_READ_ADD_OFFSET		0x01
-#define DMA_WRT_ADD_OFFSET		0x02
-#define DMA_LENGTH_OFFSET		0x03
-#define DMA_CNTL_OFFSET			0x06
-
-// the h2f light weight bus base
-void *h2p_lw_virtual_base;
-
-#define PLASMA_GPIO_DATA_OFFSET		0x08
-volatile uint32_t* GPIO_data_ptr = NULL;
-
-
-#define SWITCH_DATA_OFFSET		0x20
-
-struct alt_dmac_t* dmac0 = NULL;
-
-volatile uint32_t* h2f_SWITCH_data_ptr = NULL;
-volatile uint32_t* SWITCH_data_ptr = NULL;
-
-// /dev/mem file id
-int fd;
-
-int test_value = 0xFFFFFFFF;
-
-#define DEBUG
-
-
-
-void debugPrintDMARegister(alt_dmac_t* dmac){
-#ifdef DEBUG
-	printf("DMA Registers:\n");
-	printf( "status: %x\n", dmac->status);
-	printf( "read: %x\n", dmac->readaddress);
-	printf( "write: %x\n", dmac->writeaddress);
-	printf( "length: %x\n", dmac->length);
-	printf( "control: %x\n", dmac->control);
-
-#endif
-}
-
-void debugPrintDMAStatus(alt_dmac_t* dmac){
-#ifdef DEBUG
-	printf("DMA Status Registers:\n");
-	if(dmac->status & ALT_DMAC_STAT_DONE) printf( "Status: DONE\n");
-	if(dmac->status & ALT_DMAC_STAT_BUSY) printf( "Status: BUSY\n");
-	if(dmac->status & ALT_DMAC_STAT_REOP) printf( "Status: REOP\n");
-	if(dmac->status & ALT_DMAC_STAT_WEOP) printf( "Status: WEOP\n");
-	if(dmac->status & ALT_DMAC_STAT_LEN) printf( "Status: LEN\n");
-
-#endif
-}
+#define LWFPGASLAVES_BASE (0xFF200000)
+#define LWFPGASLAVES_SPAN (0x00200000)
+#define LWFPGASLAVES_MASK (LWFPGASLAVES_SPAN - 1)
 
 int main(void)
 {
+	int fd;
+
+	// the h2f light weight bus base
+	void *h2p_lw_virtual_base;
+
+	volatile uint32_t* switches_data;
+
+	struct alt_dmac_t* dmac0 = NULL;
+
 	// === get FPGA addresses ==================
 	// Open /dev/mem
 	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) 	{
@@ -103,28 +57,27 @@ int main(void)
 	// get virtual addr that maps to physical
 	// for light weight bus
 	// DMA status register
-	h2p_lw_virtual_base = mmap( NULL, HW_REGS_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, HW_REGS_BASE );
+	h2p_lw_virtual_base = mmap( NULL, LWFPGASLAVES_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, LWFPGASLAVES_BASE );
 	if( h2p_lw_virtual_base == MAP_FAILED ) {
 		printf( "ERROR: mmap1() failed...\n" );
 		close( fd );
 		return(1);
 	}
-
-
-	dmac0 = (struct alt_dmac_t*)(h2p_lw_virtual_base + HPS_TO_PLASMA_DMA_BASE);
-	h2f_SWITCH_data_ptr = (uint32_t *)(h2p_lw_virtual_base + SWITCH_DATA_OFFSET);
-	SWITCH_data_ptr = (uint32_t *)(/*h2p_lw_virtual_base + */SWITCH_DATA_OFFSET);
-
+	
 	printf("Initialized...\n");
-	printf("h2p_lw_virtual_base at physical address: %p\n", (void*)h2p_lw_virtual_base);
+	printf("h2p_lw_virtual_base: %p\n", (void*)h2p_lw_virtual_base);
 
-	printf("Press any key to continue...\n");
-	getchar();
+	dmac0 = (struct alt_dmac_t*)(h2p_lw_virtual_base);// + 0x40);	
+	switches_data = (uint32_t *)(0x20);
 
-	while(1)
+
+	//printf("Press any key to continue...\n");
+	//getchar();
+
+	//while(1)
 	{
 		alt_dmac_reset(dmac0);
-		dmac0->readaddress = (uintptr_t) SWITCH_data_ptr;
+		dmac0->readaddress = (uintptr_t) switches_data;
 		dmac0->writeaddress = (uintptr_t)(AVALON_SDRAM_BASE + 0x800);
 		dmac0->length = 4;
 		dmac0->control = ALT_DMAC_CTL_WORD | ALT_DMAC_CTL_GO | ALT_DMAC_CTL_LEEN;
@@ -132,10 +85,10 @@ int main(void)
 		alt_dmac_await(dmac0);
 		alt_dmac_stop(dmac0);
 
-		struct timespec s;
-		s.tv_sec = 1;//0;//1;
-		s.tv_nsec = 0;//2e7; // 50Hz
-		nanosleep(&s, NULL);
+		// struct timespec s;
+		// s.tv_sec = 1;//0;//1;
+		// s.tv_nsec = 0;//2e7; // 50Hz
+		// nanosleep(&s, NULL);
 	}
 
 	return EXIT_SUCCESS;

@@ -3,19 +3,20 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="575" />
-   <irq preferredWidth="111" />
+   <connections preferredWidth="255" />
+   <irq preferredWidth="47" />
   </columns>
  </systemtable>
- <library expandedCategories="Library,Project" />
- <window width="1920" height="1976" x="0" y="0" />
+ <library
+   expandedCategories="Project,Library,Library/Bridges/Memory-Mapped,Library/Bridges and Adapters,Library/Bridges" />
+ <window width="1936" height="1992" x="-8" y="-8" />
  <generation block_symbol_file="0" simulation="NONE" synthesis="VERILOG" />
  <hdlexample language="VERILOG" />
  <clocktable>
   <columns>
-   <clockname preferredWidth="358" />
-   <clocksource preferredWidth="358" />
-   <frequency preferredWidth="338" />
+   <clockname preferredWidth="352" />
+   <clocksource preferredWidth="352" />
+   <frequency preferredWidth="332" />
   </columns>
  </clocktable>
 </preferences>
