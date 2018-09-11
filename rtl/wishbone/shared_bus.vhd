@@ -123,28 +123,41 @@ begin
     
     master_ctl : for i in 0 to masters - 1 generate
         
-        master_ack_o(i)    <= '1' when grant_i(i) = '1' and (unsigned(slave_ack_i and cs_s) /= 0 or unsigned(slave_err_i and cs_s) /= 0 or nor_reduce(cs_s) = '1') else '0';
+        master_ack_o(i)    <= '1' when grant_i(i) = '1' and (unsigned(slave_ack_i and cs_s) /= 0) else '0';-- or unsigned(slave_err_i and cs_s) /= 0 or nor_reduce(cs_s) = '1') else '0';
          -- error if slave reports error or invalid address provided
         master_err_o(i)    <= '1' when grant_i(i) = '1' and (unsigned(slave_err_i and cs_s) /= 0 or nor_reduce(cs_s) = '1') else '0';
         master_rty_o(i)    <= '1' when grant_i(i) = '1' and unsigned(slave_rty_i and cs_s) /= 0 else '0';
         master_stall_o(i)  <= '1' when grant_i(i) = '1' and unsigned(slave_stall_i and cs_s) /= 0 else '0';
     end generate;
 
-    process(clk_i, rst_i, slave_dat_i, cs_s)
+    -- process(clk_i, rst_i, slave_dat_i, cs_s)
+    --     variable dat : std_logic_vector(data_w - 1 downto 0);
+    -- begin 
+    --     if rst_i = '1' then
+    --         dat := (others => '0');       
+    --         master_dat_o <= (others => '0');
+    --     else
+    --         if rising_edge(clk_i) and unsigned(cs_s) /= 0 then
+    --             dat := (others => '0');
+
+    --             for i in 0 to slaves - 1 loop
+    --                 dat := dat or (slave_dat_i((i + 1) * data_w - 1 downto i * data_w) and (dat'range => cs_s(i)));
+    --             end loop;
+    --             master_dat_o <= dat;				
+    --         end if;
+    --     end if;
+    -- end process;
+
+    process(slave_dat_i, cs_s)
         variable dat : std_logic_vector(data_w - 1 downto 0);
     begin 
-        if rst_i = '1' then
-            dat := (others => '0');       
-            master_dat_o <= (others => '0');
-        else
-            if rising_edge(clk_i) and unsigned(cs_s) /= 0 then
-                dat := (others => '0');
+        if unsigned(cs_s) /= 0 then
+            dat := (others => '0');
 
-                for i in 0 to slaves - 1 loop
-                    dat := dat or (slave_dat_i((i + 1) * data_w - 1 downto i * data_w) and (dat'range => cs_s(i)));
-                end loop;
-                master_dat_o <= dat;				
-            end if;
+            for i in 0 to slaves - 1 loop
+                dat := dat or (slave_dat_i((i + 1) * data_w - 1 downto i * data_w) and (dat'range => cs_s(i)));
+            end loop;
+            master_dat_o <= dat;				
         end if;
     end process;
 end behavior;

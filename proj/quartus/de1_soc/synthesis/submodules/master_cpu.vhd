@@ -126,7 +126,7 @@ begin
 
         mem_address  => adr_o,
         mem_data_w   => dat_o,
-        mem_data_r   => dat_i,
+        mem_data_r   => dat_is,
         mem_byte_we  => sel_os,
         mem_pause    => cyc_os or stall_i
     );
