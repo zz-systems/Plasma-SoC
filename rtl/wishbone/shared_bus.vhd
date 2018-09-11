@@ -76,18 +76,9 @@ architecture behavior of shared_bus is
     
     signal cs_s : std_logic_vector(slaves - 1 downto 0) := (others => '0');
 begin
-    -- process(clk_i, rst_i)
-    -- begin
-    --     if rst_i = '1' then
-    --         master_id_s <= 0;           
-    --         addr_s      <= (others => '0');
-    --     else
-    --         if rising_edge(clk_i) then
-                master_id_s     <= to_integer(unsigned(grant_enc_i));
-                addr_s          <= master_adr_i((master_id_s + 1) * addr_w - 1 downto master_id_s * addr_w);
-    --         end if;
-    --     end if;
-    -- end process;
+    
+    master_id_s     <= to_integer(unsigned(grant_enc_i));
+    addr_s          <= master_adr_i((master_id_s + 1) * addr_w - 1 downto master_id_s * addr_w);
 
     -- address translation -----------------------------------------------------
 
@@ -129,24 +120,6 @@ begin
         master_rty_o(i)    <= '1' when grant_i(i) = '1' and unsigned(slave_rty_i and cs_s) /= 0 else '0';
         master_stall_o(i)  <= '1' when grant_i(i) = '1' and unsigned(slave_stall_i and cs_s) /= 0 else '0';
     end generate;
-
-    -- process(clk_i, rst_i, slave_dat_i, cs_s)
-    --     variable dat : std_logic_vector(data_w - 1 downto 0);
-    -- begin 
-    --     if rst_i = '1' then
-    --         dat := (others => '0');       
-    --         master_dat_o <= (others => '0');
-    --     else
-    --         if rising_edge(clk_i) and unsigned(cs_s) /= 0 then
-    --             dat := (others => '0');
-
-    --             for i in 0 to slaves - 1 loop
-    --                 dat := dat or (slave_dat_i((i + 1) * data_w - 1 downto i * data_w) and (dat'range => cs_s(i)));
-    --             end loop;
-    --             master_dat_o <= dat;				
-    --         end if;
-    --     end if;
-    -- end process;
 
     process(slave_dat_i, cs_s)
         variable dat : std_logic_vector(data_w - 1 downto 0);

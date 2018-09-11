@@ -70,16 +70,7 @@ begin
     sel_o <= byteenable;
     we_o <= write;
 
-    -- avalon <- wishbone
-    -- process(clk_i)
-    -- begin         
-    --    if rising_edge(clk_i) then
-    --         readdata_s <= dat_i;            
-    --     end if;
-    -- end process;
-
     readdata <= dat_i;
-    --readdata <= readdata_s;
     waitrequest_n <= cycstb_s and (ack_i or err_i);
 
     response <= response_slaveerror when (err_i  = '1' and cycstb_s  = '1') else 
