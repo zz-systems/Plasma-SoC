@@ -103,16 +103,6 @@ begin
         end if;
     end process;
 
-    -- stall_s <= cyc_o;
-    -- process(clk)
-    -- begin
-    --     if rst_i = '1' then 
-    --     elsif rising_edge(clk_i) then
-    --         dat_is
-    --     end if;
-    -- end process;
-
-
     cyc_o <= cyc_os;
     stb_o <= stb_os;
 

@@ -76,7 +76,7 @@ architecture behavior of shared_bus is
     
     signal cs_s : std_logic_vector(slaves - 1 downto 0) := (others => '0');
 begin
-    
+    -- select master and master address ----------------------------------------
     master_id_s     <= to_integer(unsigned(grant_enc_i));
     addr_s          <= master_adr_i((master_id_s + 1) * addr_w - 1 downto master_id_s * addr_w);
 
@@ -114,7 +114,7 @@ begin
     
     master_ctl : for i in 0 to masters - 1 generate
         
-        master_ack_o(i)    <= '1' when grant_i(i) = '1' and (unsigned(slave_ack_i and cs_s) /= 0) else '0';-- or unsigned(slave_err_i and cs_s) /= 0 or nor_reduce(cs_s) = '1') else '0';
+        master_ack_o(i)    <= '1' when grant_i(i) = '1' and (unsigned(slave_ack_i and cs_s) /= 0 or unsigned(slave_err_i and cs_s) /= 0 or nor_reduce(cs_s) = '1') else '0';
          -- error if slave reports error or invalid address provided
         master_err_o(i)    <= '1' when grant_i(i) = '1' and (unsigned(slave_err_i and cs_s) /= 0 or nor_reduce(cs_s) = '1') else '0';
         master_rty_o(i)    <= '1' when grant_i(i) = '1' and unsigned(slave_rty_i and cs_s) /= 0 else '0';

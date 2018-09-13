@@ -22,7 +22,7 @@ extern int errno;
 /* This program validates Plasma SoC */
 int main(void)
 {
-    int result = 0;
+    int result = EXIT_FAILURE;
     volatile uint32_t *sysid_regs = NULL; // virtual address pointer
 
     int fd = -1;       // used to open /dev/mem for access to physical addresses
@@ -30,23 +30,22 @@ int main(void)
     void *vhps2pga_base; // used to map physical addresses for the light-weight bridge
 
     // Create virtual memory access to the FPGA light-weight bridge
-   if((fd = open("/dev/mem", (O_RDWR | O_SYNC))) == -1)
-      {
+    if((fd = open("/dev/mem", (O_RDWR | O_SYNC))) == -1)
+    {
+        perror("Error opening /dev/mem");
+        goto error_0;
+    }
 
-          perror("Error.");
-          goto error_0;
-      }
-
-   vlwfpga_base = mmap(NULL, LWFPGASLAVES_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, LWFPGASLAVES_BASE);
-   if(vlwfpga_base == MAP_FAILED)
-      {
-          perror("Error.");
-          goto error_1;
-      }
+    vlwfpga_base = mmap(NULL, LWFPGASLAVES_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, LWFPGASLAVES_BASE);
+    if(vlwfpga_base == MAP_FAILED)
+    {
+        perror("Error mapping LWFPGASLAVES");
+        goto error_1;
+    }
 
 
-   // Set virtual address pointer to I/O port
-   sysid_regs = (volatile uint32_t *) (vlwfpga_base + SYSID_QSYS_0_BASE);
+    // Set virtual address pointer to I/O port
+    sysid_regs = (volatile uint32_t *) (vlwfpga_base + SYSID_QSYS_0_BASE);
 
     //Read data
     uint32_t system_id = sysid_regs[0];
@@ -55,35 +54,32 @@ int main(void)
     printf("Your system's ID {%lu}\n", system_id);
     printf("Your system's timestamp {%lu}\n", timestamp);
 
-   // Validate
-   result = SYSID_QSYS_0_ID != system_id || SYSID_QSYS_0_TIMESTAMP != timestamp;
-
 
     vhps2pga_base = mmap(NULL, HPS2FPGASLAVES_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, HPS2FPGASLAVES_BASE);
-   if(vhps2pga_base == MAP_FAILED)
-      {
-          perror("Error.");
-          goto error_2;
-      }
+    if(vhps2pga_base == MAP_FAILED)
+    {
+        perror("Error mapping HPS2FPGASLAVES");
+        goto error_2;
+    }
 
     volatile uint32_t* plasma_root = (uint32_t *) (vhps2pga_base + PLASMA_SOC_0_BASE);
 
     volatile uint32_t* sdram = (uint32_t *) (plasma_root + AVALON_BASE + AVALON_SDRAM_BASE);
 
-    //*((uint32_t*)(sdram + 0x800)) = 0xDD;   
+    printf("Counter: @{%p}, {%lu}\n", ((uint32_t*)(plasma_root + 0x530C)), *((uint32_t*)(plasma_root + 0x530C)));
 
-    printf("Readingting: @{%p}, {%lu}\n", ((uint32_t*)(plasma_root + 0x530C)), *((uint32_t*)(plasma_root + 0x530C)));
+    printf("Pattern: {%lu}\n", *((uint32_t*)(sdram + 0x800)));
 
-    printf("Something: {%lu}\n", *((uint32_t*)(sdram + 0x800)));
+    result = EXIT_SUCCESS;
 
-error_2:
+    error_2:
     munmap(vhps2pga_base, HPS2FPGASLAVES_SPAN);
-error_1:
+    error_1:
     munmap(vlwfpga_base, LWFPGASLAVES_SPAN);
-error_0:
+    error_0:
     close(fd);
 
     printf("Done.\n");
 
-   return 0;
+    return result;
 }

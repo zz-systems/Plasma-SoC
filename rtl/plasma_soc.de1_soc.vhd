@@ -200,7 +200,7 @@ begin  --architecture
         rst_i => reset,       
 
         request_i => master_ports_aggregate.cyc,
-        ack_i => or_reduce(master_ports_aggregate.ack),
+        ack_i => master_ports_aggregate.ack,
 
         grant_o => master_grant,
         grant_enc_o => master_grant_enc,

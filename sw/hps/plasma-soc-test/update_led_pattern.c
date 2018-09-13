@@ -21,6 +21,7 @@
 #include <sys/time.h>
 #include <math.h>
 #include <errno.h>
+#include <signal.h>
 
 #include <socal/socal.h>
 #include <socal/hps.h>
@@ -36,54 +37,96 @@
 #define LWFPGASLAVES_SPAN (0x00200000)
 #define LWFPGASLAVES_MASK (LWFPGASLAVES_SPAN - 1)
 
+
+int fd = -1;       // used to open /dev/mem for access to physical addresses
+void *vlwfpga_base; // used to map physical addresses for the light-weight bridge
+void *vhps2pga_base; // used to map physical addresses for the light-weight bridge
+
+static void on_close(int signal)
+{
+    puts("Cleaning up...");
+
+    munmap(vhps2pga_base, HPS2FPGASLAVES_SPAN);
+    munmap(vlwfpga_base, LWFPGASLAVES_SPAN);
+    close(fd);
+
+    exit(EXIT_SUCCESS);
+}
+
 int main(void)
 {
-	int ret = EXIT_FAILURE;
-	int fd;
+	int result = EXIT_FAILURE;
+    volatile uint32_t *sysid_regs = NULL; // virtual address pointer    
 
-	// the h2f light weight bus base
-	void *h2p_lw_virtual_base;
+	struct itimerval tval;
 
-	volatile uint32_t* switches_data;
+	signal(SIGINT, on_close);
 
-	struct alt_dmac_t* dmac0 = NULL;
+    // Create virtual memory access to the FPGA light-weight bridge
+    if((fd = open("/dev/mem", (O_RDWR | O_SYNC))) == -1)
+    {
+        perror("Error opening /dev/mem");
+        goto error_0;
+    }
+
+    vlwfpga_base = mmap(NULL, LWFPGASLAVES_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, LWFPGASLAVES_BASE);
+    if(vlwfpga_base == MAP_FAILED)
+    {
+        perror("Error mapping LWFPGASLAVES");
+        goto error_1;
+    }
+
+    // Set virtual address pointer to I/O port
+    sysid_regs = (volatile uint32_t *) (vlwfpga_base + SYSID_QSYS_0_BASE);
+
+    //Read data
+    uint32_t system_id = sysid_regs[0];
+    uint32_t timestamp = sysid_regs[1];
+
+    printf("Your system's ID {%08X}\n", system_id);
+    printf("Your system's timestamp {%lu}\n", timestamp);
+
+	vhps2pga_base = mmap(NULL, HPS2FPGASLAVES_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, HPS2FPGASLAVES_BASE);
+    //vhps2pga_base = mmap(NULL, 0x04000010, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, HPS2FPGASLAVES_BASE + AVALON_SDRAM_BASE);
+    if(vhps2pga_base == MAP_FAILED)
+    {
+        perror("Error mapping HPS2FPGASLAVES");
+        goto error_2;
+    } 
 	
-	printf("Opening /dev/mem/...\n");
-	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) 
+	
+	while(1)
 	{
-		perror("ERROR");
-		goto error_0;
+		*((volatile uint32_t *)(vhps2pga_base + AVALON_SDRAM_BASE + 0x800)) = *((volatile uint32_t *)(vhps2pga_base + AVALON_SWITCHES));
+
+		int buttons = *((volatile uint32_t *)(vhps2pga_base + AVALON_BUTTONS));
+
+		if(buttons & 0x4)
+			*((volatile uint32_t *)(vhps2pga_base + AVALON_SDRAM_BASE + 0x804)) = 1;
+		if(buttons & 0x8)
+			*((volatile uint32_t *)(vhps2pga_base + AVALON_SDRAM_BASE + 0x804)) = -1;
+
+		if(buttons & 0x2)
+			*((volatile uint32_t *)(vhps2pga_base + 0x530C)) *= 2;
+		if(buttons & 0x1)
+			*((volatile uint32_t *)(vhps2pga_base + 0x530C)) /= 2;
+
+		struct timespec s;
+		s.tv_sec = 0;//1;//0;//1;
+		s.tv_nsec = 500000000;//2e7; // 50Hz
+		nanosleep(&s, NULL);
 	}
 
-	printf("Mapping LWHPS2FPGA address...\n");
-	h2p_lw_virtual_base = mmap( NULL, LWFPGASLAVES_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, LWFPGASLAVES_BASE );
-	if( h2p_lw_virtual_base == MAP_FAILED ) 
-	{
-		perror("ERROR");
-		goto error_1;
-	}	
-	
-	printf("LWHPS2FPGA: %p\n", (void*)h2p_lw_virtual_base);
+    result = EXIT_SUCCESS;
 
-	dmac0 = (struct alt_dmac_t*)(h2p_lw_virtual_base);// + 0x40);	
-	switches_data = (uint32_t *)(0x20);
+    error_2:
+    munmap(vhps2pga_base, HPS2FPGASLAVES_SPAN);
+    error_1:
+    munmap(vlwfpga_base, LWFPGASLAVES_SPAN);
+    error_0:
+    close(fd);
 
+    printf("Done.\n");
 
-	printf("Transferring data...\n");
-	alt_dmac_reset(dmac0);
-	dmac0->readaddress = (uintptr_t) switches_data;
-	dmac0->writeaddress = (uintptr_t)(AVALON_SDRAM_BASE + 0x800);
-	dmac0->length = 4;
-	dmac0->control = ALT_DMAC_CTL_WORD | ALT_DMAC_CTL_GO | ALT_DMAC_CTL_LEEN;
-
-	alt_dmac_await(dmac0);
-	alt_dmac_stop(dmac0);
-
-	ret = EXIT_SUCCESS;
-error_2:
-	munmap(h2p_lw_virtual_base, LWFPGASLAVES_SPAN);
-error_1:
-	close(fd);
-error_0:
-	return ret;
+    return result;
 }
