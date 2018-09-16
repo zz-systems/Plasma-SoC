@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -9,8 +10,6 @@
 #include <plasma_soc.h>
 #include <de1_soc.h>
 
-extern int errno;
-
 #define HPS2FPGASLAVES_BASE (0xC0000000)
 #define HPS2FPGASLAVES_SPAN (0x40000000)
 #define HPS2FPGASLAVES_MASK (HPS2FPGASLAVES_SPAN - 1)
@@ -19,7 +18,7 @@ extern int errno;
 #define LWFPGASLAVES_SPAN (0x00200000)
 #define LWFPGASLAVES_MASK (LWFPGASLAVES_SPAN - 1)
 
-/* This program validates Plasma SoC */
+/* This program prints Plasma SoC's SystemID data */
 int main(void)
 {
     int result = EXIT_FAILURE;
@@ -27,7 +26,6 @@ int main(void)
 
     int fd = -1;       // used to open /dev/mem for access to physical addresses
     void *vlwfpga_base; // used to map physical addresses for the light-weight bridge
-    void *vhps2pga_base; // used to map physical addresses for the light-weight bridge
 
     // Create virtual memory access to the FPGA light-weight bridge
     if((fd = open("/dev/mem", (O_RDWR | O_SYNC))) == -1)
@@ -43,43 +41,21 @@ int main(void)
         goto error_1;
     }
 
-
-    // Set virtual address pointer to I/O port
     sysid_regs = (volatile uint32_t *) (vlwfpga_base + SYSID_QSYS_0_BASE);
 
-    //Read data
+    // Read data
     uint32_t system_id = sysid_regs[0];
     uint32_t timestamp = sysid_regs[1];
 
-    printf("Your system's ID {%lu}\n", system_id);
-    printf("Your system's timestamp {%lu}\n", timestamp);
+    printf("Your system's ID: {%08X}\n", system_id);
+    printf("Your system's timestamp: %s\n", ctime(&timestamp));
 
+    result = EXIT_SUCCESS;   
 
-    vhps2pga_base = mmap(NULL, HPS2FPGASLAVES_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, HPS2FPGASLAVES_BASE);
-    if(vhps2pga_base == MAP_FAILED)
-    {
-        perror("Error mapping HPS2FPGASLAVES");
-        goto error_2;
-    }
-
-    volatile uint32_t* plasma_root = (uint32_t *) (vhps2pga_base + PLASMA_SOC_0_BASE);
-
-    volatile uint32_t* sdram = (uint32_t *) (plasma_root + AVALON_BASE + AVALON_SDRAM_BASE);
-
-    printf("Counter: @{%p}, {%lu}\n", ((uint32_t*)(plasma_root + 0x530C)), *((uint32_t*)(plasma_root + 0x530C)));
-
-    printf("Pattern: {%lu}\n", *((uint32_t*)(sdram + 0x800)));
-
-    result = EXIT_SUCCESS;
-
-    error_2:
-    munmap(vhps2pga_base, HPS2FPGASLAVES_SPAN);
     error_1:
     munmap(vlwfpga_base, LWFPGASLAVES_SPAN);
     error_0:
     close(fd);
-
-    printf("Done.\n");
 
     return result;
 }
