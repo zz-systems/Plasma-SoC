@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <signal.h>
 #include <sys/mman.h>
 
 #include <socal/socal.h>
@@ -18,7 +19,6 @@
 #define LWFPGASLAVES_SPAN (0x00200000)
 #define LWFPGASLAVES_MASK (LWFPGASLAVES_SPAN - 1)
 
-/* This program prints Plasma SoC's SystemID data */
 int main(void)
 {
     int result = EXIT_FAILURE;
@@ -28,17 +28,17 @@ int main(void)
     void *vlwfpga_base; // used to map physical addresses for the light-weight bridge
 
     // Create virtual memory access to the FPGA light-weight bridge
-    if((fd = open("/dev/mem", (O_RDWR | O_SYNC))) == -1)
+    if((fd = open("/dev/mem", (O_RDWR | O_SYNC))) < 0)
     {
         perror("Error opening /dev/mem");
-        goto error_0;
+        goto error_open_mem_failed;
     }
 
     vlwfpga_base = mmap(NULL, LWFPGASLAVES_SPAN, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, LWFPGASLAVES_BASE);
     if(vlwfpga_base == MAP_FAILED)
     {
         perror("Error mapping LWFPGASLAVES");
-        goto error_1;
+        goto error_map_lwfpga_failed;
     }
 
     sysid_regs = (volatile uint32_t *) (vlwfpga_base + SYSID_QSYS_0_BASE);
@@ -52,10 +52,10 @@ int main(void)
 
     result = EXIT_SUCCESS;   
 
-    error_1:
+// Cleanup
     munmap(vlwfpga_base, LWFPGASLAVES_SPAN);
-    error_0:
+error_map_lwfpga_failed:
     close(fd);
-
+error_open_mem_failed:
     return result;
 }

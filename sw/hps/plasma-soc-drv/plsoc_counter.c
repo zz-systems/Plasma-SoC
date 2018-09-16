@@ -18,21 +18,21 @@ MODULE_DESCRIPTION("Plasma-SoC counter control driver");
 #define PLSOC_REG_DATA	    (0x8)
 #define PLSOC_REG_RELOAD	(0xC)
 
-struct plsoc_counter {
+struct plsoc_counter_priv {
     void __iomem *regs;
 };
 
 ssize_t plsoc_counter_show_reload(struct device *dev, struct device_attribute *attr, char *buf)
 {
-	struct plsoc_counter *counter = dev_get_drvdata(dev);
+	struct plsoc_counter_priv *counter_priv = dev_get_drvdata(dev);
 
-    return scnprintf(buf, PAGE_SIZE, "%u\n", readl(counter->regs + PLSOC_REG_RELOAD));
+    return scnprintf(buf, PAGE_SIZE, "%u\n", readl(counter_priv->regs + PLSOC_REG_RELOAD));
 }
 
 ssize_t plsoc_counter_store_reload(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {
     u32 reload;
-	struct plsoc_counter *counter;
+	struct plsoc_counter_priv *counter_priv;
 
 	if (buf == NULL) {
 		pr_err("Error, string must not be NULL\n");
@@ -44,9 +44,9 @@ ssize_t plsoc_counter_store_reload(struct device *dev, struct device_attribute *
 		return -EINVAL;
 	}
 
-    counter = dev_get_drvdata(dev);
+    counter_priv = dev_get_drvdata(dev);
 
-	writel(reload, (counter->regs + PLSOC_REG_RELOAD));
+	writel(reload, (counter_priv->regs + PLSOC_REG_RELOAD));
 
 	return count;
 }
@@ -65,28 +65,32 @@ struct attribute_group plsoc_counter_attr_group = {
 
 static int plsoc_counter_probe(struct platform_device *pdev)
 {
-	struct plsoc_counter *counter;
+	struct plsoc_counter_priv *counter_priv;
 	struct resource	*regs;
 
-	counter = devm_kzalloc(&pdev->dev, sizeof(struct plsoc_counter), GFP_KERNEL);
-	if (!counter)
+	pr_info("Plsoc-counter: probing.");
+
+	counter_priv = devm_kzalloc(&pdev->dev, sizeof(struct plsoc_counter_priv), GFP_KERNEL);
+	if (!counter_priv)
 		return -ENOMEM;
 
 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	if (!regs)
 		return -ENXIO;
 
-	counter->regs = devm_ioremap_resource(&pdev->dev, regs);
-	if (IS_ERR(counter->regs))
-		return PTR_ERR(counter->regs);
+	counter_priv->regs = devm_ioremap_resource(&pdev->dev, regs);
+	if (IS_ERR(counter_priv->regs))
+		return PTR_ERR(counter_priv->regs);
 
-	platform_set_drvdata(pdev, counter);
+	platform_set_drvdata(pdev, counter_priv);
 
 	return sysfs_create_group(&pdev->dev.kobj, &plsoc_counter_attr_group);
 }
 
 static int plsoc_counter_remove(struct platform_device *pdev)
 {
+	pr_info("Plsoc-counter: removing.");
+
 	sysfs_remove_group(&pdev->dev.kobj, &plsoc_counter_attr_group);
 	platform_set_drvdata(pdev, NULL);
 
@@ -97,7 +101,6 @@ static const struct of_device_id plsoc_counter_match[] = {
 	{ .compatible = "plsoc,counter" },
 	{ /* Sentinel */ }
 };
-
 MODULE_DEVICE_TABLE(of, plsoc_counter_match);
 
 static struct platform_driver plsoc_counter_platform_driver = {
@@ -112,7 +115,6 @@ static struct platform_driver plsoc_counter_platform_driver = {
 
 static int __init plsoc_counter_init(void)
 {
-	printk(KERN_NOTICE "Plsoc-counter: registering Plasma SoC counter.");
 	return platform_driver_register(&plsoc_counter_platform_driver);
 }
 static void __exit plsoc_counter_exit(void)
