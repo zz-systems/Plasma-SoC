@@ -193,3 +193,8 @@ PLLJ_PLLSPE_INFO.txt # The generated PLL specification file
 !*.qip
 !*.sip
 !*.stp
+
+#===========================================================
+# Do NOT ignore MIF files
+#===========================================================
+!*.mif
