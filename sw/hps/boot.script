@@ -1,0 +1,13 @@
+echo -- Programming FPGA --
+fatload mmc 0:${mmcloadpart} $fpgadata plasma_soc.rbf;
+fpga load 0 $fpgadata $filesize;
+run bridge_enable_handoff;
+
+echo -- Setting Env Variables --
+setenv fdtimage socfpga_cyclone5_de1_soc.dtb;
+setenv mmcroot /dev/mmcblk0p2;
+setenv mmcload 'mmc rescan;${mmcloadcmd} mmc 0:${mmcloadpart} ${loadaddr} ${bootimage};${mmcloadcmd} mmc 0:${mmcloadpart} ${fdtaddr} ${fdtimage};';
+setenv mmcboot 'setenv bootargs earlyprintk debug console=ttyS0,115200 root=${mmcroot} rootfstype=ext4 rw rootwait mem=768M; bootz ${loadaddr} - ${fdtaddr}';
+
+run mmcload;
+run mmcboot;
